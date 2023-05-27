@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="WatchwattApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <envs>
+      <env name="DATASOURCE_PASSWORD" value="fiap" />
+      <env name="DATASOURCE_USER" value="fiap" />
+    </envs>
+    <module name="watchwatt" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.watchwatt.watchwatt.WatchwattApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
