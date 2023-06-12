@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_appliance")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Appliance {
 
   @Id

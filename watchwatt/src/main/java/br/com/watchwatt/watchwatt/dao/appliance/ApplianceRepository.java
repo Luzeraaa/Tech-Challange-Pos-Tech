@@ -1,4 +1,4 @@
-package br.com.watchwatt.watchwatt.dao;
+package br.com.watchwatt.watchwatt.dao.appliance;
 
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import org.springframework.data.jpa.repository.JpaRepository;

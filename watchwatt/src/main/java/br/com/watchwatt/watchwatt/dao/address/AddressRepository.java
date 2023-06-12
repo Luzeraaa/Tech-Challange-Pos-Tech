@@ -9,6 +9,10 @@ import java.util.Optional;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-  Optional<Address> findByZipCodeAndCityAndNumber(String zipCode, String city, Integer number);
-  // SELECT * FROM TB_ADDRESS WHERE ZIPCODE=123 AND CITY="SP" AND NUMER=10
+  Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhood(
+          String zipCode, String city, Integer number, String Neighborhood
+  );
+
+  Optional<Address> findById(long id);
+
 }
