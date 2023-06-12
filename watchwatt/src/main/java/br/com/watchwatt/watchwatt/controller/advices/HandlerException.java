@@ -11,17 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @RestControllerAdvice
-public class HandlerException {
-
-  private final MessageSource messageSource;
-  private static final Pattern ENUM_MSG = Pattern.compile("values accepted for Enum class: \\[([^\\]])\\]");
-
-  public HandlerException(MessageSource messageSource) {
-    this.messageSource = messageSource;
-  }
+public record HandlerException(
+        MessageSource messageSource
+) {
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -34,5 +28,4 @@ public class HandlerException {
     });
     return errors;
   }
-
 }

@@ -2,6 +2,7 @@ package br.com.watchwatt.watchwatt.domain.user;
 
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,19 +18,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
-@Entity
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "tb_user")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @JsonIgnore
-  private Long cpf;
+  @Column(unique = true)
+  private String cpf;
   private String name;
   private LocalDate birthday;
   private String email;
@@ -42,15 +45,11 @@ public class User {
   private ZonedDateTime dateCreated = ZonedDateTime.now();
 
   public User(UserDTO userDTO) {
-    this.cpf = userDTO.getCPF();
+    this.cpf = userDTO.cpf();
     this.name = userDTO.name();
     this.birthday = userDTO.birthday();
     this.gender = userDTO.gender();
     this.email = userDTO.email();
     this.password = userDTO.password();
-  }
-
-  public User(Long id) {
-    this.id = id;
   }
 }

@@ -4,5 +4,5 @@ CREATE TABLE userr (
   name varchar(100) not null,
   birthday DATE not null,
   gender VARCHAR(10) not null
-  
+
 )

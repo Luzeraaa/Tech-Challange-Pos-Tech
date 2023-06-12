@@ -3,32 +3,83 @@ package br.com.watchwatt.watchwatt.service.address;
 import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
 import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.dto.address.AddressDTO;
+import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepAddressDTO;
+import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
-import jakarta.transaction.Transactional;
+import br.com.watchwatt.watchwatt.exception.NotFoundException;
+import br.com.watchwatt.watchwatt.gateway.viacep.ViaCepGateway;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.String.format;
 
 @Service
 public class AddressService {
-
-
   private final AddressRepository repository;
-  private static final String ADDRESS_MESSAGE = "address already registered";
+  private final ViaCepGateway gateway;
+  private static final String ADDRESS_MESSAGE = "Address already registered";
+  private static final String ID_NOT_FUND = "ID: %s not found";
 
-  public AddressService(AddressRepository repository) {
+  public AddressService(AddressRepository repository, ViaCepGateway gateway) {
     this.repository = repository;
+    this.gateway = gateway;
   }
 
-  @Transactional()
   public Address registerAddress(AddressDTO addressDTO) {
-    var address = repository.findByZipCodeAndCityAndNumber(
-            addressDTO.zipCode(),
-            addressDTO.city(),
-            addressDTO.number());
+    var address = findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO);
+    validateRegisteredAddress(address);
 
+    return repository.save(addressDTO.getAddress());
+  }
+
+  public Address registerAddressViaCep(ViaCepAddressDTO viaCepAddressDTO) {
+    var viaCep = gateway.getCep(viaCepAddressDTO.zipCode());
+    var addressDTO = createAddressDTO(viaCep, viaCepAddressDTO);
+    var address = findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO);
+    validateRegisteredAddress(address);
+
+    return repository.save(addressDTO.getAddress());
+  }
+
+  public Optional<Address> getAddressById(long id) {
+    var address = repository.findById(id);
+
+    if (address.isEmpty()) {
+      throw new NotFoundException(format(ID_NOT_FUND, id));
+    }
+
+    return address;
+  }
+
+  public List<Address> getAddresses() {
+    return repository.findAll();
+  }
+
+  private AddressDTO createAddressDTO(ViaCepDTO viaCep, ViaCepAddressDTO viaCepAddressDTO) {
+    return new AddressDTO(
+            viaCep.zipCode(),
+            viaCep.street(),
+            viaCepAddressDTO.number(),
+            viaCep.neighborhood(),
+            viaCep.city(),
+            viaCep.state(),
+            viaCepAddressDTO.reference()
+    );
+  }
+
+  private void validateRegisteredAddress(Optional<Address> address) {
     address.ifPresent(it -> {
       throw new BadRequestException(ADDRESS_MESSAGE);
     });
+  }
 
-    return repository.save(addressDTO.getAddress());
+  private Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhood(AddressDTO addressDTO) {
+    return repository.findByZipCodeAndCityAndNumberAndNeighborhood(
+            addressDTO.zipCode(),
+            addressDTO.city(),
+            addressDTO.number(),
+            addressDTO.neighborhood());
   }
 }
