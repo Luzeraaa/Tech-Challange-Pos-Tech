@@ -23,8 +23,8 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_user")
 @EqualsAndHashCode
+@Table(name = "tb_user")
 public class User {
 
   @Id
@@ -40,9 +40,8 @@ public class User {
   private String password;
   @Enumerated(EnumType.STRING)
   private Gender gender;
-  // @OneToMany(mappedBy = "user")
-  // private Set<Address> address = emptySet();
   private ZonedDateTime dateCreated = ZonedDateTime.now();
+  private ZonedDateTime updateDate = ZonedDateTime.now();
 
   public User(UserDTO userDTO) {
     this.cpf = userDTO.cpf();
