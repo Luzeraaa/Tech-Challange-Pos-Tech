@@ -5,8 +5,10 @@ import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +28,8 @@ public record UserController(
   private static final String VALIDATE_USER = "/validate_user";
   private static final String USER_AUTHORIZED = "User authorized";
   private static final String ALL = "all";
+  private static final String ID = "id";
+  private static final String USER_HAS_BEEN_DELETED = "User has been deleted ";
 
   @PostMapping(headers = X_API_VERSION_1)
   public ResponseEntity<User> registerUser(@RequestBody @Valid UserDTO userDTO, UriComponentsBuilder uriBuilder) {
@@ -37,8 +41,8 @@ public record UserController(
   }
 
   @GetMapping(headers = X_API_VERSION_1, params = {CPF})
-  public ResponseEntity<User> getUserById(String cpf) {
-    var user = service.getUserById(cpf);
+  public ResponseEntity<User> getUserByCpf(String cpf) {
+    var user = service.getUserByCpf(cpf);
 
     return ResponseEntity.ok(user);
   }
@@ -55,5 +59,19 @@ public record UserController(
     service.validateUserAndPassword(cpf, password);
 
     return ResponseEntity.ok(USER_AUTHORIZED);
+  }
+
+  @PutMapping(headers = X_API_VERSION_1, params = {ID})
+  public ResponseEntity<User> updateUser(@RequestBody @Valid UserDTO userDTO, Long id) {
+    var user = service.updateUser(id, userDTO);
+
+    return ResponseEntity.ok(user);
+  }
+
+  @DeleteMapping(headers = X_API_VERSION_1, params = {ID})
+  public ResponseEntity<String> deleteUser(Long id) {
+    service.deleteUser(id);
+
+    return ResponseEntity.ok(USER_HAS_BEEN_DELETED);
   }
 }

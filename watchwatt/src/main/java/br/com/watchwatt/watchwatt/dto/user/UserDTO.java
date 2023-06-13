@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
+import static br.com.watchwatt.watchwatt.config.PasswordConfig.getPasswordEncoder;
+
 public record UserDTO(
 
         @NotBlank(message = FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE)
@@ -54,7 +56,8 @@ public record UserDTO(
   private static final String NO_NUMERIC_REGEX = "[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\\s]+$";
   private static final int PASSWORD_MIN_SIZE = 6;
 
-  public UserDTO withPassword(String password) {
-    return new UserDTO(cpf(), name(), birthday(), gender(), email(), password);
+  @Override
+  public String password() {
+    return getPasswordEncoder().encode(this.password);
   }
 }

@@ -6,7 +6,7 @@
 
 ### User:
 
-Validate user em password
+Validate user and password
 
 ```bash
 curl --request GET \
@@ -45,6 +45,32 @@ curl --request POST \
 	"email": "fulano@fiap.com",
 	"password": "123456"
 }'
+```
+
+Update User
+
+```bash
+curl --request PUT \
+  --url 'http://localhost:8080/api/watchwatt/user?id=1' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '{
+	"cpf": "46714251220",
+	"name": "Fulano de tal atualizado",
+	"birthday": "2023-01-01",
+	"gender": "MALE",
+	"email": "fulano@fiap.com",
+	"password": "123456"
+}'
+
+```
+Delete User by id
+
+```bash
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/user?id=1' \
+  --header 'X-API-Version: 1'
+
 ```
 
 ***
