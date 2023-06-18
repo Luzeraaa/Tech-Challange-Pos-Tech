@@ -30,17 +30,25 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  
   @JsonIgnore
   @Column(unique = true)
   private String cpf;
+  
   private String name;
+  
   private LocalDate birthday;
+  
   private String email;
+  
   @JsonIgnore
   private String password;
+  
   @Enumerated(EnumType.STRING)
   private Gender gender;
+  
   private ZonedDateTime dateCreated = ZonedDateTime.now();
+  
   private ZonedDateTime updateDate = ZonedDateTime.now();
 
   public User(UserDTO userDTO) {

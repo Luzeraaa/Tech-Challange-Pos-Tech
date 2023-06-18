@@ -1,6 +1,7 @@
 package br.com.watchwatt.watchwatt.domain.appliance;
 
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
+import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_appliance")
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 public class Appliance {
 
   @Id
@@ -31,4 +32,22 @@ public class Appliance {
     this.model = applianceDTO.model();
     this.power = applianceDTO.power();
   }
+  
+  public void atualizar(ApplianceUpdateDTO dto) {
+	  
+	  if(dto.name() != null) {
+		  this.name = dto.name();
+	  }
+	  
+	  if(dto.model() != null){
+		this.model = dto.model();  
+	  }
+	  
+	  if(dto.power() != 0) {
+		  this.power = dto.power();
+	  }
+	  
+	  
+  }
+  
 }

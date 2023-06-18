@@ -1,13 +1,15 @@
 package br.com.watchwatt.watchwatt.service.appliance;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import br.com.watchwatt.watchwatt.dao.appliance.ApplianceRepository;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
+import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ApplianceService {
@@ -36,4 +38,16 @@ public class ApplianceService {
   public List<Appliance> getAllAppliance() {
     return repository.findAll();
   }
+  
+  public void delete(Long id) {
+	  var appliance = repository.findById(id).orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
+	  repository.delete(appliance);
+	  
+  }
+
+	public Appliance update(Long id, ApplianceUpdateDTO dto) {
+		var appliance = repository.findById(id).orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
+		appliance.atualizar(dto);
+		return appliance;
+	}
 }
