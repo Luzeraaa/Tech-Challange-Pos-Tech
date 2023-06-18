@@ -1,6 +1,7 @@
 package br.com.watchwatt.watchwatt.dto.user;
 
 import br.com.watchwatt.watchwatt.domain.user.Gender;
+import br.com.watchwatt.watchwatt.domain.user.GrauParantesco;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +33,9 @@ public record UserDTO(
 
         @NotNull(message = FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE)
         Gender gender,
+
+        @NotNull(message = FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE)
+        GrauParantesco parentesco,
 
         @Email(message = EMAIL_MESSAGE)
         @NotBlank(message = FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE)

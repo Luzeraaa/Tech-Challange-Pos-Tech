@@ -39,6 +39,7 @@ public class User {
   
   private LocalDate birthday;
   
+  @Column(unique = true)
   private String email;
   
   @JsonIgnore
@@ -46,6 +47,9 @@ public class User {
   
   @Enumerated(EnumType.STRING)
   private Gender gender;
+  
+  @Enumerated(EnumType.STRING)
+  private GrauParantesco parentesco;
   
   private ZonedDateTime dateCreated = ZonedDateTime.now();
   
@@ -56,6 +60,7 @@ public class User {
     this.name = userDTO.name();
     this.birthday = userDTO.birthday();
     this.gender = userDTO.gender();
+    this.parentesco = userDTO.parentesco();
     this.email = userDTO.email();
     this.password = userDTO.password();
   }
