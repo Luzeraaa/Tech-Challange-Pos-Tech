@@ -83,7 +83,7 @@ public record AddressController(
   }
 
   @DeleteMapping(headers = X_API_VERSION_1, path = "{id}")
-  public ResponseEntity<Appliance> deleteAdress(final @PathVariable Long id){
+  public ResponseEntity<Appliance> deleteAddress(final @PathVariable Long id){
     service.delete(id);
     return ResponseEntity.noContent().build();
 

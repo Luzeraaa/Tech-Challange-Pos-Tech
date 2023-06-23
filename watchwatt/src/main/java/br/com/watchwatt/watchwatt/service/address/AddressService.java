@@ -94,7 +94,7 @@ public class AddressService {
 			address.setReference(dto.reference());			
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Endereço não encontrado");
+			throw new RuntimeException(ADDRESS_NOT_FOUND);
 		}
 	}
 
