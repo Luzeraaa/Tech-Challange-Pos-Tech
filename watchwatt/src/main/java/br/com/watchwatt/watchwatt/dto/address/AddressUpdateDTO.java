@@ -7,16 +7,8 @@ public record AddressUpdateDTO(
     @Pattern(regexp = ZIP_CODE_REGEX, message = ZIP_CODE_INVALID_MESSAGE)
     String zipCode,
 
-    String street,
-
     @PositiveOrZero(message = FIELD_ONLY_NUMBER_MESSAGE)
     Integer number,
-
-    String neighborhood,
-
-    String city,
-
-    String state,
 
     String reference
 ) {

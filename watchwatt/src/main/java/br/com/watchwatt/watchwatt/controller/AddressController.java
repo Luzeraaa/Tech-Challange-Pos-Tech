@@ -1,5 +1,20 @@
 package br.com.watchwatt.watchwatt.controller;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.dto.address.AddressDTO;
@@ -7,12 +22,6 @@ import br.com.watchwatt.watchwatt.dto.address.AddressUpdateDTO;
 import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepAddressDTO;
 import br.com.watchwatt.watchwatt.service.address.AddressService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/address")
@@ -68,8 +77,9 @@ public record AddressController(
   }
 
   @PutMapping(headers = X_API_VERSION_1, path = "{id}")
-  public ResponseEntity<Address> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @PathVariable Long id ){
-    return ResponseEntity.ok().body(service.update(id, dto));
+  public ResponseEntity<String> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @PathVariable Long id ){
+	  service.update(id, dto);
+	  return ResponseEntity.ok("Endereço atualizado com sucesso");
   }
 
   @DeleteMapping(headers = X_API_VERSION_1, path = "{id}")
