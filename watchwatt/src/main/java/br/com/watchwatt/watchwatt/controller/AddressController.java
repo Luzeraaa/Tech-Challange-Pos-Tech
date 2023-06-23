@@ -1,17 +1,13 @@
 package br.com.watchwatt.watchwatt.controller;
 
 import br.com.watchwatt.watchwatt.domain.address.Address;
+import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.dto.address.AddressDTO;
 import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepAddressDTO;
 import br.com.watchwatt.watchwatt.service.address.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -68,5 +64,17 @@ public record AddressController(
     return ResponseEntity
             .created(uriBuilder.path(VIA_CEP_PATH).buildAndExpand(address.getId()).toUri())
             .body(address);
+  }
+
+  @PutMapping(headers = X_API_VERSION_1, path = "{id}")
+  public ResponseEntity<Address> updateAddress(@RequestBody @Valid final AddressDTO dto, final @PathVariable Long id ){
+    return ResponseEntity.ok().body(service.updateAddress(id, dto));
+  }
+
+  @DeleteMapping(headers = X_API_VERSION_1, path = "{id}")
+  public ResponseEntity<Appliance> deleteAdress(final @PathVariable Long id){
+    service.delete(id);
+    return ResponseEntity.noContent().build();
+
   }
 }

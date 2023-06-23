@@ -199,6 +199,33 @@ curl --request POST \
 	"reference": "unidade de saude de são paulo"
 }'  
 ```
+Delete Address by id
+
+```bash
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
+  --header 'X-API-Version: 1'
+
+```
+Update Address by id
+```bash
+curl --request PUT \
+  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '{
+    "id": 1,
+    "zip_code": "70150-900",
+    "street": "Praça dos Três Poderes",
+    "number": 10,
+    "neighborhood": "Zona Cívico-Administrativa",
+    "city": "Brasília",
+    "state": "DF",
+    "reference": "Next to UBS"
+}'
+
+```
+
 
 ***
 
