@@ -198,13 +198,7 @@ curl --request POST \
 	"state": "sp",
 	"reference": "unidade de saude de são paulo"
 }'  
-```
-Delete Address by id
 
-```bash
-curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
-  --header 'X-API-Version: 1'
 
 ```
 Update Address by id
@@ -225,9 +219,16 @@ curl --request PUT \
 }'
 
 ```
+Delete Address by id
 
+```bash
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
+  --header 'X-API-Version: 1'
 
+```
 ***
+
 
 ### Appliance
 
@@ -258,5 +259,26 @@ Get appliance by id
 ```bash
 curl --request GET \
   --url 'http://localhost:8080/api/watchwatt/appliances?id=1' \
+  --header 'X-API-Version: 1'
+```
+
+Update appliance by id
+
+```bash
+curl --request PUT \
+  --url 'http://localhost:8080/api/watchwatt/appliances/1' \
+  --header 'X-API-Version: 1'
+  --data '{
+	"name": "freezer atualizado",
+	"model": "master blaster",
+	"power": 2500
+}' 
+```
+
+Delete appliance by id
+
+```bash
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/appliances/1' \
   --header 'X-API-Version: 1'
 ```

@@ -76,14 +76,14 @@ public record AddressController(
             .body(address);
   }
 
-  @PutMapping(headers = X_API_VERSION_1, path = "{id}")
-  public ResponseEntity<String> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @PathVariable Long id ){
+  @PutMapping(headers = X_API_VERSION_1, params = {ID})
+  public ResponseEntity<String> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @RequestParam Long id ){
 	  service.update(id, dto);
 	  return ResponseEntity.ok("Endereço atualizado com sucesso");
   }
 
-  @DeleteMapping(headers = X_API_VERSION_1, path = "{id}")
-  public ResponseEntity<Appliance> deleteAddress(final @PathVariable Long id){
+  @DeleteMapping(headers = X_API_VERSION_1, params = {ID})
+  public ResponseEntity<Appliance> deleteAddress(final @RequestParam Long id){
     service.delete(id);
     return ResponseEntity.noContent().build();
 
