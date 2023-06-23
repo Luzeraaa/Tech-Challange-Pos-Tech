@@ -48,6 +48,6 @@ public class ApplianceService {
 	public Appliance update(Long id, ApplianceUpdateDTO dto) {
 		var appliance = repository.findById(id).orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
 		appliance.atualizar(dto);
-		return appliance;
+		return repository.save(appliance);
 	}
 }

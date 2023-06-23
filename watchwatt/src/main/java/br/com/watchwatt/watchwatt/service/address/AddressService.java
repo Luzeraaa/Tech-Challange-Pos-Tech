@@ -2,17 +2,16 @@ package br.com.watchwatt.watchwatt.service.address;
 
 import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
 import br.com.watchwatt.watchwatt.domain.address.Address;
-import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.address.AddressDTO;
+import br.com.watchwatt.watchwatt.dto.address.AddressUpdateDTO;
 import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepAddressDTO;
 import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepDTO;
-import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.gateway.viacep.ViaCepGateway;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,12 +86,10 @@ public class AddressService {
             addressDTO.neighborhood());
   }
 
-  public Address updateAddress(Long id, AddressDTO addressDTO) {
+  public Address update(Long id, @Valid AddressUpdateDTO addressUpdateDTO) {
     var address = repository.findById(id).orElseThrow(() -> new NotFoundException(ADDRESS_NOT_FOUND));
-    var updatedAddress = new Address(address.getId(), addressDTO.zipCode(), addressDTO.street(), addressDTO.number(), addressDTO.neighborhood(),
-            addressDTO.city(), addressDTO.state(), addressDTO.reference());
-
-    return repository.save(updatedAddress);
+    address.atualizar(addressUpdateDTO);
+    return repository.save(address);
   }
 
   public void delete(Long id) {

@@ -3,6 +3,7 @@ package br.com.watchwatt.watchwatt.controller;
 import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.dto.address.AddressDTO;
+import br.com.watchwatt.watchwatt.dto.address.AddressUpdateDTO;
 import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepAddressDTO;
 import br.com.watchwatt.watchwatt.service.address.AddressService;
 import jakarta.validation.Valid;
@@ -67,8 +68,8 @@ public record AddressController(
   }
 
   @PutMapping(headers = X_API_VERSION_1, path = "{id}")
-  public ResponseEntity<Address> updateAddress(@RequestBody @Valid final AddressDTO dto, final @PathVariable Long id ){
-    return ResponseEntity.ok().body(service.updateAddress(id, dto));
+  public ResponseEntity<Address> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @PathVariable Long id ){
+    return ResponseEntity.ok().body(service.update(id, dto));
   }
 
   @DeleteMapping(headers = X_API_VERSION_1, path = "{id}")
