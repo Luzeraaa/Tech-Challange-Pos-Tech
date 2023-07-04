@@ -162,50 +162,27 @@ uma abordagem poderosa e flexível para a validação de dados em aplicativos Ja
 ## Endpoints
 
 ***
-
+Disclamer: para a propriedade 'gender' os valores possíveis são: 'MALE', 'FEMALE' or 'OTHERS'.<br> Para a propriedade "degree_kinship" os valores possíveis são: 'FATHER', 'MOTHER', 'SON','DAUGHTER','SISTER','BROTHER','HUSBAND','WIFE' or 'OTHERS'. 
 ### User:
-
-Validar cpf e senha
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=83055117077&password=123456' \
-  --header 'X-API-Version: 1'
-```
-
-Obter usuario pelo numero do CPF
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user?cpf=83055117077' \
-  --header 'X-API-Version: 1'
-```
-
-Obter todos os usuarios
-
-```bash
-curl --request GET \
-  --url http://localhost:8080/api/watchwatt/user/all \
-  --header 'X-API-Version: 1'
-```
 
 Create User
 
 ```bash
+
 curl --request POST \
   --url http://localhost:8080/api/watchwatt/user \
   --header 'Content-Type: application/json' \
   --header 'X-API-Version: 1' \
   --data '{
 	"cpf": "99954627022",
-	"name": "Fulano de tal tres",
+	"name": "Vlad da Silva",
 	"birthday": "2023-01-01",
 	"gender": "MALE",
 	"email": "teste@fiap.com",
 	"password": "123456",
 	"kinship": [
 		{
-			"name": "Igor junior",
+			"name": "Igor Junior",
 			"degree_kinship": "BROTHER"
 		}
 	]
@@ -213,7 +190,24 @@ curl --request POST \
 
 ```
 
-Atualizar usuario pelo id
+
+Get user by CPF number
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/user?cpf=83055117077' \
+  --header 'X-API-Version: 1'
+```
+
+Get all users
+
+```bash
+curl --request GET \
+  --url http://localhost:8080/api/watchwatt/user/all \
+  --header 'X-API-Version: 1'
+```
+
+Update User by id
 
 ```bash
 curl --request PUT \
@@ -222,13 +216,20 @@ curl --request PUT \
   --header 'X-API-Version: 1' \
   --data '{
 	"cpf": "46714251220",
-	"name": "Fulano de tal atualizado",
+	"name": "João da Silva",
 	"birthday": "2023-01-01",
 	"gender": "MALE",
 	"email": "fulano@fiap.com",
 	"password": "123456"
 }'
 
+```
+Validate CPF and password
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=83055117077&password=123456' \
+  --header 'X-API-Version: 1'
 ```
 
 Delete User by id
@@ -240,27 +241,58 @@ curl --request DELETE \
 
 ```
 
+Kinship
+Get kinship by CPF number
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
+  --header 'X-API-Version: 1'
+```
+
+Add kinship by CPF number
+
+```bash
+curl --request POST \
+  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '[
+	{
+		"name": "Renato",
+		"degree_kinship": "SON"
+	}
+]'
+
+```
+
+Update kinship by CPF number and kinship id
+
+```bash 
+curl --request PUT \
+  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=2' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '{
+	"name": "João",
+	"degree_kinship": "BROTHER"
+}'
+```
+
+Delete kinship by users id and kinship id
+
+```bash 
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=1' \
+  --header 'X-API-Version: 1'
+
+```
+
 ***
 
 ### Address
 
-Get all Address
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/address/all?=' \
-  --header 'X-API-Version: 1'
-```
-
-Get address by id
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
-  --header 'X-API-Version: 1'
-```
-
-Create address via cep
+Create Address by "ViaCEP" API
 
 ```bash
 curl --request POST \
@@ -274,7 +306,7 @@ curl --request POST \
 }'
 ```
 
-Create address
+Create Address manually
 
 ```bash
 curl --request POST \
@@ -283,7 +315,7 @@ curl --request POST \
   --header 'X-API-Version: 1' \
   --data '{
 	"zip_code": "06535-055",
-	"street": "avenida",
+	"street": "Alecrins street",
 	"number": 10,
 	"neighborhood": "santana de parnaiba",
 	"city": "sp",
@@ -293,6 +325,24 @@ curl --request POST \
 
 
 ```
+
+
+Get all Address
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/address/all?=' \
+  --header 'X-API-Version: 1'
+```
+
+Get Address by id
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
+  --header 'X-API-Version: 1'
+```
+
 
 Update Address by id
 
@@ -327,7 +377,7 @@ curl --request DELETE \
 
 ### Appliance
 
-Create appliance
+Create Appliance
 
 ```bash
 curl --request POST \
@@ -336,12 +386,12 @@ curl --request POST \
   --header 'X-API-Version: 1' \
   --data '{
 	"name": "freeze",
-	"model": "master blaster",
+	"model": "Nimbus 2000",
 	"power": 1500
 }' 
 ```
 
-Get all appliance
+Get all Appliance
 
 ```bash
 curl --request GET \
@@ -349,7 +399,7 @@ curl --request GET \
   --header 'X-API-Version: 1'
 ```
 
-Get appliance by id
+Get Appliance by id
 
 ```bash
 curl --request GET \
@@ -357,70 +407,24 @@ curl --request GET \
   --header 'X-API-Version: 1'
 ```
 
-Update appliance by id
+Update Appliance by id
 
 ```bash
-curl --request PUT \
-  --url 'http://localhost:8080/api/watchwatt/appliances/1' \
-  --header 'X-API-Version: 1'
-  --data '{
-	"name": "freezer atualizado",
-	"model": "master blaster",
+curl --request PUT 'http://localhost:8080/api/watchwatt/appliances?id=1' \
+--header 'X-API-Version: 1' \
+--header 'Content-Type: application/json' \
+--data '{
+	"name": "freezer updated",
+	"model": "Nimbus 2000",
 	"power": 2500
-}' 
-```
-
-Delete appliance by id
-
-```bash
-curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/appliances/1' \
-  --header 'X-API-Version: 1'
-```
-
-Parentesco
-Obter parentesco pelo número do cpf
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
-  --header 'X-API-Version: 1'
-```
-
-Adicionar parentesco pelo número do cpf
-
-```bash
-curl --request POST \
-  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '[
-	{
-		"name": "fnovo fulano",
-		"degree_kinship": "SON"
-	}
-]'
-
-```
-
-Atualizar parentesco pelo número do cpf e id do parantesco
-
-```bash 
-curl --request PUT \
-  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=2' \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"name": "atualizado",
-	"degree_kinship": "BROTHER"
 }'
 ```
 
-deletar parentesco pelo id do usuario e id do parantesco
+Delete Appliance by id
 
-```bash 
+```bash
 curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=1' \
+  --url 'http://localhost:8080/api/watchwatt/appliances?id=1' \
   --header 'X-API-Version: 1'
-
 ```
+
