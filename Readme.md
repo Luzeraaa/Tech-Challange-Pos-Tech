@@ -103,18 +103,36 @@ pré determinados, a fim de otimizar o funcionamento do sistema.
 - Hibernate: Framework utilizado para gerenciamento das camadas de segurança.
 - @Validator: Validação de caracteres e máscaras de entrada.
 
+<div style="display: inline_block"><br>
+<img src=https://raw.githubusercontent.com/github/explore/5b3600551e122a3277c2c5368af2ad5725ffa9a1/topics/java/java.png width="65" height="60"
+/>
+<img src=https://www.vhv.rs/dpng/d/571-5718602_transparent-ubuntu-logo-png-logo-postman-icon-png.png width="60" height="55"
+/>
+<img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAaUBgVyY4CJWh02Lx0PuWeq4EcbeY0-3v0PUJ5BqTxIMAxgSvlkWLY9pKM8ZIo71s4xs&usqp=CAU width="60" height="55"
+/>
+<img src=https://maven.apache.org/images/maven-logo-black-on-white.png  width="60" height="55"
+/>
+<img src=https://oopy.lazyrockets.com/api/v2/notion/image?src=https:%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3ed7a304-a24b-4c45-831f-1755950e4260%2Flombok.png&blockId=552b6017-489d-4bcd-bb44-803f5e94bac9&width=256   width="60" height="55"
+/>
+<img src=https://th.bing.com/th/id/R.d8469eae9c8a4aa8ba0104a9d636d5f8?rik=WXdhpHKO0QTl6g&riu=http%3a%2f%2fhmkcode.github.io%2fimages%2fspring%2fspring.png&ehk=l%2b%2fhOIEAi407AyPHHjQT0NnUHU%2fH%2bjQzbnquLbAEdSI%3d&risl=&pid=ImgRaw&r=0 width="60" height="55" width="60" height="55"
+/>
+<img src=https://th.bing.com/th/id/R.28ba34d099020eba605e1705c4daffce?rik=zRwNnb5EPYMvYQ&riu=http%3a%2f%2fsiwenoid.com%2fsite%2fwp-content%2fuploads%2f2016%2f11%2fh2.jpg&ehk=AS8Tcaw84FlBJWq%2fjr9l7kV7qGq779jfVzu4DAHkXrw%3d&risl=&pid=ImgRaw&r=0  width="60" height="55" width="60" height="55"
+/>
+
+
+
 ## Documentação Técnica
 
-A versão 17 do Java foi adotada uma vez que é a versão atualizada mais estável no tempo de desenvolvimento deste
+A arquitetura utilizada neste projeto baseia-se na combinação de conceitos MVC (Model-View-Controller) e DDD (Domain Driven Design).
+Ao combinar MVC e DDD, pode-se obter os benefícios de ambos os conceitos. A arquitetura MVC pode ser usada para a
+divisão das responsabilidades de apresentação e controle de fluxo da aplicação, enquanto o DDD pode ser usado para criar
+um modelo de domínio rico e encapsulado.
+
+O projeto tem como base a versão 17 do Java uma vez que é a versão atualizada mais estável no tempo de desenvolvimento deste
 projeto.
 O Maven é amplamente adotado e possui uma estrutura mais simples, o que facilita a configuração e o gerenciamento de
 dependências. Além disso, o Maven possui uma vasta biblioteca de plugins, integração com repositórios centrais e uma
 documentação extensa, tornando-o uma escolha popular e confiável para a construção e gerenciamento de projetos Java.
-
-A arquitetura utilizada se baseia na combinação de conceitos MVC (Model-View-Controller) e DDD (Domain Driven Design).
-Ao combinar MVC e DDD, podemos obter os benefícios de ambos os conceitos. A arquitetura MVC pode ser usada para a
-divisão das responsabilidades de apresentação e controle de fluxo da aplicação, enquanto o DDD pode ser usado para criar
-um modelo de domínio rico e encapsulado.
 
 Para determinar o banco de dados a ser utilizado foi levado em consideração a performance do mesmo juntamente com sua
 usabilidade e compatibilidade com JBDC. O Banco H2 é um banco de dados SQL escrtio em Java, leve e simples de incorporar
@@ -127,12 +145,12 @@ O Flyway é uma ferramenta popular para gerenciar migrações de banco de dados 
 Ele pode ser usado para criar e executar scripts SQL que atualizam o esquema do banco de dados, também pode ser usado
 para gerenciar a versão do banco de dados e garantir que as alterações sejam aplicadas na ordem correta.
 
-O Lombok é uma biblioteca para Java que permite reduzir a verbosidade do código, automatizando a geração de getters,
-setters, construtores e outros métodos comuns. Utilizamos o Lombok no projeto para maior produtividade, reduzindo a
+O Lombok é uma biblioteca permite reduzir a códigos boilerplate, automatizando a geração de getters,
+setters, construtores e outros métodos comuns. Utilizou-se o Lombok no projeto para maior produtividade, reduzindo a
 quantidade de código boilerplate a ser escrito e facilitando a manutenção do código ao eliminar tarefas repetitivas.
 Além disto, a biblioteca contém a anotação Slf4j para logar erros dentro da aplicação, não a expondo ao usuário final.
 
-Decidimos utilizar o Spring Security porque se trata de um framework de autenticação e autorização para aplicações Java.
+Foi decidido utilizar o Spring Security porque se trata de um framework de autenticação e autorização para aplicações Java.
 O Security nos fornece recursos de segurança para proteger nossa aplicação contra ameaças de cibernéticas.
 O Spring Boot Security é uma extensão do Spring Security que fornece recursos adicionais para proteger aplicativos
 baseados em Spring Boot. A criptografia de senha é uma das
@@ -163,6 +181,8 @@ uma abordagem poderosa e flexível para a validação de dados em aplicativos Ja
 
 ***
 Disclamer: 
+
+Documentação via Swagger: [Link](http://localhost:8080/api/watchwatt/swagger-ui/index.html#)
 
 Para a propriedade 'gender' os valores possíveis são: 'MALE', 'FEMALE' or 'OTHERS'. 
 
