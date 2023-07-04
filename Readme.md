@@ -8,13 +8,18 @@
 Apresentamos o **WatchWatt**, uma inovadora ferramenta que revolucionará a forma como você gerencia seu consumo energético. Com nosso sistema em sua mão, você pode se cadastrar rapidamente, cadastrar seus dependentes e registra seus equipamentos elétricos, atribuindo-os aos respectivos endereços. Acompanhe de perto o gasto energético de cada um deles, obtendo insights valiosos para economizar energia e reduzir suas contas. Simplifique sua vida, torne-se mais sustentável e economize com nossa ferramenta completa de gestão energética.
 
 ## 📄 Índice
-* [Descrição do Projeto](#descrição-do-projeto)
+* [Descrição do Projeto](#descrição-do-projeto)  
+* [Arquitetos Responsáveis](#arquitetos-responsáveis)
 * [Funcionalidades](#funcionalidades)
 * [Acesso ao Projeto](#acesso-ao-projeto)
+* [Execução do Projeto](#execução-do-projeto)
 * [Tecnologias utilizadas](#tecnologias-utilizadas)
-* [Pessoas Desenvolvedoras do Projeto](#pessoas-desenvolvedoras)
+* [Documentação Técnica](#documentação-técnica)
+* [Desafios](#desafios)
+* [Endpoints](#endpoints)
 
-## ⚙️ Descrição do Projeto
+
+## Descrição do Projeto
 
 O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e APIs, para cadastro de Pessoas, Casas e Eletrodomésticos, com o objetivo principal de calcular o consumo mensal de energia. A empresa responsável pelo projeto é especializada em equipamentos de monitoramento de energia para uso residencial e comercial.
 
@@ -26,32 +31,32 @@ Os benefícios para os usuários são diversos, incluindo a possibilidade de eco
 
 Em resumo, o projeto visa desenvolver um sistema web completo para monitoramento e controle do consumo de energia, utilizando adaptadores elétricos conectados a redes WiFi e integrados a serviços em nuvem, proporcionando aos usuários informações precisas e úteis para reduzir o consumo e promover a eficiência energética.
 
-## 🙋 Arquitetos Responsáveis
+## Arquitetos Responsáveis
 
 | [<img src="https://avatars.githubusercontent.com/u/42851702?v=4" width=115><br><sub>Lucas Mendes</sub>](https://github.com/Luzeraaa) | [<img src="https://avatars.githubusercontent.com/u/56560361?v=4" width=115><br><sub>Aderson Neto</sub>](https://github.com/avcneto) | [<img src="https://avatars.githubusercontent.com/u/19624216?v=4" width=115><br><sub>Felipe Chimin</sub>](https://github.com/flpchimin) | [<img src="https://avatars.githubusercontent.com/u/52970727?v=4" width=115><br><sub>Gustavo Makimori</sub>](https://github.com/gyfmaki) | [<img src="https://avatars.githubusercontent.com/u/88151987?v=4" width=115><br><sub>Pedro Paratelli</sub>](https://github.com/PedroParatelli) |
 |:------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|
 
 
-## 🔨 Funcionalidades
+## Funcionalidades
 
 Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#endpoints) relacionado abaixo.
 
-✔️ Cadastro de usuários bem como seus dependentes:
+Cadastro de usuários bem como seus dependentes:
 * Os cadastro serão únicos, validados através do CPF e/ou e-mail utilizado durante o cadastro;
 * Cada usuário poderá cadastrar seus endereços e respectivos equipamentos eletrodomésticos
 
-✔️ Cadastro de Endereços
+Cadastro de Endereços
 * O cadastro de endereço será realizado mediante interface, com a API [ViaCep](https://viacep.com.br), uma vez informado o CEP pelo usuário.
 * Casos em que a API esteja indisponível ainda será possível que o usuário faça o cadastro manualmente.
 
-✔️ Cadastro de Eletrodomésticos
+Cadastro de Eletrodomésticos
 * Cada usuário poderá cadastrar seus respectivos eletrodomésticos.
 
-## 📁 Acesso ao projeto
+## Acesso ao projeto
 
 Você pode [acessar o código fonte do projeto inicial](https://github.com/Luzeraaa/postech) ou [baixá-lo](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip).
 
-## 🛠️ Abrir e rodar o projeto
+## Execução do Projeto
 
 Após baixar o projeto, você pode abrir com a IDE de preferência e configurar as variáveis de ambiente para acessar o banco de dados.
 
