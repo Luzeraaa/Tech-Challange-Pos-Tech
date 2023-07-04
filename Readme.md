@@ -5,10 +5,16 @@
 ![Java Version](https://img.shields.io/badge/java-17-blue)
 
 # <h1 align="center">WatchWatt</h1>
-Apresentamos o **WatchWatt**, uma inovadora ferramenta que revolucionará a forma como você gerencia seu consumo energético. Com nosso sistema em sua mão, você pode se cadastrar rapidamente, cadastrar seus dependentes e registra seus equipamentos elétricos, atribuindo-os aos respectivos endereços. Acompanhe de perto o gasto energético de cada um deles, obtendo insights valiosos para economizar energia e reduzir suas contas. Simplifique sua vida, torne-se mais sustentável e economize com nossa ferramenta completa de gestão energética.
+
+Apresentamos o **WatchWatt**, uma inovadora ferramenta que revolucionará a forma como você gerencia seu consumo
+energético. Com nosso sistema em sua mão, você pode se cadastrar rapidamente, cadastrar seus dependentes e registra seus
+equipamentos elétricos, atribuindo-os aos respectivos endereços. Acompanhe de perto o gasto energético de cada um deles,
+obtendo insights valiosos para economizar energia e reduzir suas contas. Simplifique sua vida, torne-se mais sustentável
+e economize com nossa ferramenta completa de gestão energética.
 
 ## 📄 Índice
-* [Descrição do Projeto](#descrição-do-projeto)  
+
+* [Descrição do Projeto](#test)
 * [Arquitetos Responsáveis](#arquitetos-responsáveis)
 * [Funcionalidades](#funcionalidades)
 * [Acesso ao Projeto](#acesso-ao-projeto)
@@ -18,72 +24,90 @@ Apresentamos o **WatchWatt**, uma inovadora ferramenta que revolucionará a form
 * [Desafios](#desafios)
 * [Endpoints](#endpoints)
 
-
 ## Descrição do Projeto
 
-O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e APIs, para cadastro de Pessoas, Casas e Eletrodomésticos, com o objetivo principal de calcular o consumo mensal de energia. A empresa responsável pelo projeto é especializada em equipamentos de monitoramento de energia para uso residencial e comercial.
+O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e APIs, para cadastro de Pessoas, Casas
+e Eletrodomésticos, com o objetivo principal de calcular o consumo mensal de energia. A empresa responsável pelo projeto
+é especializada em equipamentos de monitoramento de energia para uso residencial e comercial.
 
-Os principais produtos oferecidos pela empresa são adaptadores elétricos que permitem monitorar o consumo de energia de aparelhos eletrônicos. Esses adaptadores são compatíveis com a maioria dos dispositivos eletroeletrônicos e eletrodomésticos. Eles se conectam a redes WiFi e enviam os dados de consumo para serviços em nuvem, onde são processados e apresentados em um painel de controle online.
+Os principais produtos oferecidos pela empresa são adaptadores elétricos que permitem monitorar o consumo de energia de
+aparelhos eletrônicos. Esses adaptadores são compatíveis com a maioria dos dispositivos eletroeletrônicos e
+eletrodomésticos. Eles se conectam a redes WiFi e enviam os dados de consumo para serviços em nuvem, onde são
+processados e apresentados em um painel de controle online.
 
-A tecnologia utilizada nos equipamentos garante a precisão na medição de energia elétrica, e a interface é intuitiva e de fácil utilização. Os usuários podem monitorar o consumo em tempo real e acessar o histórico de consumo para identificar aparelhos com alto consumo e adotar medidas para reduzir o consumo de energia.
+A tecnologia utilizada nos equipamentos garante a precisão na medição de energia elétrica, e a interface é intuitiva e
+de fácil utilização. Os usuários podem monitorar o consumo em tempo real e acessar o histórico de consumo para
+identificar aparelhos com alto consumo e adotar medidas para reduzir o consumo de energia.
 
-Os benefícios para os usuários são diversos, incluindo a possibilidade de economizar na conta de luz, contribuir para a preservação do meio ambiente e adotar práticas mais sustentáveis no consumo de energia.
+Os benefícios para os usuários são diversos, incluindo a possibilidade de economizar na conta de luz, contribuir para a
+preservação do meio ambiente e adotar práticas mais sustentáveis no consumo de energia.
 
-Em resumo, o projeto visa desenvolver um sistema web completo para monitoramento e controle do consumo de energia, utilizando adaptadores elétricos conectados a redes WiFi e integrados a serviços em nuvem, proporcionando aos usuários informações precisas e úteis para reduzir o consumo e promover a eficiência energética.
+Em resumo, o projeto visa desenvolver um sistema web completo para monitoramento e controle do consumo de energia,
+utilizando adaptadores elétricos conectados a redes WiFi e integrados a serviços em nuvem, proporcionando aos usuários
+informações precisas e úteis para reduzir o consumo e promover a eficiência energética.
 
 ## Arquitetos Responsáveis
 
 | [<img src="https://avatars.githubusercontent.com/u/42851702?v=4" width=115><br><sub>Lucas Mendes</sub>](https://github.com/Luzeraaa) | [<img src="https://avatars.githubusercontent.com/u/56560361?v=4" width=115><br><sub>Aderson Neto</sub>](https://github.com/avcneto) | [<img src="https://avatars.githubusercontent.com/u/19624216?v=4" width=115><br><sub>Felipe Chimin</sub>](https://github.com/flpchimin) | [<img src="https://avatars.githubusercontent.com/u/52970727?v=4" width=115><br><sub>Gustavo Makimori</sub>](https://github.com/gyfmaki) | [<img src="https://avatars.githubusercontent.com/u/88151987?v=4" width=115><br><sub>Pedro Paratelli</sub>](https://github.com/PedroParatelli) |
 |:------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------:|
 
-
 ## Funcionalidades
 
-Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#endpoints) relacionado abaixo.
+Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#endpoints) relacionado
+abaixo.
 
 Cadastro de usuários bem como seus dependentes:
+
 * Os cadastro serão únicos, validados através do CPF e/ou e-mail utilizado durante o cadastro;
 * Cada usuário poderá cadastrar seus endereços e respectivos equipamentos eletrodomésticos
 
 Cadastro de Endereços
-* O cadastro de endereço será realizado mediante interface, com a API [ViaCep](https://viacep.com.br), uma vez informado o CEP pelo usuário.
+
+* O cadastro de endereço será realizado mediante interface, com a API [ViaCep](https://viacep.com.br), uma vez informado
+  o CEP pelo usuário.
 * Casos em que a API esteja indisponível ainda será possível que o usuário faça o cadastro manualmente.
 
 Cadastro de Eletrodomésticos
+
 * Cada usuário poderá cadastrar seus respectivos eletrodomésticos.
 
 ## Acesso ao projeto
 
-Você pode [acessar o código fonte do projeto inicial](https://github.com/Luzeraaa/postech) ou [baixá-lo](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip).
+Você pode [acessar o código fonte do projeto inicial](https://github.com/Luzeraaa/postech)
+ou [baixá-lo](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip).
 
 ## Execução do Projeto
 
-Após baixar o projeto, você pode abrir com a IDE de preferência e configurar as variáveis de ambiente para acessar o banco de dados.
+Após baixar o projeto, você pode abrir com a IDE de preferência e configurar as variáveis de ambiente para acessar o
+banco de dados.
 
 1. Fazer o [download](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip);
 2. Abrir com IDE de preferência;
 3. Configurar as varíaveis de ambiente para acessar o banco de dados:
-   * _DATASOURCE_PASSWORD=fiap_ 
-   * _DATASOURCE_USER=fiap_
+    * _DATASOURCE_PASSWORD=fiap_
+    * _DATASOURCE_USER=fiap_
 4. Executar o projeto.
 
-**Bonus**: Após a primeira execução um script SQL populará de forma automatica o banco de dados com 10 registros 
+**Bonus**: Após a primeira execução um script SQL populará de forma automatica o banco de dados com 10 registros
 pré determinados, a fim de otimizar o funcionamento do sistema.
 
 ## Tecnologias utilizadas
 
 - Java 17: versão Java que garante estabilidade e com recursos atualizados.
-- Spring MVC & JPA: O Spring MVC é responsável pela camada de controle e apresentação do aplicativo, lidando com a interação do usuário, enquanto o JPA cuida da persistência de dados, abstraindo a camada de acesso a banco de dados.
+- Spring MVC & JPA: O Spring MVC é responsável pela camada de controle e apresentação do aplicativo, lidando com a
+  interação do usuário, enquanto o JPA cuida da persistência de dados, abstraindo a camada de acesso a banco de dados.
 - Maven: Gerenciador de dependências mais familiar ao grupo.
-- Lombok: Biblioteca utilizada para gerenciamento das camadas de segurança (encriptação de dados sensíveis) e seus construtores.
+- Lombok: Biblioteca utilizada para gerenciamento das camadas de segurança (encriptação de dados sensíveis) e seus
+  construtores.
 - Banco de Dados H2: Banco de dados em memória para persistência dos dados durante execução da aplicação.
 - Hibernate: Framework utilizado para gerenciamento das camadas de segurança.
 - @Validator: Validação de caracteres e máscaras de entrada.
 
 ## Documentação Técnica
 
-A versão 17 do Java foi adotada uma vez que é a versão atualizada mais estável no tempo de desenvolvimento deste projeto.
-O Maven é amplamente adotado e possui uma estrutura mais simples, o que facilita a configuração e o gerenciamento de 
+A versão 17 do Java foi adotada uma vez que é a versão atualizada mais estável no tempo de desenvolvimento deste
+projeto.
+O Maven é amplamente adotado e possui uma estrutura mais simples, o que facilita a configuração e o gerenciamento de
 dependências. Além disso, o Maven possui uma vasta biblioteca de plugins, integração com repositórios centrais e uma
 documentação extensa, tornando-o uma escolha popular e confiável para a construção e gerenciamento de projetos Java.
 
@@ -94,11 +118,12 @@ um modelo de domínio rico e encapsulado.
 
 Para determinar o banco de dados a ser utilizado foi levado em consideração a performance do mesmo juntamente com sua
 usabilidade e compatibilidade com JBDC. O Banco H2 é um banco de dados SQL escrtio em Java, leve e simples de incorporar
-em aplicativos Java. Suas ferramentas de desenvolvimento apresentam recursos avançados e inclui um console de administração
-baseado em navegador.Para gerencias as alterações no banco de dados optamos por utilizar o Flyway que é uma ferramenta 
-de migração de banco de dados que pode ser usada para gerenciar alterações em bancos de dados relacionais. 
-Ele é usado para garantir que as alterações no banco de dados sejam aplicadas de forma consistente e controlada. 
-O Flyway é uma ferramenta popular para gerenciar migrações de banco de dados em aplicativos Spring Boot. 
+em aplicativos Java. Suas ferramentas de desenvolvimento apresentam recursos avançados e inclui um console de
+administração
+baseado em navegador.Para gerencias as alterações no banco de dados optamos por utilizar o Flyway que é uma ferramenta
+de migração de banco de dados que pode ser usada para gerenciar alterações em bancos de dados relacionais.
+Ele é usado para garantir que as alterações no banco de dados sejam aplicadas de forma consistente e controlada.
+O Flyway é uma ferramenta popular para gerenciar migrações de banco de dados em aplicativos Spring Boot.
 Ele pode ser usado para criar e executar scripts SQL que atualizam o esquema do banco de dados, também pode ser usado
 para gerenciar a versão do banco de dados e garantir que as alterações sejam aplicadas na ordem correta.
 
@@ -107,16 +132,17 @@ setters, construtores e outros métodos comuns. Utilizamos o Lombok no projeto p
 quantidade de código boilerplate a ser escrito e facilitando a manutenção do código ao eliminar tarefas repetitivas.
 Além disto, a biblioteca contém a anotação Slf4j para logar erros dentro da aplicação, não a expondo ao usuário final.
 
-Decidimos utilizar o Spring Security porque se trata de um framework de autenticação e autorização para aplicações Java. 
+Decidimos utilizar o Spring Security porque se trata de um framework de autenticação e autorização para aplicações Java.
 O Security nos fornece recursos de segurança para proteger nossa aplicação contra ameaças de cibernéticas.
-O Spring Boot Security é uma extensão do Spring Security que fornece recursos adicionais para proteger aplicativos 
-baseados em Spring Boot. A criptografia de senha é uma das funcionalidades fornecidas pelo Spring Boot Security e 
-utilizamos para permite que as senhas sejam armazenadas com segurança no banco de dados, garantindo que elas não 
+O Spring Boot Security é uma extensão do Spring Security que fornece recursos adicionais para proteger aplicativos
+baseados em Spring Boot. A criptografia de senha é uma das
+funcionalidades fornecidas pelo Spring Boot Security e
+utilizamos para permite que as senhas sejam armazenadas com segurança no banco de dados, garantindo que elas não
 possam ser lidas por usuários não autorizados.
 
-O Hibernate é amplamente utilizado no desenvolvimento Java devido às suas vantagens significativas. Ele simplifica o 
+O Hibernate é amplamente utilizado no desenvolvimento Java devido às suas vantagens significativas. Ele simplifica o
 acesso a dados, abstraindo o mapeamento objeto-relacional e automatizando tarefas comuns, aumentando a produtividade dos
-desenvolvedores. Além disso, oferece portabilidade, permitindo executar aplicativos em diferentes bancos de dados, e 
+desenvolvedores. Além disso, oferece portabilidade, permitindo executar aplicativos em diferentes bancos de dados, e
 suporta consultas flexíveis, cache e gerenciamento de transações, proporcionando um ambiente eficiente e robusto para o
 desenvolvimento de aplicativos que interagem com bancos de dados relacionais.
 
@@ -139,23 +165,23 @@ uma abordagem poderosa e flexível para a validação de dados em aplicativos Ja
 
 ### User:
 
-Validate user and password
+Validar cpf e senha
 
 ```bash
 curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=46714251220&password=123456' \
+  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=83055117077&password=123456' \
   --header 'X-API-Version: 1'
 ```
 
-Get User by cpf
+Obter usuario pelo numero do CPF
 
 ```bash
 curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user?cpf=46714251220' \
+  --url 'http://localhost:8080/api/watchwatt/user?cpf=83055117077' \
   --header 'X-API-Version: 1'
 ```
 
-Get all user
+Obter todos os usuarios
 
 ```bash
 curl --request GET \
@@ -171,16 +197,23 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'X-API-Version: 1' \
   --data '{
-	"cpf": "46714251220",
-	"name": "Fulano de tal",
+	"cpf": "99954627022",
+	"name": "Fulano de tal tres",
 	"birthday": "2023-01-01",
 	"gender": "MALE",
-	"email": "fulano@fiap.com",
-	"password": "123456"
+	"email": "teste@fiap.com",
+	"password": "123456",
+	"kinship": [
+		{
+			"name": "Igor junior",
+			"degree_kinship": "BROTHER"
+		}
+	]
 }'
+
 ```
 
-Update User
+Atualizar usuario pelo id
 
 ```bash
 curl --request PUT \
@@ -197,6 +230,7 @@ curl --request PUT \
 }'
 
 ```
+
 Delete User by id
 
 ```bash
@@ -259,7 +293,9 @@ curl --request POST \
 
 
 ```
+
 Update Address by id
+
 ```bash
 curl --request PUT \
   --url 'http://localhost:8080/api/watchwatt/address?id=1' \
@@ -277,6 +313,7 @@ curl --request PUT \
 }'
 
 ```
+
 Delete Address by id
 
 ```bash
@@ -285,8 +322,8 @@ curl --request DELETE \
   --header 'X-API-Version: 1'
 
 ```
-***
 
+***
 
 ### Appliance
 
@@ -339,4 +376,51 @@ Delete appliance by id
 curl --request DELETE \
   --url 'http://localhost:8080/api/watchwatt/appliances/1' \
   --header 'X-API-Version: 1'
+```
+
+Parentesco
+Obter parentesco pelo número do cpf
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
+  --header 'X-API-Version: 1'
+```
+
+Adicionar parentesco pelo número do cpf
+
+```bash
+curl --request POST \
+  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '[
+	{
+		"name": "fnovo fulano",
+		"degree_kinship": "SON"
+	}
+]'
+
+```
+
+Atualizar parentesco pelo número do cpf e id do parantesco
+
+```bash 
+curl --request PUT \
+  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=2' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '{
+	"name": "atualizado",
+	"degree_kinship": "BROTHER"
+}'
+```
+
+deletar parentesco pelo id do usuario e id do parantesco
+
+```bash 
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=1' \
+  --header 'X-API-Version: 1'
+
 ```

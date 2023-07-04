@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:h2:mem:watchwatt
-    username: sa
-    password:
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
