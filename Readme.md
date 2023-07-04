@@ -162,8 +162,15 @@ uma abordagem poderosa e flexível para a validação de dados em aplicativos Ja
 ## Endpoints
 
 ***
-Disclamer: para a propriedade 'gender' os valores possíveis são: 'MALE', 'FEMALE' or 'OTHERS'.<br> Para a propriedade "degree_kinship" os valores possíveis são: 'FATHER', 'MOTHER', 'SON','DAUGHTER','SISTER','BROTHER','HUSBAND','WIFE' or 'OTHERS'. 
-### User:
+Disclamer: 
+
+Para a propriedade 'gender' os valores possíveis são: 'MALE', 'FEMALE' or 'OTHERS'. 
+
+Para a propriedade "degree_kinship" os valores possíveis são: 'FATHER', 'MOTHER', 'SON','DAUGHTER','SISTER','BROTHER','HUSBAND','WIFE' or 'OTHERS'. 
+
+Para as requisições que retornam uma lista com todos os itens é possível parametrizar as propriedades "limit" (número de limite retornados na consulta) e "offset" (qual página de registros a serem retornados) nos parâmetros da requisição. 
+
+ ### User:
 
 Create User
 
