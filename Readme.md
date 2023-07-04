@@ -5,63 +5,90 @@
 ![Java Version](https://img.shields.io/badge/java-17-blue)
 
 # <h1 align="center">WatchWatt</h1>
-Apresentamos o **WatchWatt**, uma inovadora ferramenta que revolucionará a forma como você gerencia seu consumo energético. Com nosso sistema em sua mão, você pode se cadastrar rapidamente, cadastrar seus dependentes e registra seus equipamentos elétricos, atribuindo-os aos respectivos endereços. Acompanhe de perto o gasto energético de cada um deles, obtendo insights valiosos para economizar energia e reduzir suas contas. Simplifique sua vida, torne-se mais sustentável e economize com nossa ferramenta completa de gestão energética.
+
+Apresentamos o **WatchWatt**, uma inovadora ferramenta que revolucionará a forma como você gerencia seu consumo
+energético. Com nosso sistema em sua mão, você pode se cadastrar rapidamente, cadastrar seus dependentes e registra seus
+equipamentos elétricos, atribuindo-os aos respectivos endereços. Acompanhe de perto o gasto energético de cada um deles,
+obtendo insights valiosos para economizar energia e reduzir suas contas. Simplifique sua vida, torne-se mais sustentável
+e economize com nossa ferramenta completa de gestão energética.
 
 ## 📄 Índice
-* [Descrição do Projeto](#descrição-do-projeto)
+
+* [Descrição do Projeto](#test)
 * [Funcionalidades](#funcionalidades)
 * [Acesso ao Projeto](#acesso-ao-projeto)
 * [Tecnologias utilizadas](#tecnologias-utilizadas)
 * [Pessoas Desenvolvedoras do Projeto](#pessoas-desenvolvedoras)
 
+<div></div>
 ## ⚙️ Descrição do Projeto
 
-O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e APIs, para cadastro de Pessoas, Casas e Eletrodomésticos, com o objetivo principal de calcular o consumo mensal de energia. A empresa responsável pelo projeto é especializada em equipamentos de monitoramento de energia para uso residencial e comercial.
+O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e APIs, para cadastro de Pessoas, Casas
+e Eletrodomésticos, com o objetivo principal de calcular o consumo mensal de energia. A empresa responsável pelo projeto
+é especializada em equipamentos de monitoramento de energia para uso residencial e comercial.
 
-Os principais produtos oferecidos pela empresa são adaptadores elétricos que permitem monitorar o consumo de energia de aparelhos eletrônicos. Esses adaptadores são compatíveis com a maioria dos dispositivos eletroeletrônicos e eletrodomésticos. Eles se conectam a redes WiFi e enviam os dados de consumo para serviços em nuvem, onde são processados e apresentados em um painel de controle online.
+Os principais produtos oferecidos pela empresa são adaptadores elétricos que permitem monitorar o consumo de energia de
+aparelhos eletrônicos. Esses adaptadores são compatíveis com a maioria dos dispositivos eletroeletrônicos e
+eletrodomésticos. Eles se conectam a redes WiFi e enviam os dados de consumo para serviços em nuvem, onde são
+processados e apresentados em um painel de controle online.
 
-A tecnologia utilizada nos equipamentos garante a precisão na medição de energia elétrica, e a interface é intuitiva e de fácil utilização. Os usuários podem monitorar o consumo em tempo real e acessar o histórico de consumo para identificar aparelhos com alto consumo e adotar medidas para reduzir o consumo de energia.
+A tecnologia utilizada nos equipamentos garante a precisão na medição de energia elétrica, e a interface é intuitiva e
+de fácil utilização. Os usuários podem monitorar o consumo em tempo real e acessar o histórico de consumo para
+identificar aparelhos com alto consumo e adotar medidas para reduzir o consumo de energia.
 
-Os benefícios para os usuários são diversos, incluindo a possibilidade de economizar na conta de luz, contribuir para a preservação do meio ambiente e adotar práticas mais sustentáveis no consumo de energia.
+Os benefícios para os usuários são diversos, incluindo a possibilidade de economizar na conta de luz, contribuir para a
+preservação do meio ambiente e adotar práticas mais sustentáveis no consumo de energia.
 
-Em resumo, o projeto visa desenvolver um sistema web completo para monitoramento e controle do consumo de energia, utilizando adaptadores elétricos conectados a redes WiFi e integrados a serviços em nuvem, proporcionando aos usuários informações precisas e úteis para reduzir o consumo e promover a eficiência energética.
+Em resumo, o projeto visa desenvolver um sistema web completo para monitoramento e controle do consumo de energia,
+utilizando adaptadores elétricos conectados a redes WiFi e integrados a serviços em nuvem, proporcionando aos usuários
+informações precisas e úteis para reduzir o consumo e promover a eficiência energética.
 
 ## 🔨 Funcionalidades
 
-Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#endpoints) relacionado abaixo.
+Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#endpoints) relacionado
+abaixo.
 
 ✔️ Cadastro de usuários bem como seus dependentes:
+
 * Os cadastro serão únicos, validados através do CPF e/ou e-mail utilizado durante o cadastro;
 * Cada usuário poderá cadastrar seus endereços e respectivos equipamentos eletrodomésticos
 
 ✔️ Cadastro de Endereços
-* O cadastro de endereço será realizado mediante interface, com a API [ViaCep](https://viacep.com.br), uma vez informado o CEP pelo usuário.
+
+* O cadastro de endereço será realizado mediante interface, com a API [ViaCep](https://viacep.com.br), uma vez informado
+  o CEP pelo usuário.
 * Casos em que a API esteja indisponível ainda será possível que o usuário faça o cadastro manualmente.
 
 ✔️ Cadastro de Eletrodomésticos
+
 * Cada usuário poderá cadastrar seus respectivos eletrodomésticos.
 
 ## 📁 Acesso ao projeto
 
-Você pode [acessar o código fonte do projeto inicial](https://github.com/Luzeraaa/postech) ou [baixá-lo](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip).
+Você pode [acessar o código fonte do projeto inicial](https://github.com/Luzeraaa/postech)
+ou [baixá-lo](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip).
 
 ## 🛠️ Abrir e rodar o projeto
 
-Após baixar o projeto, você pode abrir com a IDE de preferência e configurar as variáveis de ambiente para acessar o banco de dados.
+Após baixar o projeto, você pode abrir com a IDE de preferência e configurar as variáveis de ambiente para acessar o
+banco de dados.
 
 ## Tecnologias utilizadas
 
 - Java 17: versão Java que garante estabilidade e com recursos atualizados.
-- Spring MVC & JPA: O Spring MVC é responsável pela camada de controle e apresentação do aplicativo, lidando com a interação do usuário, enquanto o JPA cuida da persistência de dados, abstraindo a camada de acesso a banco de dados.
+- Spring MVC & JPA: O Spring MVC é responsável pela camada de controle e apresentação do aplicativo, lidando com a
+  interação do usuário, enquanto o JPA cuida da persistência de dados, abstraindo a camada de acesso a banco de dados.
 - Maven: Gerenciador de dependências mais familiar ao grupo.
-- Lombok: Biblioteca utilizada para gerenciamento das camadas de segurança (encriptação de dados sensíveis) e seus construtores.
+- Lombok: Biblioteca utilizada para gerenciamento das camadas de segurança (encriptação de dados sensíveis) e seus
+  construtores.
 - Banco de Dados H2: Banco de dados em memória para persistência dos dados durante execução da aplicação.
 - Hibernate: Framework utilizado para gerenciamento das camadas de segurança.
 - Regex: Validação de caracteres e máscaras de entrada.
 
 ## Arquitetura
 
-A arquitetura do projeto tem como base o DDD (Domain-Driven Design) e MVC (Model View Controller) para definição das responsabilidade dos objetos utilizados na aplicação.
+A arquitetura do projeto tem como base o DDD (Domain-Driven Design) e MVC (Model View Controller) para definição das
+responsabilidade dos objetos utilizados na aplicação.
 
 ## Desafios
 
@@ -81,23 +108,23 @@ A arquitetura do projeto tem como base o DDD (Domain-Driven Design) e MVC (Model
 
 ### User:
 
-Validate user and password
+Validar cpf e senha
 
 ```bash
 curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=46714251220&password=123456' \
+  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=83055117077&password=123456' \
   --header 'X-API-Version: 1'
 ```
 
-Get User by cpf
+Obter usuario pelo numero do CPF
 
 ```bash
 curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user?cpf=46714251220' \
+  --url 'http://localhost:8080/api/watchwatt/user?cpf=83055117077' \
   --header 'X-API-Version: 1'
 ```
 
-Get all user
+Obter todos os usuarios
 
 ```bash
 curl --request GET \
@@ -113,16 +140,23 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'X-API-Version: 1' \
   --data '{
-	"cpf": "46714251220",
-	"name": "Fulano de tal",
+	"cpf": "99954627022",
+	"name": "Fulano de tal tres",
 	"birthday": "2023-01-01",
 	"gender": "MALE",
-	"email": "fulano@fiap.com",
-	"password": "123456"
+	"email": "teste@fiap.com",
+	"password": "123456",
+	"kinship": [
+		{
+			"name": "Igor junior",
+			"degree_kinship": "BROTHER"
+		}
+	]
 }'
+
 ```
 
-Update User
+Atualizar usuario pelo id
 
 ```bash
 curl --request PUT \
@@ -139,6 +173,7 @@ curl --request PUT \
 }'
 
 ```
+
 Delete User by id
 
 ```bash
@@ -201,7 +236,9 @@ curl --request POST \
 
 
 ```
+
 Update Address by id
+
 ```bash
 curl --request PUT \
   --url 'http://localhost:8080/api/watchwatt/address?id=1' \
@@ -219,6 +256,7 @@ curl --request PUT \
 }'
 
 ```
+
 Delete Address by id
 
 ```bash
@@ -227,8 +265,8 @@ curl --request DELETE \
   --header 'X-API-Version: 1'
 
 ```
-***
 
+***
 
 ### Appliance
 
@@ -281,4 +319,51 @@ Delete appliance by id
 curl --request DELETE \
   --url 'http://localhost:8080/api/watchwatt/appliances/1' \
   --header 'X-API-Version: 1'
+```
+
+Parentesco
+Obter parentesco pelo número do cpf
+
+```bash
+curl --request GET \
+  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
+  --header 'X-API-Version: 1'
+```
+
+Adicionar parentesco pelo número do cpf
+
+```bash
+curl --request POST \
+  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '[
+	{
+		"name": "fnovo fulano",
+		"degree_kinship": "SON"
+	}
+]'
+
+```
+
+Atualizar parentesco pelo número do cpf e id do parantesco
+
+```bash 
+curl --request PUT \
+  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=2' \
+  --header 'Content-Type: application/json' \
+  --header 'X-API-Version: 1' \
+  --data '{
+	"name": "atualizado",
+	"degree_kinship": "BROTHER"
+}'
+```
+
+deletar parentesco pelo id do usuario e id do parantesco
+
+```bash 
+curl --request DELETE \
+  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=1' \
+  --header 'X-API-Version: 1'
+
 ```
