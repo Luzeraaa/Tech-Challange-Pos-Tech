@@ -14,19 +14,20 @@ e economize com nossa ferramenta completa de gestão energética.
 
 ## 📄 Índice
 
-* [Descrição do Projeto](#test)
+* [Descrição do Projeto](#descrição-do-projeto)
 * [Arquitetos Responsáveis](#arquitetos-responsáveis)
 * [Funcionalidades](#funcionalidades)
 * [Acesso ao Projeto](#acesso-ao-projeto)
 * [Execução do Projeto](#execução-do-projeto)
 * [Tecnologias utilizadas](#tecnologias-utilizadas)
-* [Documentação Técnica](#documentação-técnica)
+* [Relatório Técnico](#relatório-técnico)
 * [Desafios](#desafios)
-* [Endpoints](#endpoints)
+* [Documentação Técnica](#documentação-técnica)
 
 ## Descrição do Projeto
 
-O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e APIs, para cadastro de Pessoas, Casas
+O projeto consiste no desenvolvimento de um sistema web completo, com interfaces e endpoints, para cadastro de Pessoas,
+Endereços
 e Eletrodomésticos, com o objetivo principal de calcular o consumo mensal de energia. A empresa responsável pelo projeto
 é especializada em equipamentos de monitoramento de energia para uso residencial e comercial.
 
@@ -170,16 +171,19 @@ dados e reduzir erros ou entradas inválidas, oferecendo uma forma poderosa e fl
 ## Documentação Técnica
 
 ***
+
 ### Disclaimer
 
 Documentação via SwaggerUI: [Link](http://localhost:8080/api/watchwatt/swagger-ui/index.html#)
 
 Para a propriedade ``gender`` os valores possíveis são: ``MALE``, ``FEMALE`` ou ``OTHERS``.
 
-Para a propriedade ``degree_kinship`` os valores possíveis são: ``FATHER``, ``MOTHER``, ``SON``, ``DAUGHTER``, ``SISTER``, ``BROTHER``, 
+Para a propriedade ``degree_kinship`` os valores possíveis
+são: ``FATHER``, ``MOTHER``, ``SON``, ``DAUGHTER``, ``SISTER``, ``BROTHER``,
 ``HUSBAND``, ``WIFE`` ou ``OTHERS``.
 
-Para as requisições que retornam uma lista com todos os itens é possível parametrizar as propriedades ``limit`` (número de
+Para as requisições que retornam uma lista com todos os itens é possível parametrizar as propriedades ``limit`` (número
+de
 limite retornados na consulta) e ``offset`` (qual página de registros a serem retornados) nos parâmetros da requisição.
 
 ### User:
