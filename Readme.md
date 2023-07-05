@@ -95,7 +95,7 @@ pré determinados, a fim de otimizar o funcionamento do sistema.
 
 ## Acesso ao Banco de Dados
 
-Uma vez em execução o projeto o banco de dados estará acessível através do endereço: http://localhost:8080/api/watchwatt/h2-console
+Uma vez em execução o projeto o banco de dados estará acessível através do endereço: http://localhost:8080/api/watchwatt/h2-console  
 _*Obs: O usuário e senha deve permanecer o mesmo configurado nas variáveis de ambiente._
 
 ![img.png](watchwatt/src/main/resources/images/img.png)
@@ -183,6 +183,8 @@ dados e reduzir erros ou entradas inválidas, oferecendo uma forma poderosa e fl
 ### Disclaimer
 
 Documentação via SwaggerUI: [Link](http://localhost:8080/api/watchwatt/swagger-ui/index.html#)
+
+![img.png](watchwatt/src/main/resources/images/imgSwagger.png)
 
 Para a propriedade ``gender`` os valores possíveis são: ``MALE``, ``FEMALE`` ou ``OTHERS``.
 

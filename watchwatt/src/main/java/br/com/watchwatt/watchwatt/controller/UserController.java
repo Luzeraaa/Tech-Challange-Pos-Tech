@@ -67,13 +67,6 @@ public record UserController(
         return ResponseEntity.ok(user);
     }
 
-    @PatchMapping(headers = X_API_VERSION_1, params = {ID})
-    public ResponseEntity<User> partiallyUpdateUser(@RequestBody @Valid UserDTO userDTO, Long id) {
-        var user = service.updateUser(id, userDTO);
-
-        return ResponseEntity.ok(user);
-    }
-
     @DeleteMapping(headers = X_API_VERSION_1, params = {ID})
     public ResponseEntity<String> deleteUser(Long id) {
         service.deleteUser(id);
