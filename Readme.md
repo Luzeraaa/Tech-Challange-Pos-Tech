@@ -93,15 +93,15 @@ pré determinados, a fim de otimizar o funcionamento do sistema.
 
 ## Tecnologias utilizadas
 
-- Java 17: versão Java que garante estabilidade e com recursos atualizados.
-- Spring MVC & JPA: O Spring MVC é responsável pela camada de controle e apresentação do aplicativo, lidando com a
-  interação do usuário, enquanto o JPA cuida da persistência de dados, abstraindo a camada de acesso a banco de dados.
-- Maven: Gerenciador de dependências mais familiar ao grupo.
-- Lombok: Biblioteca utilizada para gerenciamento das camadas de segurança (encriptação de dados sensíveis) e seus
-  construtores.
-- Banco de Dados H2: Banco de dados em memória para persistência dos dados durante execução da aplicação.
-- Hibernate: Framework utilizado para gerenciamento das camadas de segurança.
-- @Validator: Validação de caracteres e máscaras de entrada.
+- Java 17 (Versão atualizada e estável da linguagem Java)
+- Maven (Ferramenta amplamente adotada para gerenciamento de dependências)
+- Spring Boot & Spring MVC (Frameworks populares para desenvolvimento de aplicativos Java)
+- Hibernate (Framework de mapeamento objeto-relacional para acesso a dados)
+- JPA (Java Persistence API) (Especificação padrão para persistência de dados em Java)
+- Banco de Dados H2 (Banco de dados SQL leve e simples de incorporar em aplicativos Java)
+- Lombok (Biblioteca para reduzir a verbosidade do código e automatizar tarefas comuns)
+- Jakarta Bean Validation (Especificação para validação de dados em Java)
+- Swagger & OpenAPI (Ferramentas e especificações para projetar, criar e documentar APIs RESTful)
 
 <div style="display: inline_block"><br>
 <img src=https://raw.githubusercontent.com/github/explore/5b3600551e122a3277c2c5368af2ad5725ffa9a1/topics/java/java.png width="65" height="60"
@@ -117,46 +117,35 @@ pré determinados, a fim de otimizar o funcionamento do sistema.
 <img src=https://th.bing.com/th/id/R.d8469eae9c8a4aa8ba0104a9d636d5f8?rik=WXdhpHKO0QTl6g&riu=http%3a%2f%2fhmkcode.github.io%2fimages%2fspring%2fspring.png&ehk=l%2b%2fhOIEAi407AyPHHjQT0NnUHU%2fH%2bjQzbnquLbAEdSI%3d&risl=&pid=ImgRaw&r=0 width="60" height="55" width="60" height="55"
 />
 <img src=https://th.bing.com/th/id/R.28ba34d099020eba605e1705c4daffce?rik=zRwNnb5EPYMvYQ&riu=http%3a%2f%2fsiwenoid.com%2fsite%2fwp-content%2fuploads%2f2016%2f11%2fh2.jpg&ehk=AS8Tcaw84FlBJWq%2fjr9l7kV7qGq779jfVzu4DAHkXrw%3d&risl=&pid=ImgRaw&r=0  width="60" height="55" width="60" height="55"
-/>
+/></div>
 
+## Relatório Técnico
 
+A arquitetura utilizada neste projeto baseia-se na combinação de conceitos MVC (Model-View-Controller) e DDD (Domain
+Driven Design).
+Essa combinação permite obter os benefícios de ambos os conceitos, utilizando a arquitetura MVC para a divisão das
+responsabilidades de apresentação e controle de fluxo, e o DDD para criar um modelo de domínio encapsulado e rico.
 
-## Documentação Técnica
-
-A arquitetura utilizada neste projeto baseia-se na combinação de conceitos MVC (Model-View-Controller) e DDD (Domain Driven Design).
-Ao combinar MVC e DDD, pode-se obter os benefícios de ambos os conceitos. A arquitetura MVC pode ser usada para a
-divisão das responsabilidades de apresentação e controle de fluxo da aplicação, enquanto o DDD pode ser usado para criar
-um modelo de domínio rico e encapsulado.
-
-O projeto tem como base a versão 17 do Java uma vez que é a versão atualizada mais estável no tempo de desenvolvimento deste
-projeto.
-O Maven é amplamente adotado e possui uma estrutura mais simples, o que facilita a configuração e o gerenciamento de
-dependências. Além disso, o Maven possui uma vasta biblioteca de plugins, integração com repositórios centrais e uma
+A versão 17 do Java foi escolhida como base para o projeto devido à sua estabilidade e atualização no momento do
+desenvolvimento. Para facilitar a configuração e o gerenciamento de dependências, o projeto adotou o Maven, que possui
+uma estrutura simples e ampla biblioteca de plugins. Além disso, o Maven possui uma vasta integração com repositórios
+centrais e uma
 documentação extensa, tornando-o uma escolha popular e confiável para a construção e gerenciamento de projetos Java.
 
-Para determinar o banco de dados a ser utilizado foi levado em consideração a performance do mesmo juntamente com sua
-usabilidade e compatibilidade com JBDC. O Banco H2 é um banco de dados SQL escrtio em Java, leve e simples de incorporar
-em aplicativos Java. Suas ferramentas de desenvolvimento apresentam recursos avançados e inclui um console de
-administração
-baseado em navegador.Para gerencias as alterações no banco de dados optamos por utilizar o Flyway que é uma ferramenta
-de migração de banco de dados que pode ser usada para gerenciar alterações em bancos de dados relacionais.
-Ele é usado para garantir que as alterações no banco de dados sejam aplicadas de forma consistente e controlada.
-O Flyway é uma ferramenta popular para gerenciar migrações de banco de dados em aplicativos Spring Boot.
-Ele pode ser usado para criar e executar scripts SQL que atualizam o esquema do banco de dados, também pode ser usado
-para gerenciar a versão do banco de dados e garantir que as alterações sejam aplicadas na ordem correta.
+O banco de dados H2 é uma opção vantajosa para desenvolvimentos Java devido à sua leveza, facilidade de incorporação em
+aplicações e possui recursos avançados para desenvolvimento de software.
+Para gerenciar as alterações no banco de dados, escolhemos o Flyway, uma ferramenta de migração que garante a aplicação
+consistente e controlada das alterações.
+Ele pode ser usado para criar e executar scripts SQL que atualizam o esquema do banco de dados.
 
-O Lombok é uma biblioteca permite reduzir a códigos boilerplate, automatizando a geração de getters,
-setters, construtores e outros métodos comuns. Utilizou-se o Lombok no projeto para maior produtividade, reduzindo a
-quantidade de código boilerplate a ser escrito e facilitando a manutenção do código ao eliminar tarefas repetitivas.
-Além disto, a biblioteca contém a anotação Slf4j para logar erros dentro da aplicação, não a expondo ao usuário final.
+Para de reduzir a verbosidade e os famosos códigos boilerplates do código, além de automatizar a geração de getters,
+setters, construtores e outros métodos comuns, o projeto utilizou o Lombok, uma biblioteca para Java. O Lombok também
+fornece a anotação Slf4j para logar erros internos da aplicação, mantendo-os ocultos do usuário final.
 
-Foi decidido utilizar o Spring Security porque se trata de um framework de autenticação e autorização para aplicações Java.
-O Security nos fornece recursos de segurança para proteger nossa aplicação contra ameaças de cibernéticas.
-O Spring Boot Security é uma extensão do Spring Security que fornece recursos adicionais para proteger aplicativos
-baseados em Spring Boot. A criptografia de senha é uma das
-funcionalidades fornecidas pelo Spring Boot Security e
-utilizamos para permite que as senhas sejam armazenadas com segurança no banco de dados, garantindo que elas não
-possam ser lidas por usuários não autorizados.
+O Spring Security foi escolhido como framework de autenticação e autorização para a aplicação Java, fornecendo recursos
+de segurança contra ameaças cibernéticas. O Spring Boot Security, uma extensão do Spring Security, foi utilizado para
+proteger aplicativos baseados em Spring Boot. A criptografia de senha foi implementada para armazenar as senhas de forma
+segura no banco de dados, garantindo que não possam ser lidas por usuários não autorizados.
 
 O Hibernate é amplamente utilizado no desenvolvimento Java devido às suas vantagens significativas. Ele simplifica o
 acesso a dados, abstraindo o mapeamento objeto-relacional e automatizando tarefas comuns, aumentando a produtividade dos
@@ -164,33 +153,36 @@ desenvolvedores. Além disso, oferece portabilidade, permitindo executar aplicat
 suporta consultas flexíveis, cache e gerenciamento de transações, proporcionando um ambiente eficiente e robusto para o
 desenvolvimento de aplicativos que interagem com bancos de dados relacionais.
 
-O uso do @Validator com expressões regulares oferece uma maneira eficiente de validar e garantir a integridade dos dados
-em aplicativos Java. Ao aplicar validações por meio de expressões regulares, é possível verificar se os dados inseridos
-atendem a um determinado padrão, como formato de e-mail, número de telefone, CPF, entre outros. Isso ajuda a garantir a
-consistência dos dados e reduz a possibilidade de erros ou entradas inválidas. O @Validator com expressões regulares é
-uma abordagem poderosa e flexível para a validação de dados em aplicativos Java.
+Para validar e garantir a integridade dos dados no aplicativo Java, foi utilizado o Jakarta Bean Validation (
+anteriormente conhecida como Bean Validation 2.0).
+Essa abordagem eficiente permite verificar se os dados inseridos atendem a padrões específicos, como formato de e-mail,
+CPF, entre outros. O uso do @Validator com expressões regulares ajuda a manter a consistência dos
+dados e reduzir erros ou entradas inválidas, oferecendo uma forma poderosa e flexível de validação de dados no projeto.
 
 ## Desafios
 
-- Definir e compreender os relacionamentos
-- Incluir as regras de validações
-- Gerenciamento de exceptions para possíveis erros
-- Definição da arquitetura do projeto (DDD/MVC/etc)
+- Definir e compreender os relacionamentos entre usuários, eletrodomésticos e seus endereços
+- Incluir as regras de validações bem como seus regexs
+- Tratamento de exceções para possíveis erros durante o consumo das APIs
+- Definição da arquitetura do projeto (DDD/MVC/tecnologias e outros)
+- Determinação das responsabilidades dos membros da equipe
 
-## Endpoints
+## Documentação Técnica
 
 ***
-Disclamer: 
+### Disclaimer
 
-Documentação via Swagger: [Link](http://localhost:8080/api/watchwatt/swagger-ui/index.html#)
+Documentação via SwaggerUI: [Link](http://localhost:8080/api/watchwatt/swagger-ui/index.html#)
 
-Para a propriedade 'gender' os valores possíveis são: 'MALE', 'FEMALE' or 'OTHERS'. 
+Para a propriedade ``gender`` os valores possíveis são: ``MALE``, ``FEMALE`` ou ``OTHERS``.
 
-Para a propriedade "degree_kinship" os valores possíveis são: 'FATHER', 'MOTHER', 'SON','DAUGHTER','SISTER','BROTHER','HUSBAND','WIFE' or 'OTHERS'. 
+Para a propriedade ``degree_kinship`` os valores possíveis são: ``FATHER``, ``MOTHER``, ``SON``, ``DAUGHTER``, ``SISTER``, ``BROTHER``, 
+``HUSBAND``, ``WIFE`` ou ``OTHERS``.
 
-Para as requisições que retornam uma lista com todos os itens é possível parametrizar as propriedades "limit" (número de limite retornados na consulta) e "offset" (qual página de registros a serem retornados) nos parâmetros da requisição. 
+Para as requisições que retornam uma lista com todos os itens é possível parametrizar as propriedades ``limit`` (número de
+limite retornados na consulta) e ``offset`` (qual página de registros a serem retornados) nos parâmetros da requisição.
 
- ### User:
+### User:
 
 Create User
 
@@ -216,7 +208,6 @@ curl --request POST \
 }'
 
 ```
-
 
 Get user by CPF number
 
@@ -251,6 +242,7 @@ curl --request PUT \
 }'
 
 ```
+
 Validate CPF and password
 
 ```bash
@@ -353,7 +345,6 @@ curl --request POST \
 
 ```
 
-
 Get all Address
 
 ```bash
@@ -369,7 +360,6 @@ curl --request GET \
   --url 'http://localhost:8080/api/watchwatt/address?id=1' \
   --header 'X-API-Version: 1'
 ```
-
 
 Update Address by id
 
