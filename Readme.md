@@ -20,6 +20,7 @@ e economize com nossa ferramenta completa de gestão energética.
 * [Acesso ao Projeto](#acesso-ao-projeto)
 * [Execução do Projeto](#execução-do-projeto)
 * [Tecnologias utilizadas](#tecnologias-utilizadas)
+* [Acesso ao Banco de Dados](#acesso-ao-banco-de-dados)
 * [Relatório Técnico](#relatório-técnico)
 * [Desafios](#desafios)
 * [Documentação Técnica](#documentação-técnica)
@@ -54,7 +55,7 @@ informações precisas e úteis para reduzir o consumo e promover a eficiência 
 
 ## Funcionalidades
 
-Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#endpoints) relacionado
+Os endpoints e os dados necessários para consumo da API construída estão disponíveis no [tópico](#documentação-técnica)
 abaixo.
 
 Cadastro de usuários bem como seus dependentes:
@@ -89,8 +90,15 @@ banco de dados.
     * _DATASOURCE_USER=fiap_
 4. Executar o projeto.
 
-**Bonus**: Após a primeira execução um script SQL populará de forma automatica o banco de dados com 10 registros
+**Bonus**: Após a primeira execução um script SQL populará de forma automatica o banco de dados com registros
 pré determinados, a fim de otimizar o funcionamento do sistema.
+
+## Acesso ao Banco de Dados
+
+Uma vez em execução o projeto o banco de dados estará acessível através do endereço: http://localhost:8080/api/watchwatt/h2-console
+_*Obs: O usuário e senha deve permanecer o mesmo configurado nas variáveis de ambiente._
+
+![img.png](watchwatt/src/main/resources/images/img.png)
 
 ## Tecnologias utilizadas
 
