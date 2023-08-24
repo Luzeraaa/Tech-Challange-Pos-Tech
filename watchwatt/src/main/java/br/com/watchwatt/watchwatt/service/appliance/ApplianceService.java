@@ -1,33 +1,50 @@
 package br.com.watchwatt.watchwatt.service.appliance;
 
 import br.com.watchwatt.watchwatt.dao.appliance.ApplianceRepository;
+import br.com.watchwatt.watchwatt.dao.user.UserRepository;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
+import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.util.Pagination;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApplianceService {
 
-    private final ApplianceRepository repository;
     private static final String APPLIANCE_NOT_FOUND = "Appliance not found";
+    private final ApplianceRepository repository;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public ApplianceService(ApplianceRepository repository) {
+    public ApplianceService(ApplianceRepository repository, UserRepository userRepository, ModelMapper modelMapper) {
         this.repository = repository;
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Appliance registerAppliance(ApplianceDTO applianceDTO) {
-        var appliance = repository.findByName(applianceDTO.name());
+    public Appliance registerAppliance(ApplianceDTO applianceDTO, final String cpf) {
+        final var user = userRepository.findByCpf(cpf).orElseThrow(() -> new BadRequestException("User not found"));
+        final var applianceModel = repository.findByName(applianceDTO.name()).orElseThrow(
+                () -> new RuntimeException("It was not possible to recover the appliance"));
 
-        appliance.ifPresent(it -> {
-            throw new BadRequestException("appliance already registered");
-        });
+        applianceIsPresent(user, modelMapper.map(applianceModel, Appliance.class));
 
-        return repository.save(new Appliance(applianceDTO));
+        return repository.save(new Appliance(applianceDTO, user));
+    }
+
+    private void applianceIsPresent(User user, Appliance appliance) {
+        final var applianceIsPresent = user.getAppliances()
+                .stream()
+                .anyMatch(a -> a.equals(appliance));
+
+        if(applianceIsPresent){
+            throw new RuntimeException("Appliance already registered for this user");
+        }
     }
 
     public Appliance getApplianceById(Long id) {

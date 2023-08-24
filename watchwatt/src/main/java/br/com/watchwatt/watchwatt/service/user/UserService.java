@@ -67,7 +67,8 @@ public class UserService {
         var user = getUserById(id);
 
         var updatedUser = new User(user.getId(), userDTO.cpf(), userDTO.name(), userDTO.birthday(), userDTO.email(),
-                userDTO.password(), userDTO.gender(), user.getDateCreated(), ZonedDateTime.now(), user.getKinship());
+                userDTO.password(), userDTO.gender(), user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
+                null);
 
         return repository.save(updatedUser);
     }

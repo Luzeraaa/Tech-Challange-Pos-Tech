@@ -1,13 +1,10 @@
 package br.com.watchwatt.watchwatt.domain.appliance;
 
+import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,10 +26,28 @@ public class Appliance {
     String model;
     Integer power;
 
-    public Appliance(ApplianceDTO applianceDTO) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    public Appliance(ApplianceDTO applianceDTO, User user) {
         this.name = applianceDTO.name();
         this.model = applianceDTO.model();
         this.power = applianceDTO.power();
+        this.user = user;
+    }
+
+    public Appliance(Appliance appliance) {
+        this.name = appliance.getName();
+        this.model = appliance.getModel();
+        this.power = appliance.getPower();
+    }
+
+    public Appliance(ApplianceDTO appliance) {
+        this.name = appliance.name();
+        this.model = appliance.model();
+        this.power = appliance.power();
     }
 
     public void update(ApplianceUpdateDTO applianceUpdateDTO) {

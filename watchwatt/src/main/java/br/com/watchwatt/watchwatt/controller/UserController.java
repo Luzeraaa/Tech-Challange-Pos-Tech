@@ -5,10 +5,10 @@ import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.service.user.UserService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping(path = "/user")
 public record UserController(
-        UserService service
+        UserService service,
+
+        ModelMapper modelMapper
 ) implements Controller {
 
     private static final String USER_ID_PATH = "/user/{id}";
@@ -45,9 +47,7 @@ public record UserController(
 
     @GetMapping(headers = X_API_VERSION_1, params = {CPF})
     public ResponseEntity<User> getUserByCpf(String cpf) {
-        var user = service.getUserByCpf(cpf);
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(service.getUserByCpf(cpf));
     }
 
     @GetMapping(headers = X_API_VERSION_1, path = ALL)

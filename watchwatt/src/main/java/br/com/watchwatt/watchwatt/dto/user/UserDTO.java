@@ -1,7 +1,9 @@
 package br.com.watchwatt.watchwatt.dto.user;
 
+import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.kinship.Kinship;
 import br.com.watchwatt.watchwatt.domain.user.Gender;
+import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.kinship.KinshipDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -11,6 +13,8 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
@@ -48,7 +52,8 @@ public record UserDTO(
 
         @Size(min = PASSWORD_MIN_SIZE, message = PASSWORD_SIZE_MESSAGE)
         @Pattern(regexp = PASSWORD_REGEX, message = PASSWORD_MESSAGE)
-        String password
+        String password,
+        List<ApplianceDTO> appliances
 
 ) {
     private static final String FIELD_ONLY_NUMBER_MESSAGE = "Invalid field, enter only positive numbers";
@@ -82,5 +87,6 @@ public record UserDTO(
     private boolean kinshipIsNull() {
         return this.kinship == null;
     }
+
 
 }
