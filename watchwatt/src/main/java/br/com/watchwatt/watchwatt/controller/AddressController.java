@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +35,12 @@ public record AddressController(
     private static final String TEN = "10";
     private static final String ZERO = "0";
     private static final String ADDRESS_MESSAGE = "Address updated successfully";
+    private static final String ZIPCODE = "zipcode";
+    private static final String STREET = "street";
+    private static final String NUMBER = "number";
+    private static final String NEIGHBORHOOD = "neighborhood";
+    private static final String CITY = "city";
+    private static final String STATE = "state";
 
     @GetMapping(headers = X_API_VERSION_1, params = {ID})
     public ResponseEntity<Optional<Address>> getAddressById(@RequestParam long id) {
@@ -92,5 +99,47 @@ public record AddressController(
         service.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(headers = X_API_VERSION_1, params = {ZIPCODE})
+    public ResponseEntity<List<Address>> getAddressByZipCode(@RequestParam String zipcode) {
+        var address = service.getAddressByZipCode(zipcode);
+
+        return ResponseEntity.ok(address);
+    }
+
+    @GetMapping(headers = X_API_VERSION_1, params = {STREET})
+    public ResponseEntity<List<Address>> getAddressByStreet(@RequestParam String street) {
+        var address = service.getAddressByStreet(street);
+
+        return ResponseEntity.ok(address);
+    }
+
+    @GetMapping(headers = X_API_VERSION_1, params = {NUMBER})
+    public ResponseEntity<List<Address>> getAddressByNumber(@RequestParam Integer number) {
+        var address = service.getAddressByNumber(number);
+
+        return ResponseEntity.ok(address);
+    }
+
+    @GetMapping(headers = X_API_VERSION_1, params = {NEIGHBORHOOD})
+    public ResponseEntity<List<Address>> getAddressByNeighborhood(@RequestParam String neighborhood) {
+        var address = service.getAddressByNeighborhood(neighborhood);
+
+        return ResponseEntity.ok(address);
+    }
+
+    @GetMapping(headers = X_API_VERSION_1, params = {CITY})
+    public ResponseEntity<List<Address>> getAddressByCity(@RequestParam String city) {
+        var address = service.getAddressByCity(city);
+
+        return ResponseEntity.ok(address);
+    }
+
+    @GetMapping(headers = X_API_VERSION_1, params = {STATE})
+    public ResponseEntity<List<Address>> getAddressByState(@RequestParam String state) {
+        var address = service.getAddressByState(state);
+
+        return ResponseEntity.ok(address);
     }
 }
