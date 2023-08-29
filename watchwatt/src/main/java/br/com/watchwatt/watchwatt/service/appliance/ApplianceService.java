@@ -10,8 +10,12 @@ import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ApplianceService {
@@ -42,7 +46,7 @@ public class ApplianceService {
                 .stream()
                 .anyMatch(a -> a.equals(appliance));
 
-        if(applianceIsPresent){
+        if (applianceIsPresent) {
             throw new RuntimeException("Appliance already registered for this user");
         }
     }
@@ -68,5 +72,11 @@ public class ApplianceService {
         appliance.update(dto);
 
         return repository.save(appliance);
+    }
+
+    public Page<Appliance> getApplianceBy(List<Long> id, List<String> model, List<String> name, List<Integer> power, Pageable paginacao) {
+
+        return repository.findAllBy(id, model, name, paginacao);
+
     }
 }

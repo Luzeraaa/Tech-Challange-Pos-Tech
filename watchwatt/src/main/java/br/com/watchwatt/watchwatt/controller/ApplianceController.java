@@ -3,13 +3,18 @@ package br.com.watchwatt.watchwatt.controller;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
+import br.com.watchwatt.watchwatt.dto.appliance.ListApplianceDTO;
 import br.com.watchwatt.watchwatt.service.appliance.ApplianceService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/appliances")
@@ -25,9 +30,16 @@ public record ApplianceController(
 
     private static final String CPF = "cpf";
 
+    private static final String NAME = "name";
+
+    private static final String MODEL = "model";
+
+    private static final String POWER = "power";
+
+
     @PostMapping(headers = X_API_VERSION_1, path = "/{cpf}")
     public ResponseEntity<Appliance> registerAppliance(@PathVariable String cpf,
-            @RequestBody @Valid ApplianceDTO applianceDTO, UriComponentsBuilder uriBuilder) {
+                                                       @RequestBody @Valid ApplianceDTO applianceDTO, UriComponentsBuilder uriBuilder) {
         var appliance = service.registerAppliance(applianceDTO, cpf);
 
         return ResponseEntity
@@ -62,4 +74,18 @@ public record ApplianceController(
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    @GetMapping(headers = X_API_VERSION_1, path = "/todos")
+    public ResponseEntity<Page<ListApplianceDTO>> getAppliances(@RequestParam(required = false) final List<Long> id,
+                                                                @RequestParam(required = false) final List<String> model,
+                                                                @RequestParam(required = false) final List<String> name,
+                                                                @RequestParam(required = false) final List<Integer> power,
+                                                                @PageableDefault(size = 10) Pageable paginacao) {
+
+        Page page = service.getApplianceBy(id, model, name, power, paginacao).map(ListApplianceDTO::new);
+        return ResponseEntity.ok(page);
+
+    }
+
 }
