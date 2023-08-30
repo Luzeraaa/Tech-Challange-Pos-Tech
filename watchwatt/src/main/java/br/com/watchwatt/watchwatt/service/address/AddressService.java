@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
@@ -103,5 +104,53 @@ public class AddressService {
     public void delete(Long id) {
         var address = repository.findById(id).orElseThrow(() -> new NotFoundException(ADDRESS_NOT_FOUND));
         repository.delete(address);
+    }
+
+    public List<Address> getAddressByZipCode(String zipcode){
+        var address = repository.findAddressByZipCode(zipcode);
+        if (address.isEmpty()) {
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+        }
+        return address;
+    }
+
+    public List<Address> getAddressByStreet(String street){
+        var address = repository.findAddressByStreet(street);
+        if (address.isEmpty()) {
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+        }
+        return address;
+    }
+
+    public List<Address> getAddressByNumber(Integer number){
+        var address = repository.findAddressByNumber(number);
+        if (address.isEmpty()) {
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+        }
+        return address;
+    }
+
+    public List<Address> getAddressByNeighborhood(String neighborhood){
+        var address = repository.findAddressByNeighborhood(neighborhood);
+        if (address.isEmpty()) {
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+        }
+        return address;
+    }
+
+    public List<Address> getAddressByCity(String city){
+        var address = repository.findAddressByCity(city);
+        if (address.isEmpty()) {
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+        }
+        return address;
+    }
+
+    public List<Address> getAddressByState(String state){
+        var address = repository.findAddressByState(state);
+        if (address.isEmpty()) {
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+        }
+        return address;
     }
 }
