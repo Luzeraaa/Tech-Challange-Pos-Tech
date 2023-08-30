@@ -15,6 +15,11 @@ spring:
     property-naming-strategy: SNAKE_CASE
     deserialization:
       fail-on-unknown-properties: false
+  security:
+    user:
+      name: fiap
+      password: fiap
+      roles: manager
 server:
   servlet:
     context-path: /api/watchwatt/
@@ -22,3 +27,9 @@ server:
   error:
     include-stacktrace: on_param
     include-message: always
+
+jwt:
+  token:
+    key: watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key
+    expiration: 3600000
+

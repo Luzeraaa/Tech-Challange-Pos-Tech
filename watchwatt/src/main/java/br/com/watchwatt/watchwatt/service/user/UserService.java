@@ -1,6 +1,7 @@
 package br.com.watchwatt.watchwatt.service.user;
 
 import br.com.watchwatt.watchwatt.dao.user.UserRepository;
+import br.com.watchwatt.watchwatt.domain.user.Role;
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.exception.FailedDependencyException;
@@ -67,7 +68,8 @@ public class UserService {
         var user = getUserById(id);
 
         var updatedUser = new User(user.getId(), userDTO.cpf(), userDTO.name(), userDTO.birthday(), userDTO.email(),
-                userDTO.password(), userDTO.gender(), user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
+                userDTO.password(), userDTO.gender()
+                , user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
                 null);
 
         return repository.save(updatedUser);

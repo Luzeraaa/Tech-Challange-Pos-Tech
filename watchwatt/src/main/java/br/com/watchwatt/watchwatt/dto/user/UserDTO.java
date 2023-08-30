@@ -1,6 +1,5 @@
 package br.com.watchwatt.watchwatt.dto.user;
 
-import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.kinship.Kinship;
 import br.com.watchwatt.watchwatt.domain.user.Gender;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
@@ -13,15 +12,13 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static br.com.watchwatt.watchwatt.config.PasswordConfig.getPasswordEncoder;
+import static br.com.watchwatt.watchwatt.config.WebSecurityConfig.passwordEncoder;
 import static java.util.Collections.emptyList;
 
 public record UserDTO(
@@ -71,7 +68,7 @@ public record UserDTO(
 
     @Override
     public String password() {
-        return getPasswordEncoder().encode(this.password);
+        return passwordEncoder().encode(this.password);
     }
 
     public List<Kinship> getKinship() {
