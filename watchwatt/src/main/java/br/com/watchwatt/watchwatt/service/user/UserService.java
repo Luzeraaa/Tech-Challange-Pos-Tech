@@ -68,7 +68,7 @@ public class UserService {
         var user = getUserById(id);
 
         var updatedUser = new User(user.getId(), userDTO.cpf(), userDTO.name(), userDTO.birthday(), userDTO.email(),
-                userDTO.password(), userDTO.gender()
+                userDTO.password(), userDTO.gender(), Role.ADMIN
                 , user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
                 null);
 
