@@ -6,6 +6,7 @@ import br.com.watchwatt.watchwatt.service.kinship.KinshipService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public record KinshipController(
         KinshipService kinshipService
 
 ) implements Controller {
+
+    private static final String KINSHIP_ID_PATH = "/kinship/{idAddress}";
 
     private static final String CPF = "cpf";
     private static final String USER_ID = "userId";
@@ -27,11 +30,15 @@ public record KinshipController(
 //        return ResponseEntity.ok(kinship);
 //    }
 
-    @PostMapping(headers = X_API_VERSION_1, path = "{idAddres}")
-    public ResponseEntity<List<Kinship>> addKinshipByCpf(@RequestBody @Valid List<KinshipDTO> kinshipDTO, @PathVariable Long idAddress) {
+    @PostMapping(headers = X_API_VERSION_1, path = "/{idAddress}")
+    public ResponseEntity<List<Kinship>> addKinshipByCpf(@RequestBody @Valid List<KinshipDTO> kinshipDTO,
+                                                         @PathVariable long idAddress,
+                                                         UriComponentsBuilder uriBuilder) {
         var kinship = kinshipService.addKinshipByAddress(kinshipDTO, idAddress);
 
-        return ResponseEntity.ok(kinship);
+        return ResponseEntity
+                .created(uriBuilder.path(KINSHIP_ID_PATH).buildAndExpand(kinship).toUri())
+                .body(kinship);
     }
 
     @PutMapping(headers = X_API_VERSION_1, params = {USER_ID, KINSHIP_ID})

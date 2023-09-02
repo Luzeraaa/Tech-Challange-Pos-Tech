@@ -1,33 +1,32 @@
 package br.com.watchwatt.watchwatt.service.user;
 
 import br.com.watchwatt.watchwatt.dao.user.UserRepository;
-import br.com.watchwatt.watchwatt.domain.user.Role;
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
+import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
 import br.com.watchwatt.watchwatt.exception.FailedDependencyException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
-import br.com.watchwatt.watchwatt.exception.UnauthorizedException;
 import br.com.watchwatt.watchwatt.util.Pagination;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Slf4j
 @Service
 public class UserService {
 
-    private final UserRepository repository;
-    private final PasswordEncoder encoder;
     private static final String CPF_ALREADY_REGISTERED = "CPF already registered";
     private static final String EMAIL_ALREADY_REGISTERED = "Email already registered";
     private static final String UNAUTHORIZED_MESSAGE = "User or password invalid";
     private static final String USER_NOT_FOUND = "User not found";
     private static final String FAILED_DEPENDENCY_DATABASE = "Error retrieving data from database";
+    private final UserRepository repository;
+    private final PasswordEncoder encoder;
 
     public UserService(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
@@ -36,12 +35,9 @@ public class UserService {
 
     public User registerUser(UserDTO userDTO) {
         var user = repository.findByCpfOrEmail(userDTO.cpf(), userDTO.email());
-
         validateExistsCpfOrEmail(user, userDTO);
 
-        var newUser = new User(userDTO);
-
-        return repository.save(newUser);
+        return repository.save(new User(userDTO));
     }
 
     public User getUserByCpf(String cpf) {
@@ -54,22 +50,18 @@ public class UserService {
 
         return new Pagination<>(userPagination);
     }
-    
 
-//    public User updateUser(Long id, UserDTO userDTO) {
-//        var user = getUserById(id);
-//
-//        var updatedUser = new User(user.getId(), userDTO.cpf(), userDTO.name(), userDTO.birthday(), userDTO.email(),
-//                userDTO.password(), userDTO.gender(), Role.ADMIN
-//                , user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
-//                null);
-//
-//        return repository.save(updatedUser);
-//    }
+
+    @Transactional
+    public User updateUser(Long id, UserUpdateDTO userDTO) {
+        var user = getUserById(id);
+        user.update(userDTO);
+        return repository.save(user);
+    }
+
 
     public void deleteUser(Long id) {
         var user = getUserById(id);
-
         repository.delete(user);
     }
 

@@ -35,7 +35,7 @@ public class ApplianceService {
 
     @Transactional
     public Appliance registerAppliance(ApplianceDTO applianceDTO, final Long idAddress) {
-        final var address = addressRepository.findById(idAddress).orElseThrow(() -> new BadRequestException("Address not found"));
+        final var address = addressRepository.findById(idAddress).orElseThrow(() -> new NotFoundException("Address not found"));
         repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(a ->{
             throw new ResourceAlreadyExistsException("Appliance already registered for this address");
         });
@@ -70,6 +70,12 @@ public class ApplianceService {
     public Page<Appliance> getApplianceBy(List<Long> id, List<String> model, List<String> name, List<Integer> power, Pageable paginacao) {
 
         return repository.findAllBy(id, model, name, paginacao);
+
+    }
+
+    public Page<Appliance> getAllApplianceByAddress(Pageable pageable, Long idAddress) {
+
+        return  repository.findAllByAddressId(idAddress, pageable);
 
     }
 }

@@ -2,6 +2,7 @@ package br.com.watchwatt.watchwatt.controller;
 
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
+import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
 import br.com.watchwatt.watchwatt.service.user.UserService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
@@ -50,12 +51,12 @@ public record UserController(
         return ResponseEntity.ok(user);
     }
 
-//    @PutMapping(headers = X_API_VERSION_1, params = {ID})
-//    public ResponseEntity<User> updateUser(@RequestBody @Valid UserDTO userDTO, Long id) {
-//        var user = service.updateUser(id, userDTO);
-//
-//        return ResponseEntity.ok(user);
-//    }
+    @PutMapping(headers = X_API_VERSION_1, params = {ID})
+    public ResponseEntity<User> updateUser(@RequestBody @Valid UserUpdateDTO userDTO, Long id) {
+        var user = service.updateUser(id, userDTO);
+
+        return ResponseEntity.ok(user);
+    }
 
     @DeleteMapping(headers = X_API_VERSION_1, params = {ID})
     public ResponseEntity<String> deleteUser(Long id) {

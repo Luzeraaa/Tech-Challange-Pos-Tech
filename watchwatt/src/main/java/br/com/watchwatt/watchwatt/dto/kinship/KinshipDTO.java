@@ -1,6 +1,7 @@
 package br.com.watchwatt.watchwatt.dto.kinship;
 
 import br.com.watchwatt.watchwatt.domain.kinship.DegreeKinship;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -12,6 +13,7 @@ public record KinshipDTO(
         String name,
 
         @NotNull(message = FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE)
+        @JsonAlias("degree_kinship")
         DegreeKinship degreeKinship
 ) {
     private static final String NO_NUMERIC_REGEX = "[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\\s]+$";

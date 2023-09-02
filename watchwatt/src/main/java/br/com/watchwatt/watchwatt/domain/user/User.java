@@ -1,9 +1,8 @@
 package br.com.watchwatt.watchwatt.domain.user;
 
 import br.com.watchwatt.watchwatt.domain.address.Address;
-import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
-import br.com.watchwatt.watchwatt.domain.kinship.Kinship;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
+import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,11 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
 
 @Entity
 @Table(name = "tb_user")
@@ -73,6 +69,33 @@ public class User implements UserDetails {
         this.gender = userDTO.gender();
         this.email = userDTO.email();
         this.password = userDTO.password();
+    }
+
+    public void update(UserUpdateDTO dto) {
+
+        if (dto.name() != null) {
+            this.name = dto.name();
+        }
+
+        if (dto.cpf() != null) {
+            this.cpf = dto.cpf();
+        }
+
+        if (dto.email() != null) {
+            this.email = dto.email();
+        }
+
+        if (dto.password() != null) {
+            this.password = dto.password();
+        }
+
+        if (dto.birthday() != null) {
+            this.birthday = dto.birthday();
+        }
+
+        if (dto.gender() != null) {
+            this.gender = dto.gender();
+        }
     }
 
     @Override

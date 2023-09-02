@@ -82,7 +82,6 @@ public record AddressController(
     @PutMapping(headers = X_API_VERSION_1, params = {ID})
     public ResponseEntity<String> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @RequestParam Long id) {
         service.update(id, dto);
-
         return ResponseEntity.ok(ADDRESS_MESSAGE);
     }
 

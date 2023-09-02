@@ -56,14 +56,23 @@ public record ApplianceController(
         return ResponseEntity.ok(Appliance);
     }
 
+    @GetMapping(headers = X_API_VERSION_1, path = "/address/{idAddress}")
+    public ResponseEntity<Page<Appliance>> getApplianceByAddress(@PathVariable Long idAddress,
+                                                                 @PageableDefault(size = 10) Pageable paginacao
+    ) {
+        var appliances = service.getAllApplianceByAddress(paginacao, idAddress);
+        return ResponseEntity.ok(appliances);
+
+    }
+
     @GetMapping(headers = X_API_VERSION_1, path = {ALL})
     public ResponseEntity<Pagination<Appliance>> getAllAppliance(
             @RequestParam(defaultValue = TEN) Integer limit,
             @RequestParam(defaultValue = ZERO) Integer offset
     ) {
-        var Appliances = service.getAllAppliance(limit, offset);
+        var appliances = service.getAllAppliance(limit, offset);
 
-        return ResponseEntity.ok(Appliances);
+        return ResponseEntity.ok(appliances);
     }
 
     @PutMapping(headers = X_API_VERSION_1, params = {ID})

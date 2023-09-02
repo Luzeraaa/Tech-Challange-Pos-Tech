@@ -2,6 +2,7 @@ package br.com.watchwatt.watchwatt.dao.appliance;
 
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,7 @@ public interface ApplianceRepository extends JpaRepository<Appliance, Long> {
                               List<String> model,
                               List<String> name,
                               Pageable paginacao);
+
+
+    Page<Appliance> findAllByAddressId(Long idAddress, Pageable pageRequest);
 }

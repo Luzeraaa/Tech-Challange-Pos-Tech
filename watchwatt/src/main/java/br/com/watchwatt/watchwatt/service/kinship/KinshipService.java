@@ -6,7 +6,7 @@ import br.com.watchwatt.watchwatt.domain.kinship.Kinship;
 import br.com.watchwatt.watchwatt.dto.kinship.KinshipDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
-import br.com.watchwatt.watchwatt.service.user.UserService;
+import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,15 @@ public class KinshipService {
         );
 
         var kinship = kinshipDTO.stream()
-                .map(it -> new Kinship(it.name(), it.degreeKinship(), address))
+                .map(it -> {
+                    final var kinshipEqual = address.getKinships().stream()
+                            .filter(k -> k.getName().equalsIgnoreCase(it.name()) || k.getDegreeKinship().equals(it.degreeKinship()))
+                            .count();
+                    if (kinshipEqual == 0) {
+                        return new Kinship(it.name(), it.degreeKinship(), address);
+                    }
+                    throw new ResourceAlreadyExistsException("Kinship alred register for this address");
+                })
                 .collect(Collectors.toSet());
 
         return kinshipRepository.saveAll(kinship);

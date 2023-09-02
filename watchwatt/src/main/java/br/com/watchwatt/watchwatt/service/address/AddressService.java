@@ -99,21 +99,20 @@ public class AddressService {
 
     @Transactional
     public void update(Long id, @Valid AddressUpdateDTO dto) {
-        try {
-            var viaCep = gateway.getCep(dto.zipCode());
-            var address = repository.getReferenceById(id);
-
-            address.setZipCode(viaCep.zipCode());
-            address.setStreet(viaCep.street());
-            address.setNeighborhood(viaCep.neighborhood());
-            address.setCity(viaCep.city());
-            address.setState(viaCep.state());
-            address.setNumber(dto.number());
-            address.setReference(dto.reference());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(ADDRESS_NOT_FOUND);
-        }
+        var viaCep = gateway.getCep(dto.zipCode());
+        repository.findById(id).ifPresentOrElse(
+                a -> {
+                    a.setZipCode(viaCep.zipCode());
+                    a.setStreet(viaCep.street());
+                    a.setNeighborhood(viaCep.neighborhood());
+                    a.setCity(viaCep.city());
+                    a.setState(viaCep.state());
+                    a.setNumber(dto.number());
+                    a.setReference(dto.reference());
+                }, () -> {
+                    throw new NotFoundException("Address not found");
+                }
+        );
     }
 
     public void delete(Long id) {
@@ -124,7 +123,7 @@ public class AddressService {
     public List<Address> getAddressByZipCode(String zipcode) {
         var address = repository.findAddressByZipCode(zipcode);
         if (address.isEmpty()) {
-            throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
+            throw new NotFoundException("Addres not found");
         }
         return address;
     }
