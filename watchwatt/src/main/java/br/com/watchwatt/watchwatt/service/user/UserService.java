@@ -54,26 +54,18 @@ public class UserService {
 
         return new Pagination<>(userPagination);
     }
+    
 
-    public void validateUserAndPassword(String cpf, String password) {
-        var userResult = findByCpf(cpf);
-        var user = userResult.orElseThrow(() -> new UnauthorizedException(UNAUTHORIZED_MESSAGE));
-
-        if (!encoder.matches(password, user.getPassword())) {
-            throw new UnauthorizedException(UNAUTHORIZED_MESSAGE);
-        }
-    }
-
-    public User updateUser(Long id, UserDTO userDTO) {
-        var user = getUserById(id);
-
-        var updatedUser = new User(user.getId(), userDTO.cpf(), userDTO.name(), userDTO.birthday(), userDTO.email(),
-                userDTO.password(), userDTO.gender(), Role.ADMIN
-                , user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
-                null);
-
-        return repository.save(updatedUser);
-    }
+//    public User updateUser(Long id, UserDTO userDTO) {
+//        var user = getUserById(id);
+//
+//        var updatedUser = new User(user.getId(), userDTO.cpf(), userDTO.name(), userDTO.birthday(), userDTO.email(),
+//                userDTO.password(), userDTO.gender(), Role.ADMIN
+//                , user.getDateCreated(), ZonedDateTime.now(), user.getKinship(),
+//                null);
+//
+//        return repository.save(updatedUser);
+//    }
 
     public void deleteUser(Long id) {
         var user = getUserById(id);

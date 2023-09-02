@@ -16,6 +16,8 @@ public interface ApplianceRepository extends JpaRepository<Appliance, Long> {
 
     Optional<Appliance> findByName(String name);
 
+    Optional<Appliance> findByNameAndAddressId(String name, Long idAddress);
+
     @Query(value = """
             SELECT a FROM Appliance a
             WHERE (:id is null or a.id IN(:#{#id}))

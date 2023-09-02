@@ -1,8 +1,10 @@
 package br.com.watchwatt.watchwatt.service.kinship;
 
+import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
 import br.com.watchwatt.watchwatt.dao.kinship.KinshipRepository;
 import br.com.watchwatt.watchwatt.domain.kinship.Kinship;
 import br.com.watchwatt.watchwatt.dto.kinship.KinshipDTO;
+import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.service.user.UserService;
 import jakarta.transaction.Transactional;
@@ -14,24 +16,27 @@ import java.util.stream.Collectors;
 @Service
 public class KinshipService {
 
-    private final UserService userService;
-    private final KinshipRepository kinshipRepository;
     private static final String KINSHIP_NOT_FUND_MESSAGE = "kinship not found";
+    private final KinshipRepository kinshipRepository;
+    private final AddressRepository addressRepository;
 
-    public KinshipService(UserService userService, KinshipRepository kinshipRepository) {
-        this.userService = userService;
+    public KinshipService(KinshipRepository kinshipRepository, AddressRepository addressRepository) {
         this.kinshipRepository = kinshipRepository;
+        this.addressRepository = addressRepository;
     }
 
-    public List<Kinship> getKinshipByCpf(String cpf) {
-        return userService.findUserByCpf(cpf).getKinship();
-    }
+//    public List<Kinship> getKinshipByCpf(String cpf) {
+//        return userService.findUserByCpf(cpf).getKinship();
+//    }
 
     @Transactional
-    public List<Kinship> addKinshipByCpf(List<KinshipDTO> kinshipDTO, String cpf) {
-        var user = userService.findUserByCpf(cpf);
+    public List<Kinship> addKinshipByAddress(List<KinshipDTO> kinshipDTO, Long idAddress) {
+        var address = addressRepository.findById(idAddress).orElseThrow(
+                () -> new BadRequestException("Address not found")
+        );
+
         var kinship = kinshipDTO.stream()
-                .map(it -> new Kinship(it.name(), it.degreeKinship(), user))
+                .map(it -> new Kinship(it.name(), it.degreeKinship(), address))
                 .collect(Collectors.toSet());
 
         return kinshipRepository.saveAll(kinship);
@@ -39,12 +44,12 @@ public class KinshipService {
 
     @Transactional
     public Kinship updateByUserIdAndKinshipId(KinshipDTO kinshipDTO, Long userId, Long kinshipId) {
-        var kinship = kinshipRepository.findByIdAndUserId(kinshipId, userId);
+        var kinship = kinshipRepository.findByIdAndAddressUserId(kinshipId, userId);
         validateExistsKinship(kinship);
 
         var newKinship = kinship.stream()
                 .findFirst()
-                .map(it -> new Kinship(it.getId(), kinshipDTO.name(), kinshipDTO.degreeKinship(), it.getUser()))
+                .map(it -> new Kinship(it.getId(), kinshipDTO.name(), kinshipDTO.degreeKinship(), it.getAddress()))
                 .orElseThrow(() -> new NotFoundException(KINSHIP_NOT_FUND_MESSAGE));
 
         return kinshipRepository.save(newKinship);
@@ -52,7 +57,7 @@ public class KinshipService {
 
     @Transactional
     public void deleteKinshipByCpfAndId(Long userId, Long kinshipId) {
-        var kinship = kinshipRepository.findByIdAndUserId(kinshipId, userId);
+        var kinship = kinshipRepository.findByIdAndAddressUserId(kinshipId, userId);
         validateExistsKinship(kinship);
 
         kinshipRepository.deleteAll(kinship);

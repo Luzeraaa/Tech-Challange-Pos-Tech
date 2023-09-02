@@ -5,24 +5,14 @@ import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.service.user.UserService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(path = "/user")
 public record UserController(
-        UserService service,
-
-        ModelMapper modelMapper
+        UserService service
 ) implements Controller {
 
     private static final String USER_ID_PATH = "/user/{id}";
@@ -60,24 +50,17 @@ public record UserController(
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping(headers = X_API_VERSION_1, params = {ID})
-    public ResponseEntity<User> updateUser(@RequestBody @Valid UserDTO userDTO, Long id) {
-        var user = service.updateUser(id, userDTO);
-
-        return ResponseEntity.ok(user);
-    }
+//    @PutMapping(headers = X_API_VERSION_1, params = {ID})
+//    public ResponseEntity<User> updateUser(@RequestBody @Valid UserDTO userDTO, Long id) {
+//        var user = service.updateUser(id, userDTO);
+//
+//        return ResponseEntity.ok(user);
+//    }
 
     @DeleteMapping(headers = X_API_VERSION_1, params = {ID})
     public ResponseEntity<String> deleteUser(Long id) {
         service.deleteUser(id);
 
         return ResponseEntity.ok(USER_HAS_BEEN_DELETED);
-    }
-
-    @GetMapping(headers = X_API_VERSION_1, path = VALIDATE_USER, params = {CPF, PASSWORD})
-    public ResponseEntity<String> validatePassword(String cpf, String password) {
-        service.validateUserAndPassword(cpf, password);
-
-        return ResponseEntity.ok(USER_AUTHORIZED);
     }
 }

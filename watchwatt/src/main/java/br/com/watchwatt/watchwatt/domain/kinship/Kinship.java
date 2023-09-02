@@ -1,21 +1,9 @@
 package br.com.watchwatt.watchwatt.domain.kinship;
 
-import br.com.watchwatt.watchwatt.domain.user.User;
+import br.com.watchwatt.watchwatt.domain.address.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
@@ -36,13 +24,14 @@ public class Kinship {
     private DegreeKinship degreeKinship;
 
     @ManyToOne
+    @JoinColumn(name = "address_id")
     @JsonIgnore
-    private User user;
+    private Address address;
 
-    public Kinship(String name, DegreeKinship degreeKinship, User user) {
+    public Kinship(String name, DegreeKinship degreeKinship, Address address) {
         this.name = name;
         this.degreeKinship = degreeKinship;
-        this.user = user;
+        this.address = address;
     }
 
     public Kinship(String name, DegreeKinship degreeKinshipVector) {

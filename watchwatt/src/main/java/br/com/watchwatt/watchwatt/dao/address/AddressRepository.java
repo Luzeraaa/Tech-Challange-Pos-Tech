@@ -11,9 +11,13 @@ import java.util.Optional;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
+
   Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhood(
-          String zipCode, String city, Integer number, String Neighborhood
-  );
+          String zipCode, String city, Integer number, String Neighborhood);
+
+
+  Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhoodAndUserCpf(
+          String zipCode, String city, Integer number, String Neighborhood, String cpf);
 
   Optional<Address> findById(long id);
 

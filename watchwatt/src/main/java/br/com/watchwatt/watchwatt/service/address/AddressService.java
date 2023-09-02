@@ -1,6 +1,7 @@
 package br.com.watchwatt.watchwatt.service.address;
 
 import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
+import br.com.watchwatt.watchwatt.dao.user.UserRepository;
 import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.dto.address.AddressDTO;
 import br.com.watchwatt.watchwatt.dto.address.AddressUpdateDTO;
@@ -8,11 +9,15 @@ import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepAddressDTO;
 import br.com.watchwatt.watchwatt.dto.address.viacep.ViaCepDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
+import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
 import br.com.watchwatt.watchwatt.gateway.viacep.ViaCepGateway;
 import br.com.watchwatt.watchwatt.util.Pagination;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,28 +27,43 @@ import static java.lang.String.format;
 
 @Service
 public class AddressService {
-    private final AddressRepository repository;
-    private final ViaCepGateway gateway;
     private static final String ADDRESS_MESSAGE = "Address already registered";
     private static final String ID_NOT_FUND = "ID: %s not found";
     private static final String ADDRESS_NOT_FOUND = "Address not found";
+    private final AddressRepository repository;
+    private final ViaCepGateway gateway;
+    private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
 
-    public AddressService(AddressRepository repository, ViaCepGateway gateway) {
+    public AddressService(AddressRepository repository, ViaCepGateway gateway, UserRepository userRepository, ObjectMapper objectMapper) {
         this.repository = repository;
         this.gateway = gateway;
+        this.userRepository = userRepository;
+        this.objectMapper = objectMapper;
     }
 
-    public Address registerAddress(AddressDTO addressDTO) {
-        var address = findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO);
-        validateRegisteredAddress(address);
+    @Transactional
+    public Address registerAddress(AddressDTO addressDTO, @NotNull Authentication authentication) {
+        final var user = userRepository.findByCpfOrEmail(null, authentication.getName())
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        final var address = objectMapper.convertValue(addressDTO, Address.class);
 
-        return repository.save(addressDTO.getAddress());
+        repository.findByZipCodeAndCityAndNumberAndNeighborhoodAndUserCpf(address.getZipCode(), address.getCity(),
+                address.getNumber(), address.getNeighborhood(), user.getCpf()).ifPresent(a -> {
+            throw new ResourceAlreadyExistsException("Address already registered for this user");
+        });
+
+        address.setUser(user);
+        user.getAddresses().add(address);
+
+        return repository.save(address);
     }
 
     public Address registerAddressViaCep(ViaCepAddressDTO viaCepAddressDTO) {
         var viaCep = gateway.getCep(viaCepAddressDTO.zipCode());
         var addressDTO = createAddressDTO(viaCep, viaCepAddressDTO);
-        var address = findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO);
+        var address = repository.findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO.zipCode(), addressDTO.city(),
+                addressDTO.number(), addressDTO.neighborhood());
         validateRegisteredAddress(address);
 
         return repository.save(addressDTO.getAddress());
@@ -77,11 +97,6 @@ public class AddressService {
         });
     }
 
-    private Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhood(AddressDTO addressDTO) {
-        return repository.findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO.zipCode(), addressDTO.city(),
-                addressDTO.number(), addressDTO.neighborhood());
-    }
-
     @Transactional
     public void update(Long id, @Valid AddressUpdateDTO dto) {
         try {
@@ -106,7 +121,7 @@ public class AddressService {
         repository.delete(address);
     }
 
-    public List<Address> getAddressByZipCode(String zipcode){
+    public List<Address> getAddressByZipCode(String zipcode) {
         var address = repository.findAddressByZipCode(zipcode);
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
@@ -114,7 +129,7 @@ public class AddressService {
         return address;
     }
 
-    public List<Address> getAddressByStreet(String street){
+    public List<Address> getAddressByStreet(String street) {
         var address = repository.findAddressByStreet(street);
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
@@ -122,7 +137,7 @@ public class AddressService {
         return address;
     }
 
-    public List<Address> getAddressByNumber(Integer number){
+    public List<Address> getAddressByNumber(Integer number) {
         var address = repository.findAddressByNumber(number);
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
@@ -130,7 +145,7 @@ public class AddressService {
         return address;
     }
 
-    public List<Address> getAddressByNeighborhood(String neighborhood){
+    public List<Address> getAddressByNeighborhood(String neighborhood) {
         var address = repository.findAddressByNeighborhood(neighborhood);
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
@@ -138,7 +153,7 @@ public class AddressService {
         return address;
     }
 
-    public List<Address> getAddressByCity(String city){
+    public List<Address> getAddressByCity(String city) {
         var address = repository.findAddressByCity(city);
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
@@ -146,7 +161,7 @@ public class AddressService {
         return address;
     }
 
-    public List<Address> getAddressByState(String state){
+    public List<Address> getAddressByState(String state) {
         var address = repository.findAddressByState(state);
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));

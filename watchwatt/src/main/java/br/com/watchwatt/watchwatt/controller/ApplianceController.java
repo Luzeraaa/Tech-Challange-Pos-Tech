@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,10 +38,11 @@ public record ApplianceController(
     private static final String POWER = "power";
 
 
-    @PostMapping(headers = X_API_VERSION_1, path = "/{cpf}")
-    public ResponseEntity<Appliance> registerAppliance(@PathVariable String cpf,
-                                                       @RequestBody @Valid ApplianceDTO applianceDTO, UriComponentsBuilder uriBuilder) {
-        var appliance = service.registerAppliance(applianceDTO, cpf);
+    @PostMapping(headers = X_API_VERSION_1, path = "/{idAddress}")
+    public ResponseEntity<Appliance> registerAppliance(@PathVariable Long idAddress,
+                                                       @RequestBody @Valid ApplianceDTO applianceDTO, UriComponentsBuilder uriBuilder,
+                                                       Authentication auth) {
+        var appliance = service.registerAppliance(applianceDTO, idAddress);
 
         return ResponseEntity
                 .created(uriBuilder.path(APPLIANCE_ID_PATH).buildAndExpand(appliance.getId()).toUri())

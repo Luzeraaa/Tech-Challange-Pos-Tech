@@ -29,14 +29,16 @@ public record AddressDTO(
         String state,
 
         String reference
-) {
-  private static final String ZIP_CODE_REGEX = "\\d{5}(-\\d{3})?";
-  private static final String ZIP_CODE_INVALID_MESSAGE = "Zipcode is invalid, example: 00000-000";
-  private static final String FIELD_CANNOT_BE_NULL_OR_EMPTY_MESSAGE = "Field cannot be null or empty";
-  private static final String FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE = "Field cannot be null, empty or blank";
-  private static final String FIELD_ONLY_NUMBER_MESSAGE = "Invalid field, enter only positive numbers";
 
-  public Address getAddress() {
-    return new Address(null, zipCode(), street(), number(), neighborhood(), city(), state(), reference());
-  }
+
+        ) {
+    private static final String ZIP_CODE_REGEX = "\\d{5}(-\\d{3})?";
+    private static final String ZIP_CODE_INVALID_MESSAGE = "Zipcode is invalid, example: 00000-000";
+    private static final String FIELD_CANNOT_BE_NULL_OR_EMPTY_MESSAGE = "Field cannot be null or empty";
+    private static final String FIELD_CANNOT_BE_NULL_EMPTY_BLANK_MESSAGE = "Field cannot be null, empty or blank";
+    private static final String FIELD_ONLY_NUMBER_MESSAGE = "Invalid field, enter only positive numbers";
+
+    public Address getAddress() {
+        return new Address(null, null, null, null, zipCode(), street(), number(), neighborhood(), city(), state(), reference());
+    }
 }

@@ -9,14 +9,8 @@ import br.com.watchwatt.watchwatt.service.address.AddressService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -26,6 +20,8 @@ import java.util.Optional;
 @RequestMapping(path = "/address")
 public record AddressController(
         AddressService service
+
+
 ) implements Controller {
 
     private static final String ADDRESS_ID_PATH = "/address";
@@ -60,13 +56,9 @@ public record AddressController(
     }
 
     @PostMapping(headers = X_API_VERSION_1)
-    public ResponseEntity<Address> registerAddress(
-            @RequestBody
-            @Valid
-            AddressDTO addressDTO,
-            UriComponentsBuilder uriBuilder
-    ) {
-        var address = service.registerAddress(addressDTO);
+    public ResponseEntity<Address> registerAddress(@RequestBody @Valid AddressDTO addressDTO, Authentication auth, UriComponentsBuilder uriBuilder) throws NoSuchFieldException {
+
+        var address = service.registerAddress(addressDTO, auth);
 
         return ResponseEntity
                 .created(uriBuilder.path(ADDRESS_ID_PATH).buildAndExpand(address.getId()).toUri())

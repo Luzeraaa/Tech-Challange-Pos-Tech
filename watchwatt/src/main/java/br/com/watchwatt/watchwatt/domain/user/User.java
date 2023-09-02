@@ -1,42 +1,35 @@
 package br.com.watchwatt.watchwatt.domain.user;
 
+import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.kinship.Kinship;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
 
+@Entity
+@Table(name = "tb_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @EqualsAndHashCode
-@Table(name = "tb_user")
 @SequenceGenerator(name = "user_sequence", initialValue = 11)
 public class User implements UserDetails {
 
@@ -44,7 +37,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     private Long id;
 
-    @JsonIgnore
     @Column(unique = true)
     private String cpf;
 
@@ -64,16 +56,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ADMIN;
 
-    private ZonedDateTime dateCreated = ZonedDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime dateCreated;
 
-    private ZonedDateTime updateDate = ZonedDateTime.now();
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<Kinship> kinship = emptyList();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Appliance> appliances = emptyList();
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Address> addresses;
 
     public User(UserDTO userDTO) {
         this.cpf = userDTO.cpf();
@@ -82,8 +73,6 @@ public class User implements UserDetails {
         this.gender = userDTO.gender();
         this.email = userDTO.email();
         this.password = userDTO.password();
-        this.kinship = userDTO.getKinship();
-//        this.role = Role.ADMIN;
     }
 
     @Override

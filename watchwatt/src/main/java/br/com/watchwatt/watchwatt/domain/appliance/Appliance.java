@@ -1,20 +1,20 @@
 package br.com.watchwatt.watchwatt.domain.appliance;
 
-import br.com.watchwatt.watchwatt.domain.user.User;
+import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
+@Table(name = "tb_appliance")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_appliance")
 @EqualsAndHashCode
 @SequenceGenerator(name = "appliance_sequence", initialValue = 11)
 public class Appliance {
@@ -26,28 +26,16 @@ public class Appliance {
     String model;
     Integer power;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
     @JsonIgnore
-    private User user;
+    private Address address;
 
-    public Appliance(ApplianceDTO applianceDTO, User user) {
+    public Appliance(ApplianceDTO applianceDTO, Address address) {
         this.name = applianceDTO.name();
         this.model = applianceDTO.model();
         this.power = applianceDTO.power();
-        this.user = user;
-    }
-
-    public Appliance(Appliance appliance) {
-        this.name = appliance.getName();
-        this.model = appliance.getModel();
-        this.power = appliance.getPower();
-    }
-
-    public Appliance(ApplianceDTO appliance) {
-        this.name = appliance.name();
-        this.model = appliance.model();
-        this.power = appliance.power();
+        this.address = address;
     }
 
     public void update(ApplianceUpdateDTO applianceUpdateDTO) {

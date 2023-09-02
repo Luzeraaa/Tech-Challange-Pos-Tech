@@ -1,15 +1,17 @@
 package br.com.watchwatt.watchwatt.service.appliance;
 
+import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
 import br.com.watchwatt.watchwatt.dao.appliance.ApplianceRepository;
-import br.com.watchwatt.watchwatt.dao.user.UserRepository;
+import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
-import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
+import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
 import br.com.watchwatt.watchwatt.util.Pagination;
-import org.modelmapper.ModelMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,34 +24,25 @@ public class ApplianceService {
 
     private static final String APPLIANCE_NOT_FOUND = "Appliance not found";
     private final ApplianceRepository repository;
-    private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+    private final AddressRepository addressRepository;
+    private final ObjectMapper objectMapper;
 
-    public ApplianceService(ApplianceRepository repository, UserRepository userRepository, ModelMapper modelMapper) {
+    public ApplianceService(ApplianceRepository repository, AddressRepository addressRepository, ObjectMapper objectMapper) {
         this.repository = repository;
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
+        this.addressRepository = addressRepository;
+        this.objectMapper = objectMapper;
     }
 
-    public Appliance registerAppliance(ApplianceDTO applianceDTO, final String cpf) {
-        final var user = userRepository.findByCpf(cpf).orElseThrow(() -> new BadRequestException("User not found"));
-        final var applianceModel = repository.findByName(applianceDTO.name()).orElseThrow(
-                () -> new RuntimeException("It was not possible to recover the appliance"));
+    @Transactional
+    public Appliance registerAppliance(ApplianceDTO applianceDTO, final Long idAddress) {
+        final var address = addressRepository.findById(idAddress).orElseThrow(() -> new BadRequestException("Address not found"));
+        repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(a ->{
+            throw new ResourceAlreadyExistsException("Appliance already registered for this address");
+        });
 
-        applianceIsPresent(user, modelMapper.map(applianceModel, Appliance.class));
-
-        return repository.save(new Appliance(applianceDTO, user));
+        return repository.save(new Appliance(applianceDTO, address));
     }
 
-    private void applianceIsPresent(User user, Appliance appliance) {
-        final var applianceIsPresent = user.getAppliances()
-                .stream()
-                .anyMatch(a -> a.equals(appliance));
-
-        if (applianceIsPresent) {
-            throw new RuntimeException("Appliance already registered for this user");
-        }
-    }
 
     public Appliance getApplianceById(Long id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));

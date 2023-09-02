@@ -49,8 +49,7 @@ public record UserDTO(
 
         @Size(min = PASSWORD_MIN_SIZE, message = PASSWORD_SIZE_MESSAGE)
         @Pattern(regexp = PASSWORD_REGEX, message = PASSWORD_MESSAGE)
-        String password,
-        List<ApplianceDTO> appliances
+        String password
 
 ) {
     private static final String FIELD_ONLY_NUMBER_MESSAGE = "Invalid field, enter only positive numbers";

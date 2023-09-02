@@ -10,9 +10,5 @@ import java.util.List;
 
 @Repository
 public interface KinshipRepository extends JpaRepository<Kinship, Long> {
-    @Modifying
-    @Transactional
-    void deleteByIdAndUserId(Long kinshipId, Long userId);
-
-    List<Kinship> findByIdAndUserId(Long kinshipId, Long userId);
+    List<Kinship> findByIdAndAddressUserId(Long kinshipId, Long userId);
 }
