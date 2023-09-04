@@ -1,8 +1,8 @@
 package br.com.watchwatt.watchwatt.service.Authentication;
 
-import br.com.watchwatt.watchwatt.dto.authentication.SigninDTO;
 import br.com.watchwatt.watchwatt.dto.authentication.JwtAuthenticationDTO;
+import br.com.watchwatt.watchwatt.dto.authentication.SigningDTO;
 
 public interface AuthenticationService {
-    JwtAuthenticationDTO signin(SigninDTO request);
+    JwtAuthenticationDTO signing(SigningDTO request);
 }

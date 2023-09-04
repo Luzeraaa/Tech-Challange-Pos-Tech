@@ -10,18 +10,22 @@ import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/address")
 public record AddressController(
         AddressService service
-
-
 ) implements Controller {
 
     private static final String ADDRESS_ID_PATH = "/address";
@@ -39,13 +43,13 @@ public record AddressController(
     private static final String STATE = "state";
 
     @GetMapping(headers = X_API_VERSION_1, params = {ID})
-    public ResponseEntity<Optional<Address>> getAddressById(@RequestParam long id) {
+    public ResponseEntity<Address> getAddressById(@RequestParam long id) {
         var address = service.getAddressById(id);
 
         return ResponseEntity.ok(address);
     }
 
-    @GetMapping(path = ALL, headers = X_API_VERSION_1)
+    @GetMapping(headers = X_API_VERSION_1, path = ALL)
     public ResponseEntity<Pagination<Address>> getAllAddress(
             @RequestParam(defaultValue = TEN) Integer limit,
             @RequestParam(defaultValue = ZERO) Integer offset
@@ -56,8 +60,13 @@ public record AddressController(
     }
 
     @PostMapping(headers = X_API_VERSION_1)
-    public ResponseEntity<Address> registerAddress(@RequestBody @Valid AddressDTO addressDTO, Authentication auth, UriComponentsBuilder uriBuilder) throws NoSuchFieldException {
-
+    public ResponseEntity<Address> registerAddress(
+            @RequestBody
+            @Valid
+            AddressDTO addressDTO,
+            Authentication auth,
+            UriComponentsBuilder uriBuilder
+    ) {
         var address = service.registerAddress(addressDTO, auth);
 
         return ResponseEntity
@@ -65,14 +74,15 @@ public record AddressController(
                 .body(address);
     }
 
-    @PostMapping(path = VIA_CEP_PATH, headers = X_API_VERSION_1)
+    @PostMapping(headers = X_API_VERSION_1, path = VIA_CEP_PATH)
     public ResponseEntity<Address> registerAddressViaCep(
             @RequestBody
             @Valid
             ViaCepAddressDTO viaCepAddressDTO,
-            UriComponentsBuilder uriBuilder
+            UriComponentsBuilder uriBuilder,
+            Authentication auth
     ) {
-        var address = service.registerAddressViaCep(viaCepAddressDTO);
+        var address = service.registerAddressViaCep(viaCepAddressDTO, auth);
 
         return ResponseEntity
                 .created(uriBuilder.path(VIA_CEP_PATH).buildAndExpand(address.getId()).toUri())
@@ -80,8 +90,14 @@ public record AddressController(
     }
 
     @PutMapping(headers = X_API_VERSION_1, params = {ID})
-    public ResponseEntity<String> updateAddress(@RequestBody @Valid final AddressUpdateDTO dto, final @RequestParam Long id) {
+    public ResponseEntity<String> updateAddress(
+            @RequestBody
+            @Valid
+            AddressUpdateDTO dto,
+            @RequestParam final Long id
+    ) {
         service.update(id, dto);
+
         return ResponseEntity.ok(ADDRESS_MESSAGE);
     }
 

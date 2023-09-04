@@ -7,7 +7,14 @@ import br.com.watchwatt.watchwatt.service.user.UserService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -18,9 +25,6 @@ public record UserController(
 
     private static final String USER_ID_PATH = "/user/{id}";
     private static final String CPF = "cpf";
-    private static final String PASSWORD = "password";
-    private static final String VALIDATE_USER = "/validate_user";
-    private static final String USER_AUTHORIZED = "User authorized";
     private static final String ALL = "all";
     private static final String ID = "id";
     private static final String USER_HAS_BEEN_DELETED = "User has been deleted ";

@@ -88,13 +88,22 @@ banco de dados.
 2. Instalar Docker Desktop (Caso esteja em ambiente Windowns instalar WSL);
 2. Abrir com IDE de preferência;
 3. Executar via terminal:
-   *  `docker-compose up`
-     * Certifique-se de executar dentro do diretório do projeto "watchwatt" onde esta localizado o arquivo docker compose.
-4. Executar o projeto.
+    *  `docker-compose up`
+    * Certifique-se de executar dentro do diretório do projeto "watchwatt" onde esta localizado o arquivo docker compose.
+4 - Configurar as varíaveis de ambiente para acessar o banco de dados:
+    * _DATASOURCE_PASSWORD=fiap_
+    * _DATASOURCE_USER=fiap_
+    * _SECURITY_USER=fiap_
+    * _SECURITY_PASSWORD=fiap_
+    * _SECURITY_ROLE=ADMIN_
+    * _JTW_TOKEN_KEY=watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key_
+    * _JWT_TOKEN_EXPIRATION=3600000_
+5. Executar o projeto.
+
 
 ## Acesso ao Banco de Dados
 
-A persistência de dados será realizado através do banco de dados PostgresSQL. Este banco irá rodar em container via Dokcer. 
+A persistência de dados será realizado através do banco de dados PostgresSQL. Este banco irá rodar em container via Dokcer.
 Maiores detalhes de versão da imagem e configurações de portas verificar arquivo:
 
 * docker-compose.yml
@@ -163,7 +172,7 @@ Essa abordagem eficiente permite verificar se os dados inseridos atendem a padr�
 CPF, entre outros. O uso do @Validator com expressões regulares ajuda a manter a consistência dos
 dados e reduzir erros ou entradas inválidas, oferecendo uma forma poderosa e flexível de validação de dados no projeto.
 
-Para a persistência dos dados foi utilizado a imagem do Postgres em container Docker. Essa arquitetura permite 
+Para a persistência dos dados foi utilizado a imagem do Postgres em container Docker. Essa arquitetura permite
 um melhor isolamento de responsabilidades da parte de dados com o resto da aplicação.
 
 Para questões de segurança foi utilizado o JWT para a geração de tokens com o intuito de garantir autenticação única por usuário.

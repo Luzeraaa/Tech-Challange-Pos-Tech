@@ -1,6 +1,6 @@
 package br.com.watchwatt.watchwatt.dto.authentication;
 
-public record SigninDTO(
+public record SigningDTO(
         String email,
         String password
 ) {

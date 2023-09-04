@@ -53,9 +53,17 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request -> request
-                        .requestMatchers(GET, "/ping", "/swagger-ui/**", "/v3/api-docs/**", "/appliances/all").permitAll()
-                        .requestMatchers(POST, "/auth", "/user").permitAll()
-                        .requestMatchers(GET, "/user/all").hasAnyAuthority("ADMIN")
+                        .requestMatchers(GET,
+                                "/ping",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/user/**",
+                                "/address/**"
+                        ).permitAll()
+                        .requestMatchers(POST,
+                                "/auth",
+                                "/user"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authenticationProvider(authenticationProvider())

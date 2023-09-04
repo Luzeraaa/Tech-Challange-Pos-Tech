@@ -28,7 +28,7 @@ public record ViaCepGateway(
 ) {
   private static final String URL = "https://viacep.com.br/ws/%s/json";
   private static final Duration TIME_OUT = ofSeconds(10);
-  private static final String ERROR_VIA_CEP = "erro";
+  private static final String ERROR_VIA_CEP = "error";
   private static final String FAIL_DEPENDENCY_VIA_CEP_MESSAGE = "error to get data from viaCep";
   private static final String NOT_FOUND_ERROR = "Zip code was not found in the database," +
           " Please use a valid postal code or register manually via the route /address";
