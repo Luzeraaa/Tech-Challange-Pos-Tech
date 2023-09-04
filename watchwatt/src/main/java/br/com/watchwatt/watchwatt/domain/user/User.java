@@ -50,6 +50,7 @@ public class User implements UserDetails {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Role role = Role.ADMIN;
 
     @CreationTimestamp
