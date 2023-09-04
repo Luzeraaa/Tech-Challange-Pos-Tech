@@ -3,6 +3,11 @@
     <envs>
       <env name="DATASOURCE_PASSWORD" value="fiap" />
       <env name="DATASOURCE_USER" value="fiap" />
+      <env name="JTW_TOKEN_KEY" value="watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key" />
+      <env name="JWT_TOKEN_EXPIRATION" value="3600000" />
+      <env name="SECURITY_PASSWORD" value="fiap" />
+      <env name="SECURITY_ROLE" value="ADMIN" />
+      <env name="SECURITY_USER" value="fiap" />
     </envs>
     <module name="watchwatt" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.watchwatt.watchwatt.WatchwattApplication" />

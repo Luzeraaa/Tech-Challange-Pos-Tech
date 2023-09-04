@@ -88,6 +88,12 @@ banco de dados.
 3. Configurar as varíaveis de ambiente para acessar o banco de dados:
     * _DATASOURCE_PASSWORD=fiap_
     * _DATASOURCE_USER=fiap_
+    * _SECURITY_USER=fiap_
+    * _SECURITY_PASSWORD=fiap_
+    * _SECURITY_ROLE=ADMIN_
+    * _JTW_TOKEN_KEY=watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key_
+    * _JWT_TOKEN_EXPIRATION=3600000_
+   
 4. Executar o projeto.
 
 **Bonus**: Após a primeira execução um script SQL populará de forma automatica o banco de dados com registros
