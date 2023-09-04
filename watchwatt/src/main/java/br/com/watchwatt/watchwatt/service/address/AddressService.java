@@ -29,7 +29,8 @@ import static java.lang.String.format;
 public class AddressService {
     private static final String ADDRESS_MESSAGE = "Address already registered";
     private static final String ID_NOT_FUND = "ID: %s not found";
-    private static final String ADDRESS_NOT_FOUND = "Address not found";
+    private static final String USER_NOT_FUND = "User not found";
+    private static final String ADDRESS_NOT_FOUND = "Address: %s not found";
     private final AddressRepository repository;
     private final ViaCepGateway gateway;
     private final UserRepository userRepository;
@@ -43,15 +44,21 @@ public class AddressService {
     }
 
     @Transactional
-    public Address registerAddress(AddressDTO addressDTO, @NotNull Authentication authentication) {
-        final var user = userRepository.findByCpfOrEmail(null, authentication.getName())
-                .orElseThrow(() -> new BadRequestException("User not found"));
-        final var address = objectMapper.convertValue(addressDTO, Address.class);
+    public Address registerAddress(AddressDTO addressDTO, @NotNull Authentication auth) {
+        var user = userRepository.findByCpfOrEmail(null, auth.getName())
+                .orElseThrow(() -> new BadRequestException(USER_NOT_FUND));
 
-        repository.findByZipCodeAndCityAndNumberAndNeighborhoodAndUserCpf(address.getZipCode(), address.getCity(),
-                address.getNumber(), address.getNeighborhood(), user.getCpf()).ifPresent(a -> {
-            throw new ResourceAlreadyExistsException("Address already registered for this user");
-        });
+        var address = objectMapper.convertValue(addressDTO, Address.class);
+
+        repository.findByZipCodeAndCityAndNumberAndNeighborhoodAndUserCpf(
+                        address.getZipCode(),
+                        address.getCity(),
+                        address.getNumber(),
+                        address.getNeighborhood(),
+                        user.getCpf())
+                .ifPresent(it -> {
+                    throw new ResourceAlreadyExistsException(ADDRESS_MESSAGE);
+                });
 
         address.setUser(user);
         user.getAddresses().add(address);
@@ -59,24 +66,34 @@ public class AddressService {
         return repository.save(address);
     }
 
-    public Address registerAddressViaCep(ViaCepAddressDTO viaCepAddressDTO) {
+    public Address registerAddressViaCep(ViaCepAddressDTO viaCepAddressDTO, Authentication auth) {
+        var user = userRepository.findByCpfOrEmail(null, auth.getName())
+                .orElseThrow(() -> new BadRequestException(USER_NOT_FUND));
+
         var viaCep = gateway.getCep(viaCepAddressDTO.zipCode());
         var addressDTO = createAddressDTO(viaCep, viaCepAddressDTO);
-        var address = repository.findByZipCodeAndCityAndNumberAndNeighborhood(addressDTO.zipCode(), addressDTO.city(),
-                addressDTO.number(), addressDTO.neighborhood());
+
+        var address = repository.findByZipCodeAndCityAndNumberAndNeighborhood(
+                addressDTO.zipCode(),
+                addressDTO.city(),
+                addressDTO.number(),
+                addressDTO.neighborhood());
+
         validateRegisteredAddress(address);
 
-        return repository.save(addressDTO.getAddress());
+        address.ifPresent(it -> {
+            it.setUser(user);
+            user.getAddresses().add(it);
+        });
+
+        return repository.save(addressDTO.getAddress(user));
     }
 
-    public Optional<Address> getAddressById(long id) {
+
+    public Address getAddressById(long id) {
         var address = repository.findById(id);
 
-        if (address.isEmpty()) {
-            throw new NotFoundException(format(ID_NOT_FUND, id));
-        }
-
-        return address;
+        return address.orElseThrow(() -> new NotFoundException(format(ID_NOT_FUND, id)));
     }
 
     public Pagination<Address> getAddresses(Integer limit, Integer offset) {
@@ -100,17 +117,18 @@ public class AddressService {
     @Transactional
     public void update(Long id, @Valid AddressUpdateDTO dto) {
         var viaCep = gateway.getCep(dto.zipCode());
+
         repository.findById(id).ifPresentOrElse(
-                a -> {
-                    a.setZipCode(viaCep.zipCode());
-                    a.setStreet(viaCep.street());
-                    a.setNeighborhood(viaCep.neighborhood());
-                    a.setCity(viaCep.city());
-                    a.setState(viaCep.state());
-                    a.setNumber(dto.number());
-                    a.setReference(dto.reference());
+                it -> {
+                    it.setZipCode(viaCep.zipCode());
+                    it.setStreet(viaCep.street());
+                    it.setNeighborhood(viaCep.neighborhood());
+                    it.setCity(viaCep.city());
+                    it.setState(viaCep.state());
+                    it.setNumber(dto.number());
+                    it.setReference(dto.reference());
                 }, () -> {
-                    throw new NotFoundException("Address not found");
+                    throw new NotFoundException(format(ADDRESS_NOT_FOUND, id));
                 }
         );
     }
@@ -122,14 +140,16 @@ public class AddressService {
 
     public List<Address> getAddressByZipCode(String zipcode) {
         var address = repository.findAddressByZipCode(zipcode);
+
         if (address.isEmpty()) {
-            throw new NotFoundException("Addres not found");
+            throw new NotFoundException(format(ADDRESS_NOT_FOUND, zipcode));
         }
         return address;
     }
 
     public List<Address> getAddressByStreet(String street) {
         var address = repository.findAddressByStreet(street);
+
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
         }
@@ -138,33 +158,41 @@ public class AddressService {
 
     public List<Address> getAddressByNumber(Integer number) {
         var address = repository.findAddressByNumber(number);
+
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
         }
+
         return address;
     }
 
     public List<Address> getAddressByNeighborhood(String neighborhood) {
         var address = repository.findAddressByNeighborhood(neighborhood);
+
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
         }
+
         return address;
     }
 
     public List<Address> getAddressByCity(String city) {
         var address = repository.findAddressByCity(city);
+
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
         }
+
         return address;
     }
 
     public List<Address> getAddressByState(String state) {
         var address = repository.findAddressByState(state);
+
         if (address.isEmpty()) {
             throw new NotFoundException(format(ADDRESS_NOT_FOUND, address));
         }
+
         return address;
     }
 }

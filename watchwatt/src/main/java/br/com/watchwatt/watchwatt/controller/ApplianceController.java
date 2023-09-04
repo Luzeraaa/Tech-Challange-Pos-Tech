@@ -3,16 +3,20 @@ package br.com.watchwatt.watchwatt.controller;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
-import br.com.watchwatt.watchwatt.dto.appliance.ListApplianceDTO;
 import br.com.watchwatt.watchwatt.service.appliance.ApplianceService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -24,25 +28,24 @@ public record ApplianceController(
 ) implements Controller {
 
     private static final String APPLIANCE_ID_PATH = "/appliances";
+    private static final String APPLIANCE_ADDRESS_PATH = "/address/id";
+    private static final String ADDRESS_ID = "addressId";
     private static final String ID = "id";
     private static final String ALL = "all";
+    private static final String ALL_PARAM = "all_param";
     private static final String TEN = "10";
     private static final String ZERO = "0";
 
-    private static final String CPF = "cpf";
-
-    private static final String NAME = "name";
-
-    private static final String MODEL = "model";
-
-    private static final String POWER = "power";
-
-
-    @PostMapping(headers = X_API_VERSION_1, path = "/{idAddress}")
-    public ResponseEntity<Appliance> registerAppliance(@PathVariable Long idAddress,
-                                                       @RequestBody @Valid ApplianceDTO applianceDTO, UriComponentsBuilder uriBuilder,
-                                                       Authentication auth) {
-        var appliance = service.registerAppliance(applianceDTO, idAddress);
+    @PostMapping(headers = X_API_VERSION_1, path = APPLIANCE_ADDRESS_PATH, params = ADDRESS_ID)
+    public ResponseEntity<Appliance> registerAppliance(
+            Long addressId,
+            @RequestBody
+            @Valid
+            ApplianceDTO applianceDTO,
+            UriComponentsBuilder uriBuilder,
+            Authentication auth
+    ) {
+        var appliance = service.registerAppliance(applianceDTO, auth, addressId);
 
         return ResponseEntity
                 .created(uriBuilder.path(APPLIANCE_ID_PATH).buildAndExpand(appliance.getId()).toUri())
@@ -56,13 +59,15 @@ public record ApplianceController(
         return ResponseEntity.ok(Appliance);
     }
 
-    @GetMapping(headers = X_API_VERSION_1, path = "/address/{idAddress}")
-    public ResponseEntity<Page<Appliance>> getApplianceByAddress(@PathVariable Long idAddress,
-                                                                 @PageableDefault(size = 10) Pageable paginacao
+    @GetMapping(headers = X_API_VERSION_1, path = APPLIANCE_ADDRESS_PATH, params = ADDRESS_ID)
+    public ResponseEntity<Page<Appliance>> getApplianceByAddress(
+            Long addressId,
+            @RequestParam(defaultValue = TEN) Integer limit,
+            @RequestParam(defaultValue = ZERO) Integer offset
     ) {
-        var appliances = service.getAllApplianceByAddress(paginacao, idAddress);
-        return ResponseEntity.ok(appliances);
+        var appliances = service.getAllApplianceByAddress(limit, offset, addressId);
 
+        return ResponseEntity.ok(appliances);
     }
 
     @GetMapping(headers = X_API_VERSION_1, path = {ALL})
@@ -83,20 +88,21 @@ public record ApplianceController(
     @DeleteMapping(headers = X_API_VERSION_1, params = {ID})
     public ResponseEntity<Appliance> deleteAppliance(final Long id) {
         service.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(headers = X_API_VERSION_1, path = ALL_PARAM)
+    public ResponseEntity<Pagination<Appliance>> getAppliances(
+            @RequestParam(required = false) final List<Long> id,
+            @RequestParam(required = false) final List<String> model,
+            @RequestParam(required = false) final List<String> name,
+            @RequestParam(required = false) final List<Integer> power,
+            @RequestParam(defaultValue = TEN) Integer limit,
+            @RequestParam(defaultValue = ZERO) Integer offset
+    ) {
+        var appliances = service.getApplianceBy(id, model, name, power, limit, offset);
 
-    @GetMapping(headers = X_API_VERSION_1, path = "/todos")
-    public ResponseEntity<Page<ListApplianceDTO>> getAppliances(@RequestParam(required = false) final List<Long> id,
-                                                                @RequestParam(required = false) final List<String> model,
-                                                                @RequestParam(required = false) final List<String> name,
-                                                                @RequestParam(required = false) final List<Integer> power,
-                                                                @PageableDefault(size = 10) Pageable paginacao) {
-
-        Page page = service.getApplianceBy(id, model, name, power, paginacao).map(ListApplianceDTO::new);
-        return ResponseEntity.ok(page);
-
+        return ResponseEntity.ok(appliances);
     }
-
 }

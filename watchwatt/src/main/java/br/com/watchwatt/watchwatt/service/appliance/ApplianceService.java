@@ -2,19 +2,17 @@ package br.com.watchwatt.watchwatt.service.appliance;
 
 import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
 import br.com.watchwatt.watchwatt.dao.appliance.ApplianceRepository;
-import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
+import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
-import br.com.watchwatt.watchwatt.exception.BadRequestException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
 import br.com.watchwatt.watchwatt.util.Pagination;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,26 +21,27 @@ import java.util.List;
 public class ApplianceService {
 
     private static final String APPLIANCE_NOT_FOUND = "Appliance not found";
+    private static final String APPLIANCE_ALREADY_REGISTERED = "Appliance already registered for this address";
     private final ApplianceRepository repository;
     private final AddressRepository addressRepository;
-    private final ObjectMapper objectMapper;
 
-    public ApplianceService(ApplianceRepository repository, AddressRepository addressRepository, ObjectMapper objectMapper) {
+    public ApplianceService(ApplianceRepository repository, AddressRepository addressRepository) {
         this.repository = repository;
         this.addressRepository = addressRepository;
-        this.objectMapper = objectMapper;
     }
 
     @Transactional
-    public Appliance registerAppliance(ApplianceDTO applianceDTO, final Long idAddress) {
-        final var address = addressRepository.findById(idAddress).orElseThrow(() -> new NotFoundException("Address not found"));
-        repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(a ->{
-            throw new ResourceAlreadyExistsException("Appliance already registered for this address");
+    public Appliance registerAppliance(ApplianceDTO applianceDTO, Authentication auth, Long idAddress) {
+        var user = (User) auth.getPrincipal();
+        var address = addressRepository.findByIdAndUserId(idAddress, user.getId())
+                .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
+
+        repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(a -> {
+            throw new ResourceAlreadyExistsException(APPLIANCE_ALREADY_REGISTERED);
         });
 
         return repository.save(new Appliance(applianceDTO, address));
     }
-
 
     public Appliance getApplianceById(Long id) {
         return repository.findById(id).orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
@@ -67,15 +66,23 @@ public class ApplianceService {
         return repository.save(appliance);
     }
 
-    public Page<Appliance> getApplianceBy(List<Long> id, List<String> model, List<String> name, List<Integer> power, Pageable paginacao) {
+    public Pagination<Appliance> getApplianceBy(
+            List<Long> id,
+            List<String> model,
+            List<String> name,
+            List<Integer> power,
+            Integer limit,
+            Integer offset
+    ) {
+        var pageRequest = PageRequest.of(offset, limit);
+        var appliance = repository.findAllBy(id, model, name, pageRequest);
 
-        return repository.findAllBy(id, model, name, paginacao);
-
+        return new Pagination<>(appliance);
     }
 
-    public Page<Appliance> getAllApplianceByAddress(Pageable pageable, Long idAddress) {
+    public Page<Appliance> getAllApplianceByAddress(Integer limit, Integer offset, Long idAddress) {
+        var pageRequest = PageRequest.of(offset, limit);
 
-        return  repository.findAllByAddressId(idAddress, pageable);
-
+        return repository.findAllByAddressId(idAddress, pageRequest);
     }
 }

@@ -1,7 +1,7 @@
 package br.com.watchwatt.watchwatt.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import io.swagger.v3.core.jackson.ModelResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
     @Bean
     public ModelResolver modelResolver(ObjectMapper objectMapper) {
-        return new ModelResolver(objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE));
+        return new ModelResolver(
+                objectMapper.setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy()));
     }
 }

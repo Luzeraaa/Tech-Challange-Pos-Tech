@@ -1,13 +1,13 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:8083/watch-user
-    username: watch-user
-    password: 123
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     sql:
       init:
         mode: always
@@ -17,9 +17,9 @@ spring:
       fail-on-unknown-properties: false
   security:
     user:
-      name: fiap
-      password: fiap
-      roles: manager
+      name: ${SECURITY_USER}
+      password: ${SECURITY_PASSWORD}
+      roles: ${SECURITY_ROLE}
 server:
   servlet:
     context-path: /api/watchwatt/
@@ -30,6 +30,5 @@ server:
 
 jwt:
   token:
-    key: watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key
-    expiration: 3600000
-
+    key: ${JTW_TOKEN_KEY}
+    expiration: ${JWT_TOKEN_EXPIRATION}

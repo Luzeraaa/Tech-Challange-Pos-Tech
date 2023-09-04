@@ -83,6 +83,4 @@ public record UserDTO(
     private boolean kinshipIsNull() {
         return this.kinship == null;
     }
-
-
 }

@@ -11,7 +11,6 @@ import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,15 +21,12 @@ public class UserService {
 
     private static final String CPF_ALREADY_REGISTERED = "CPF already registered";
     private static final String EMAIL_ALREADY_REGISTERED = "Email already registered";
-    private static final String UNAUTHORIZED_MESSAGE = "User or password invalid";
     private static final String USER_NOT_FOUND = "User not found";
     private static final String FAILED_DEPENDENCY_DATABASE = "Error retrieving data from database";
     private final UserRepository repository;
-    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository repository, PasswordEncoder encoder) {
+    public UserService(UserRepository repository) {
         this.repository = repository;
-        this.encoder = encoder;
     }
 
     public User registerUser(UserDTO userDTO) {
@@ -56,6 +52,7 @@ public class UserService {
     public User updateUser(Long id, UserUpdateDTO userDTO) {
         var user = getUserById(id);
         user.update(userDTO);
+
         return repository.save(user);
     }
 

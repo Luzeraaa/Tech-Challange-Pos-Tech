@@ -11,15 +11,13 @@ import java.util.Optional;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-
   Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhood(
           String zipCode, String city, Integer number, String Neighborhood);
-
 
   Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhoodAndUserCpf(
           String zipCode, String city, Integer number, String Neighborhood, String cpf);
 
-  Optional<Address> findById(long id);
+  Optional<Address> findByIdAndUserId(long id, Long userId);
 
   @Query("select a from Address a where a.zipCode = ?1")
   List<Address> findAddressByZipCode(String zipCode);
