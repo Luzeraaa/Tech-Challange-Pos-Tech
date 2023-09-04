@@ -61,7 +61,7 @@ abaixo.
 Cadastro de usuários bem como seus dependentes:
 
 * Os cadastro serão únicos, validados através do CPF e/ou e-mail utilizado durante o cadastro;
-* Cada usuário poderá cadastrar seus endereços e respectivos equipamentos eletrodomésticos
+* Cada usuário poderá cadastrar seus endereços, usuários dependentes (parentesco) e respectivos equipamentos eletrodomésticos
 
 Cadastro de Endereços
 
@@ -71,7 +71,7 @@ Cadastro de Endereços
 
 Cadastro de Eletrodomésticos
 
-* Cada usuário poderá cadastrar seus respectivos eletrodomésticos.
+* Cada usuário poderá cadastrar seus respectivos eletrodomésticos por endereço cadastrado
 
 ## Acesso ao projeto
 
@@ -83,9 +83,14 @@ ou [baixá-lo](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip).
 Após baixar o projeto, você pode abrir com a IDE de preferência e configurar as variáveis de ambiente para acessar o
 banco de dados.
 
+
 1. Fazer o [download](https://github.com/Luzeraaa/postech/archive/refs/heads/main.zip);
+2. Instalar Docker Desktop (Caso esteja em ambiente Windowns instalar WSL);
 2. Abrir com IDE de preferência;
-3. Configurar as varíaveis de ambiente para acessar o banco de dados:
+3. Executar via terminal:
+    *  `docker-compose up`
+    * Certifique-se de executar dentro do diretório do projeto "watchwatt" onde esta localizado o arquivo docker compose.
+4 - Configurar as varíaveis de ambiente para acessar o banco de dados:
     * _DATASOURCE_PASSWORD=fiap_
     * _DATASOURCE_USER=fiap_
     * _SECURITY_USER=fiap_
@@ -93,30 +98,31 @@ banco de dados.
     * _SECURITY_ROLE=ADMIN_
     * _JTW_TOKEN_KEY=watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key_
     * _JWT_TOKEN_EXPIRATION=3600000_
-   
-4. Executar o projeto.
+5. Executar o projeto.
 
-**Bonus**: Após a primeira execução um script SQL populará de forma automatica o banco de dados com registros
-pré determinados, a fim de otimizar o funcionamento do sistema.
 
 ## Acesso ao Banco de Dados
 
-Uma vez em execução o projeto o banco de dados estará acessível através do endereço: http://localhost:8080/api/watchwatt/h2-console  
-_*Obs: O usuário e senha deve permanecer o mesmo configurado nas variáveis de ambiente._
+A persistência de dados será realizado através do banco de dados PostgresSQL. Este banco irá rodar em container via Dokcer.
+Maiores detalhes de versão da imagem e configurações de portas verificar arquivo:
 
-![img.png](watchwatt/src/main/resources/images/imgh2Connection.png)
+* docker-compose.yml
 
 ## Tecnologias utilizadas
 
 - Java 17 (Versão atualizada e estável da linguagem Java)
 - Maven (Ferramenta amplamente adotada para gerenciamento de dependências)
-- Spring Boot & Spring MVC (Frameworks populares para desenvolvimento de aplicativos Java)
+- Spring: Boot, Security, MVC, Data JPA, Web (Frameworks populares para desenvolvimento de aplicativos Java)
 - Hibernate (Framework de mapeamento objeto-relacional para acesso a dados)
 - JPA (Java Persistence API) (Especificação padrão para persistência de dados em Java)
-- Banco de Dados H2 (Banco de dados SQL leve e simples de incorporar em aplicativos Java)
 - Lombok (Biblioteca para reduzir a verbosidade do código e automatizar tarefas comuns)
 - Jakarta Bean Validation (Especificação para validação de dados em Java)
+- JWT (Json Web token)
+- Auth0
 - Swagger & OpenAPI (Ferramentas e especificações para projetar, criar e documentar APIs RESTful)
+- Docker
+- PostgresSQL
+
 
 <div style="display: inline_block"><br>
 <img src=https://raw.githubusercontent.com/github/explore/5b3600551e122a3277c2c5368af2ad5725ffa9a1/topics/java/java.png width="65" height="60"
@@ -130,8 +136,6 @@ _*Obs: O usuário e senha deve permanecer o mesmo configurado nas variáveis de 
 <img src=https://oopy.lazyrockets.com/api/v2/notion/image?src=https:%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3ed7a304-a24b-4c45-831f-1755950e4260%2Flombok.png&blockId=552b6017-489d-4bcd-bb44-803f5e94bac9&width=256   width="60" height="55"
 />
 <img src=https://th.bing.com/th/id/R.d8469eae9c8a4aa8ba0104a9d636d5f8?rik=WXdhpHKO0QTl6g&riu=http%3a%2f%2fhmkcode.github.io%2fimages%2fspring%2fspring.png&ehk=l%2b%2fhOIEAi407AyPHHjQT0NnUHU%2fH%2bjQzbnquLbAEdSI%3d&risl=&pid=ImgRaw&r=0 width="60" height="55" width="60" height="55"
-/>
-<img src=https://th.bing.com/th/id/R.28ba34d099020eba605e1705c4daffce?rik=zRwNnb5EPYMvYQ&riu=http%3a%2f%2fsiwenoid.com%2fsite%2fwp-content%2fuploads%2f2016%2f11%2fh2.jpg&ehk=AS8Tcaw84FlBJWq%2fjr9l7kV7qGq779jfVzu4DAHkXrw%3d&risl=&pid=ImgRaw&r=0  width="60" height="55" width="60" height="55"
 /></div>
 
 ## Relatório Técnico
@@ -146,12 +150,6 @@ desenvolvimento. Para facilitar a configuração e o gerenciamento de dependênc
 uma estrutura simples e ampla biblioteca de plugins. Além disso, o Maven possui uma vasta integração com repositórios
 centrais e uma
 documentação extensa, tornando-o uma escolha popular e confiável para a construção e gerenciamento de projetos Java.
-
-O banco de dados H2 é uma opção vantajosa para desenvolvimentos Java devido à sua leveza, facilidade de incorporação em
-aplicações e possui recursos avançados para desenvolvimento de software.
-Para gerenciar as alterações no banco de dados, escolhemos o Flyway, uma ferramenta de migração que garante a aplicação
-consistente e controlada das alterações.
-Ele pode ser usado para criar e executar scripts SQL que atualizam o esquema do banco de dados.
 
 Para de reduzir a verbosidade e os famosos códigos boilerplates do código, além de automatizar a geração de getters,
 setters, construtores e outros métodos comuns, o projeto utilizou o Lombok, uma biblioteca para Java. O Lombok também
@@ -174,13 +172,27 @@ Essa abordagem eficiente permite verificar se os dados inseridos atendem a padr�
 CPF, entre outros. O uso do @Validator com expressões regulares ajuda a manter a consistência dos
 dados e reduzir erros ou entradas inválidas, oferecendo uma forma poderosa e flexível de validação de dados no projeto.
 
+Para a persistência dos dados foi utilizado a imagem do Postgres em container Docker. Essa arquitetura permite
+um melhor isolamento de responsabilidades da parte de dados com o resto da aplicação.
+
+Para questões de segurança foi utilizado o JWT para a geração de tokens com o intuito de garantir autenticação única por usuário.
+Desta forma garantimos os acessos as APIs apenas para usuários cadastrados.
+
+O relacionamento definidos para esta API foi:
+
+User 1:n Address
+Address 1:n Appliance
+Address 1:n Kinship
+
 ## Desafios
 
-- Definir e compreender os relacionamentos entre usuários, eletrodomésticos e seus endereços
-- Incluir as regras de validações bem como seus regexs
-- Tratamento de exceções para possíveis erros durante o consumo das APIs
-- Definição da arquitetura do projeto (DDD/MVC/tecnologias e outros)
-- Determinação das responsabilidades dos membros da equipe
+- Definir e compreender os relacionamentos entre usuários, eletrodomésticos e seus endereços.
+- Incluir as regras de validações bem como seus regexs.
+- Tratamento de exceções para possíveis erros durante o consumo das APIs.
+- Definição da arquitetura do projeto (DDD/MVC/tecnologias e outros).
+- Determinação das responsabilidades dos membros da equipe.
+- Subir o bando de dados em container Docker.
+- Realizar autenticação via JWT.
 
 ## Documentação Técnica
 
