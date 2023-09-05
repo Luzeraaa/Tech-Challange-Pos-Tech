@@ -58,12 +58,10 @@ public class ApplianceService {
         var appliance = repository.findByIdAndAddressId(applianceStatusDTO.id(), user.getId())
                 .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
 
-<<<<<<< HEAD
+
         appliance.setStatus(applianceStatusDTO.status());
-        if (Status.ON.equals(applianceStatusDTO.status())){
-=======
         if (Status.ON.equals(applianceStatusDTO.status())) {
->>>>>>> a26ca313da666fbef66fed60fa38f1d4caead4a3
+
             appliance.setStartDate(LocalDateTime.now(ZoneId.of("UTC-3")));
             appliance.setEndDate(null);
         } else {
