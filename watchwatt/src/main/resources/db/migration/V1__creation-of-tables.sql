@@ -19,6 +19,10 @@ create table tb_appliance
     name       varchar(110),
     power      integer,
     address_id bigint,
+    status varchar(50) check (status in ('ON', 'OFF')),
+    start_date  timestamp(6),
+    end_date   timestamp(6),
+    total_hours numeric(2),
     primary key (id)
 );
 

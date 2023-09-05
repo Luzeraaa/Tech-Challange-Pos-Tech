@@ -3,8 +3,10 @@ package br.com.watchwatt.watchwatt.service.appliance;
 import br.com.watchwatt.watchwatt.dao.address.AddressRepository;
 import br.com.watchwatt.watchwatt.dao.appliance.ApplianceRepository;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
+import br.com.watchwatt.watchwatt.domain.appliance.Status;
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
+import br.com.watchwatt.watchwatt.dto.appliance.ApplianceStatusDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -25,6 +30,7 @@ public class ApplianceService {
     private static final String APPLIANCE_ALREADY_REGISTERED = "Appliance already registered for this address";
     private final ApplianceRepository repository;
     private final AddressRepository addressRepository;
+
 
     public ApplianceService(ApplianceRepository repository, AddressRepository addressRepository) {
         this.repository = repository;
@@ -42,6 +48,24 @@ public class ApplianceService {
         });
 
         return repository.save(new Appliance(applianceDTO, address));
+    }
+
+    @Transactional
+    public Appliance toggleAppliance(ApplianceStatusDTO applianceStatusDTO, Authentication auth) {
+        var user = (User) auth.getPrincipal();
+        var appliance = repository.findByIdAndAddressId(applianceStatusDTO.id(), user.getId())
+                .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
+
+        if (Status.ON.equals(applianceStatusDTO.status())){
+            appliance.setStartDate(LocalDateTime.now(ZoneId.of("UTC-3")));
+            appliance.setEndDate(null);
+        } else {
+            appliance.setEndDate(LocalDateTime.now(ZoneId.of("UTC-3")));
+            Duration totalHours = Duration.between(appliance.getStartDate(), appliance.getEndDate());
+            var hours = appliance.getTotalHours()!=null?appliance.getTotalHours():0;
+            appliance.setTotalHours(hours+totalHours.toHours());
+        }
+        return repository.save(appliance);
     }
 
     public Appliance getApplianceById(Long id) {

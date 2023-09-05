@@ -1,5 +1,6 @@
 package br.com.watchwatt.watchwatt.dao.appliance;
 
+import br.com.watchwatt.watchwatt.domain.address.Address;
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,8 @@ import java.util.Optional;
 
 @Repository
 public interface ApplianceRepository extends JpaRepository<Appliance, Long> {
+
+    Optional<Appliance> findByIdAndAddressId(long id, Long idAddress);
 
     Optional<Appliance> findByNameAndAddressId(String name, Long idAddress);
 
