@@ -119,11 +119,11 @@ public class UserService {
 
     private List<Appliance> getApplianceWithSetHours(List<Appliance> appliances) {
        return appliances.stream()
-                .filter(appliance -> appliance.startDate != null && appliance.getEndDate == null)
+                .filter(appliance -> appliance.getStartDate() != null && appliance.getEndDate() == null)
                 .peek(appliance -> {
                     appliance.setEndDate(LocalDateTime.now());
-                    Duration diference = Duration.between(appliance.getStartDate(), appliance.getEndDate());
-                    appliance.setTotalHours(diference.toHours());
+                    Duration difference = Duration.between(appliance.getStartDate(), appliance.getEndDate());
+                    appliance.setTotalHours((double) difference.toHours());
                 }).collect(Collectors.toList());
     }
 }

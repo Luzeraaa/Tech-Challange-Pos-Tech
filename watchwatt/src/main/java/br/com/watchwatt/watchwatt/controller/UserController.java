@@ -67,7 +67,6 @@ public record UserController(
         return ResponseEntity.ok(USER_HAS_BEEN_DELETED);
     }
 
-
     @GetMapping(headers = X_API_VERSION_1, path = {POWE_CALCULATION_PATH}, params = {ID})
     public ResponseEntity<PowerCalculationDTO> getPowerCalculation(Long id) {
         return ResponseEntity.ok(new PowerCalculationDTO(service.getTotalAppliancePower(id)));
