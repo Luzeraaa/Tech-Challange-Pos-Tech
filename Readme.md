@@ -211,6 +211,8 @@ Os relacionamentos definidos para esta API foram:
 
 Documentação via SwaggerUI: [Link](http://localhost:8080/api/watchwatt/swagger-ui/index.html#)
 
+Postman Collection: [Collection](watchwatt/src/main/resources/docs/Watch Watt.postman_collection.json)
+
 ![img.png](watchwatt/src/main/resources/images/imgSwagger.png)
 
 Para a propriedade ``gender`` os valores possíveis são: ``MALE``, ``FEMALE`` ou ``OTHERS``.
