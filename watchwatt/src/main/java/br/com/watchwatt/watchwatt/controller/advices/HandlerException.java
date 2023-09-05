@@ -69,4 +69,5 @@ public record HandlerException(
     public ResponseEntity<ProblemDetail> handleForbiddenException(ForbiddenException ex) {
         return ResponseEntity.status(FORBIDDEN).body(ex.getBody());
     }
+
 }
