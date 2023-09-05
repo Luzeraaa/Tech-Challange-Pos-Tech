@@ -1,6 +1,7 @@
 package br.com.watchwatt.watchwatt.service.user;
 
 import br.com.watchwatt.watchwatt.dao.user.UserRepository;
+import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -89,5 +91,16 @@ public class UserService {
                 throw new ResourceAlreadyExistsException(EMAIL_ALREADY_REGISTERED);
             }
         });
+    }
+
+    public List<Appliance> getAppliancePower(Long id) {
+
+        return repository.findById(id)
+                .stream()
+                .filter(user -> user.getAddresses() != null)
+                .flatMap(user -> user.getAddresses()
+                        .stream().filter(address -> !address.getAppliances().isEmpty()))
+                .flatMap(address -> address.getAppliances().stream())
+                .toList();
     }
 }

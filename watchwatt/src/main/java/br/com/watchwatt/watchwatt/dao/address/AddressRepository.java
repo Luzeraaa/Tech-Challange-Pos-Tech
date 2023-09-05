@@ -17,7 +17,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
   Optional<Address> findByZipCodeAndCityAndNumberAndNeighborhoodAndUserCpf(
           String zipCode, String city, Integer number, String Neighborhood, String cpf);
 
-  Optional<Address> findByIdAndUserId(long id, Long userId);
+  Optional<Address> findByIdAndUserId(Long id, Long userId);
 
   @Query("select a from Address a where a.zipCode = ?1")
   List<Address> findAddressByZipCode(String zipCode);

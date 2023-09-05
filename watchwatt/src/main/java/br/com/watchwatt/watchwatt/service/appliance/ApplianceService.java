@@ -21,6 +21,8 @@ import java.util.List;
 public class ApplianceService {
 
     private static final String APPLIANCE_NOT_FOUND = "Appliance not found";
+
+    private static final String ADDRESS_NOT_FOUND = "Address not found";
     private static final String APPLIANCE_ALREADY_REGISTERED = "Appliance already registered for this address";
     private final ApplianceRepository repository;
     private final AddressRepository addressRepository;
@@ -34,7 +36,7 @@ public class ApplianceService {
     public Appliance registerAppliance(ApplianceDTO applianceDTO, Authentication auth, Long idAddress) {
         var user = (User) auth.getPrincipal();
         var address = addressRepository.findByIdAndUserId(idAddress, user.getId())
-                .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ADDRESS_NOT_FOUND));
 
         repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(a -> {
             throw new ResourceAlreadyExistsException(APPLIANCE_ALREADY_REGISTERED);

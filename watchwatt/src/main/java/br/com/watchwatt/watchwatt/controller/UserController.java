@@ -1,5 +1,6 @@
 package br.com.watchwatt.watchwatt.controller;
 
+import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
@@ -7,15 +8,10 @@ import br.com.watchwatt.watchwatt.service.user.UserService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -24,6 +20,7 @@ public record UserController(
 ) implements Controller {
 
     private static final String USER_ID_PATH = "/user/{id}";
+    private static final String POWE_CALCULATION_PATH = "/power-calculation";
     private static final String CPF = "cpf";
     private static final String ALL = "all";
     private static final String ID = "id";
@@ -68,4 +65,14 @@ public record UserController(
 
         return ResponseEntity.ok(USER_HAS_BEEN_DELETED);
     }
+
+
+    @GetMapping(headers = X_API_VERSION_1, path = {POWE_CALCULATION_PATH}, params = {ID})
+    public ResponseEntity<List<Appliance>> getPowerCalculation(Long id) {
+
+        return ResponseEntity.ok(service.getAppliancePower(id));
+
+    }
+
+
 }
