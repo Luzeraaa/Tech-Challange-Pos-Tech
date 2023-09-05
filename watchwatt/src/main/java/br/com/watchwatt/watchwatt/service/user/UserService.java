@@ -14,8 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -93,14 +97,33 @@ public class UserService {
         });
     }
 
-    public List<Appliance> getAppliancePower(Long id) {
-
-        return repository.findById(id)
-                .stream()
-                .filter(user -> user.getAddresses() != null)
-                .flatMap(user -> user.getAddresses()
-                        .stream().filter(address -> !address.getAppliances().isEmpty()))
+    public Double getTotalAppliancePower(Long id) {
+        final var appliances = getUserById(id).getAddresses().stream()
+                .filter(Objects::nonNull)
+                .filter(address -> !address.getAppliances().isEmpty())
                 .flatMap(address -> address.getAppliances().stream())
                 .toList();
+
+        var appliancesWithHours = getApplianceWithSetHours(appliances);
+
+        var totalPower = appliancesWithHours.stream().map(Appliance::getPower)
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        var totalHours = appliancesWithHours.stream().map(Appliance::getTotalHours)
+                .mapToDouble(Double::doubleValue)
+                .sum();
+
+        return totalPower * totalHours;
+    }
+
+    private List<Appliance> getApplianceWithSetHours(List<Appliance> appliances) {
+       return appliances.stream()
+                .filter(appliance -> appliance.startDate != null && appliance.getEndDate == null)
+                .peek(appliance -> {
+                    appliance.setEndDate(LocalDateTime.now());
+                    Duration diference = Duration.between(appliance.getStartDate(), appliance.getEndDate());
+                    appliance.setTotalHours(diference.toHours());
+                }).collect(Collectors.toList());
     }
 }

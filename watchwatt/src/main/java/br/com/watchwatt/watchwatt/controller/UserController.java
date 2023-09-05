@@ -2,6 +2,7 @@ package br.com.watchwatt.watchwatt.controller;
 
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.user.User;
+import br.com.watchwatt.watchwatt.dto.PowerCalculationDTO;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
 import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
 import br.com.watchwatt.watchwatt.service.user.UserService;
@@ -68,11 +69,8 @@ public record UserController(
 
 
     @GetMapping(headers = X_API_VERSION_1, path = {POWE_CALCULATION_PATH}, params = {ID})
-    public ResponseEntity<List<Appliance>> getPowerCalculation(Long id) {
-
-        return ResponseEntity.ok(service.getAppliancePower(id));
-
+    public ResponseEntity<PowerCalculationDTO> getPowerCalculation(Long id) {
+        return ResponseEntity.ok(new PowerCalculationDTO(service.getTotalAppliancePower(id)));
     }
-
 
 }
