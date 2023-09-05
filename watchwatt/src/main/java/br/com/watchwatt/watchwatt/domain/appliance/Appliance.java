@@ -1,22 +1,18 @@
 package br.com.watchwatt.watchwatt.domain.appliance;
 
 import br.com.watchwatt.watchwatt.domain.address.Address;
+import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_appliance")
@@ -30,6 +26,7 @@ public class Appliance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "appliance_sequence")
     Long id;
+
     String name;
     String model;
     Integer power;
@@ -38,6 +35,17 @@ public class Appliance {
     @JoinColumn(name = "address_id")
     @JsonIgnore
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @DateTimeFormat
+    LocalDateTime startDate;
+
+    @DateTimeFormat
+    LocalDateTime endDate;
+
+    Double totalHours;
 
     public Appliance(ApplianceDTO applianceDTO, Address address) {
         this.name = applianceDTO.name();
@@ -58,5 +66,8 @@ public class Appliance {
         if (applianceUpdateDTO.power() != null) {
             this.power = applianceUpdateDTO.power();
         }
+    }
+    public void status(ApplianceDTO applianceDTO, Status status){
+        this.status = status;
     }
 }
