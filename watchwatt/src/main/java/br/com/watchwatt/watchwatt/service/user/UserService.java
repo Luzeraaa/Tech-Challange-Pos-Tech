@@ -7,6 +7,7 @@ import br.com.watchwatt.watchwatt.dto.user.UserUpdateDTO;
 import br.com.watchwatt.watchwatt.exception.FailedDependencyException;
 import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
+import br.com.watchwatt.watchwatt.service.appliance.ApplianceService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,11 @@ public class UserService {
     private static final String FAILED_DEPENDENCY_DATABASE = "Error retrieving data from database";
     private final UserRepository repository;
 
-    public UserService(UserRepository repository) {
+    private final ApplianceService applianceService;
+
+    public UserService(UserRepository repository, ApplianceService applianceService) {
         this.repository = repository;
+        this.applianceService = applianceService;
     }
 
     public User registerUser(UserDTO userDTO) {
@@ -90,4 +94,10 @@ public class UserService {
             }
         });
     }
+
+
+    public Double getTotalAppliancePower(Long id) {
+        return applianceService.getTotalAppliancePower(getUserById(id), id);
+    }
+
 }

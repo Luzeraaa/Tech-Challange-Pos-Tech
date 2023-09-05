@@ -1,7 +1,9 @@
 package br.com.watchwatt.watchwatt.controller;
 
 import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
+import br.com.watchwatt.watchwatt.domain.appliance.Status;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceDTO;
+import br.com.watchwatt.watchwatt.dto.appliance.ApplianceStatusDTO;
 import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import br.com.watchwatt.watchwatt.service.appliance.ApplianceService;
 import br.com.watchwatt.watchwatt.util.Pagination;
@@ -34,6 +36,7 @@ public record ApplianceController(
     private static final String ALL_PARAM = "all_param";
     private static final String TEN = "10";
     private static final String ZERO = "0";
+    private static final String APPLIANCE_STATUS_PATH = "/status";
 
     @PostMapping(headers = X_API_VERSION_1, path = APPLIANCE_ADDRESS_PATH, params = ADDRESS_ID)
     public ResponseEntity<Appliance> registerAppliance(
@@ -103,5 +106,20 @@ public record ApplianceController(
         var appliances = service.getApplianceBy(id, model, name, power, limit, offset);
 
         return ResponseEntity.ok(appliances);
+    }
+
+    @PostMapping(headers = X_API_VERSION_1, path = APPLIANCE_STATUS_PATH)
+    public ResponseEntity<Appliance> toggleAppliance(
+            @RequestBody
+            @Valid
+            ApplianceStatusDTO applianceStatusDTO,
+            UriComponentsBuilder uriBuilder,
+            Authentication auth
+    ) {
+        var appliance = service.toggleAppliance(applianceStatusDTO, auth);
+
+        return ResponseEntity
+                .created(uriBuilder.path(APPLIANCE_ID_PATH).buildAndExpand(appliance.getId()).toUri())
+                .body(appliance);
     }
 }
