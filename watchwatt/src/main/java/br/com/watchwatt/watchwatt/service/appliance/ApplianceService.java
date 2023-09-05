@@ -20,6 +20,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ApplianceService {
@@ -56,15 +58,19 @@ public class ApplianceService {
         var appliance = repository.findByIdAndAddressId(applianceStatusDTO.id(), user.getId())
                 .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
 
+<<<<<<< HEAD
         appliance.setStatus(applianceStatusDTO.status());
         if (Status.ON.equals(applianceStatusDTO.status())){
+=======
+        if (Status.ON.equals(applianceStatusDTO.status())) {
+>>>>>>> a26ca313da666fbef66fed60fa38f1d4caead4a3
             appliance.setStartDate(LocalDateTime.now(ZoneId.of("UTC-3")));
             appliance.setEndDate(null);
         } else {
             appliance.setEndDate(LocalDateTime.now(ZoneId.of("UTC-3")));
             Duration totalHours = Duration.between(appliance.getStartDate(), appliance.getEndDate());
-            var hours = appliance.getTotalHours()!=null?appliance.getTotalHours():0;
-            appliance.setTotalHours(hours+totalHours.toHours());
+            var hours = appliance.getTotalHours() != null ? appliance.getTotalHours() : 0;
+            appliance.setTotalHours(hours + totalHours.toHours());
         }
         return repository.save(appliance);
     }
@@ -111,5 +117,35 @@ public class ApplianceService {
         var address = repository.findAllByAddressId(idAddress, pageRequest);
 
         return new Pagination<>(address);
+    }
+
+    public Double getTotalAppliancePower(User user, Long id) {
+        final var appliances = user.getAddresses().stream()
+                .filter(Objects::nonNull)
+                .filter(address -> !address.getAppliances().isEmpty())
+                .flatMap(address -> address.getAppliances().stream())
+                .toList();
+
+        var appliancesWithHours = getApplianceWithSetHours(appliances);
+
+        var totalPower = appliancesWithHours.stream().map(Appliance::getPower)
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        var totalHours = appliancesWithHours.stream().map(Appliance::getTotalHours)
+                .mapToDouble(Double::doubleValue)
+                .sum();
+
+        return totalPower * totalHours;
+    }
+
+    private List<Appliance> getApplianceWithSetHours(List<Appliance> appliances) {
+        return appliances.stream()
+                .filter(appliance -> appliance.getStartDate() != null && appliance.getEndDate() == null)
+                .peek(appliance -> {
+                    appliance.setEndDate(LocalDateTime.now());
+                    Duration difference = Duration.between(appliance.getStartDate(), appliance.getEndDate());
+                    appliance.setTotalHours((double) difference.toHours());
+                }).collect(Collectors.toList());
     }
 }

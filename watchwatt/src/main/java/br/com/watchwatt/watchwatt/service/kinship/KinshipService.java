@@ -27,10 +27,6 @@ public class KinshipService {
         this.addressRepository = addressRepository;
     }
 
-//    public List<Kinship> getKinshipByCpf(String cpf) {
-//        return userService.findUserByCpf(cpf).getKinship();
-//    }
-
     @Transactional
     public List<Kinship> addKinshipByAddress(List<KinshipDTO> kinshipDTO, Long idAddress) {
         var address = addressRepository.findById(idAddress)
@@ -56,24 +52,11 @@ public class KinshipService {
     }
 
     @Transactional
-    public Kinship updateByUserIdAndKinshipId(KinshipDTO kinshipDTO, Long userId, Long kinshipId) {
-        var kinship = kinshipRepository.findByIdAndAddressUserId(kinshipId, userId);
-        validateExistsKinship(kinship);
+    public void deleteKinshipByCpfAndId(Long kinshipId) {
+        var kinship = kinshipRepository.findById(kinshipId);
+        var kinshipResult = kinship.orElseThrow(() -> new NotFoundException(KINSHIP_NOT_FUND_MESSAGE));
 
-        var newKinship = kinship.stream()
-                .findFirst()
-                .map(it -> new Kinship(it.getId(), kinshipDTO.name(), kinshipDTO.degreeKinship(), it.getAddress()))
-                .orElseThrow(() -> new NotFoundException(KINSHIP_NOT_FUND_MESSAGE));
-
-        return kinshipRepository.save(newKinship);
-    }
-
-    @Transactional
-    public void deleteKinshipByCpfAndId(Long userId, Long kinshipId) {
-        var kinship = kinshipRepository.findByIdAndAddressUserId(kinshipId, userId);
-        validateExistsKinship(kinship);
-
-        kinshipRepository.deleteAll(kinship);
+        kinshipRepository.delete(kinshipResult);
     }
 
     private void validateExistsKinship(List<Kinship> kinship) {
