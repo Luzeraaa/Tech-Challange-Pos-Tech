@@ -1,6 +1,5 @@
 package br.com.watchwatt.watchwatt.controller;
 
-import br.com.watchwatt.watchwatt.domain.appliance.Appliance;
 import br.com.watchwatt.watchwatt.domain.user.User;
 import br.com.watchwatt.watchwatt.dto.PowerCalculationDTO;
 import br.com.watchwatt.watchwatt.dto.user.UserDTO;
@@ -11,8 +10,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user")
