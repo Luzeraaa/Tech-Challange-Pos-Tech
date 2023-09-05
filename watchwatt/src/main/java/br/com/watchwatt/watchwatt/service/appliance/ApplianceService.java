@@ -56,6 +56,7 @@ public class ApplianceService {
         var appliance = repository.findByIdAndAddressId(applianceStatusDTO.id(), user.getId())
                 .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
 
+        appliance.setStatus(applianceStatusDTO.status());
         if (Status.ON.equals(applianceStatusDTO.status())){
             appliance.setStartDate(LocalDateTime.now(ZoneId.of("UTC-3")));
             appliance.setEndDate(null);
