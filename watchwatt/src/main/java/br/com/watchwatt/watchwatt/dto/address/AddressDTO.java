@@ -7,6 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 
+import java.util.Collections;
+
+import static java.util.Collections.emptyList;
+
 public record AddressDTO(
 
         @NotNull(message = FIELD_CANNOT_BE_NULL_OR_EMPTY_MESSAGE)
@@ -43,8 +47,8 @@ public record AddressDTO(
         return new Address(
                 null,
                 user,
-                null,
-                null,
+                emptyList(),
+                emptyList(),
                 zipCode(),
                 street(),
                 number(),

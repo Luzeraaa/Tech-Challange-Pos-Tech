@@ -12,7 +12,6 @@ import br.com.watchwatt.watchwatt.exception.NotFoundException;
 import br.com.watchwatt.watchwatt.exception.ResourceAlreadyExistsException;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class ApplianceService {
         var address = addressRepository.findByIdAndUserId(idAddress, user.getId())
                 .orElseThrow(() -> new NotFoundException(APPLIANCE_NOT_FOUND));
 
-        repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(a -> {
+        repository.findByNameAndAddressId(applianceDTO.name(), idAddress).ifPresent(it -> {
             throw new ResourceAlreadyExistsException(APPLIANCE_ALREADY_REGISTERED);
         });
 
@@ -104,9 +103,10 @@ public class ApplianceService {
         return new Pagination<>(appliance);
     }
 
-    public Page<Appliance> getAllApplianceByAddress(Integer limit, Integer offset, Long idAddress) {
+    public Pagination<Appliance> getAllApplianceByAddressId(Integer limit, Integer offset, Long idAddress) {
         var pageRequest = PageRequest.of(offset, limit);
+        var address = repository.findAllByAddressId(idAddress, pageRequest);
 
-        return repository.findAllByAddressId(idAddress, pageRequest);
+        return new Pagination<>(address);
     }
 }
