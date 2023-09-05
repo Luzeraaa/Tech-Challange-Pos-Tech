@@ -139,11 +139,13 @@ public class ApplianceService {
 
     private List<Appliance> getApplianceWithSetHours(List<Appliance> appliances) {
         return appliances.stream()
-                .filter(appliance -> appliance.getStartDate() != null && appliance.getEndDate() == null)
                 .peek(appliance -> {
-                    appliance.setEndDate(LocalDateTime.now());
-                    Duration difference = Duration.between(appliance.getStartDate(), appliance.getEndDate());
-                    appliance.setTotalHours((double) difference.toHours());
+                    if (appliance.getStartDate() == null) appliance.setStartDate(LocalDateTime.now());
+                    if (appliance.getEndDate() == null) {
+                        appliance.setEndDate(LocalDateTime.now());
+                        Duration difference = Duration.between(appliance.getStartDate(), appliance.getEndDate());
+                        appliance.setTotalHours((double) difference.toHours());
+                    }
                 }).collect(Collectors.toList());
     }
 }
