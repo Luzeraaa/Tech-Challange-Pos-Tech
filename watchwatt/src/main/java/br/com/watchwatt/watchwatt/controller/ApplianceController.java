@@ -6,7 +6,6 @@ import br.com.watchwatt.watchwatt.dto.appliance.ApplianceUpdateDTO;
 import br.com.watchwatt.watchwatt.service.appliance.ApplianceService;
 import br.com.watchwatt.watchwatt.util.Pagination;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,12 +59,12 @@ public record ApplianceController(
     }
 
     @GetMapping(headers = X_API_VERSION_1, path = APPLIANCE_ADDRESS_PATH, params = ADDRESS_ID)
-    public ResponseEntity<Page<Appliance>> getApplianceByAddress(
+    public ResponseEntity<Pagination<Appliance>> getApplianceByAddressId(
             Long addressId,
             @RequestParam(defaultValue = TEN) Integer limit,
             @RequestParam(defaultValue = ZERO) Integer offset
     ) {
-        var appliances = service.getAllApplianceByAddress(limit, offset, addressId);
+        var appliances = service.getAllApplianceByAddressId(limit, offset, addressId);
 
         return ResponseEntity.ok(appliances);
     }
