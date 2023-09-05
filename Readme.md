@@ -39,7 +39,7 @@ processados e apresentados em um painel de controle online.
 
 A tecnologia utilizada nos equipamentos garante a precisão na medição de energia elétrica, e a interface é intuitiva e
 de fácil utilização. Os usuários podem monitorar o consumo em tempo real e acessar o histórico de consumo para
-identificar aparelhos com alto consumo e adotar medidas para reduzir o consumo de energia.
+identificar aparelhos com alto consumo e adotar medidas para reduzir o congit adgit stsumo de energia.
 
 Os benefícios para os usuários são diversos, incluindo a possibilidade de economizar na conta de luz, contribuir para a
 preservação do meio ambiente e adotar práticas mais sustentáveis no consumo de energia.
@@ -90,7 +90,7 @@ banco de dados.
 3. Executar via terminal:
     *  `docker-compose up`
     * Certifique-se de executar dentro do diretório do projeto "watchwatt" onde esta localizado o arquivo docker compose.
-4 - Configurar as varíaveis de ambiente para acessar o banco de dados:
+4. Configurar as varíaveis de ambiente para acessar o banco de dados:
     * _DATASOURCE_PASSWORD=fiap_
     * _DATASOURCE_USER=fiap_
     * _SECURITY_USER=fiap_
@@ -99,6 +99,11 @@ banco de dados.
     * _JTW_TOKEN_KEY=watchwatt4d1381e44ae829040b6568e9e2b2cfa72c2f95946a04a760key_
     * _JWT_TOKEN_EXPIRATION=3600000_
 5. Executar o projeto.
+6. Os métodos devem ser executados na seguinte ordem:
+   * Criação do usuário;
+   * Login para resgate do JWT Token; 
+   * Criação do endereço relacionado ao usuário;
+   * Criação do eletrodoméstico relacionado ao endereço;
 
 
 ## Acesso ao Banco de Dados
@@ -106,7 +111,7 @@ banco de dados.
 A persistência de dados será realizado através do banco de dados PostgresSQL. Este banco irá rodar em container via Dokcer.
 Maiores detalhes de versão da imagem e configurações de portas verificar arquivo:
 
-* docker-compose.yml
+* [docker-compose.yml](watchwatt/docker-compose.yml)
 
 ## Tecnologias utilizadas
 
@@ -136,6 +141,10 @@ Maiores detalhes de versão da imagem e configurações de portas verificar arqu
 <img src=https://oopy.lazyrockets.com/api/v2/notion/image?src=https:%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3ed7a304-a24b-4c45-831f-1755950e4260%2Flombok.png&blockId=552b6017-489d-4bcd-bb44-803f5e94bac9&width=256   width="60" height="55"
 />
 <img src=https://th.bing.com/th/id/R.d8469eae9c8a4aa8ba0104a9d636d5f8?rik=WXdhpHKO0QTl6g&riu=http%3a%2f%2fhmkcode.github.io%2fimages%2fspring%2fspring.png&ehk=l%2b%2fhOIEAi407AyPHHjQT0NnUHU%2fH%2bjQzbnquLbAEdSI%3d&risl=&pid=ImgRaw&r=0 width="60" height="55" width="60" height="55"
+/>
+<img src=https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/540px-Postgresql_elephant.svg.png width="60" height="55" width="60" height="55"
+/>
+<img src=https://blog.cadumagalhaes.dev/assets/docker_moby_logo.png width="60" height="55" width="60" height="55"
 /></div>
 
 ## Relatório Técnico
@@ -172,17 +181,17 @@ Essa abordagem eficiente permite verificar se os dados inseridos atendem a padr�
 CPF, entre outros. O uso do @Validator com expressões regulares ajuda a manter a consistência dos
 dados e reduzir erros ou entradas inválidas, oferecendo uma forma poderosa e flexível de validação de dados no projeto.
 
-Para a persistência dos dados foi utilizado a imagem do Postgres em container Docker. Essa arquitetura permite
-um melhor isolamento de responsabilidades da parte de dados com o resto da aplicação.
+Para garantir a persistência de dados, foi implementada uma instância do PostgreSQL em um contêiner Docker,
+proporcionando isolamento eficiente de responsabilidades, portabilidade, escalabilidade, facilidade de backup e
+segurança, otimizando o desenvolvimento e a manutenção da aplicação.
 
-Para questões de segurança foi utilizado o JWT para a geração de tokens com o intuito de garantir autenticação única por usuário.
-Desta forma garantimos os acessos as APIs apenas para usuários cadastrados.
+Para garantir a segurança das APIs, adotamos o uso do JWT (JSON Web Token) como um mecanismo de geração de tokens. Isso
+assegura autenticação única por usuário, com informações criptografadas no token, o que restringe o acesso somente a
+usuários previamente registrados, tornando o sistema mais robusto contra ameaças de autenticação não autorizada.
 
-O relacionamento definidos para esta API foi:
+Os relacionamentos definidos para esta API foram:
 
-User 1:n Address
-Address 1:n Appliance
-Address 1:n Kinship
+![img.png](watchwatt/src/main/resources/images/imgRelationships.png)
 
 ## Desafios
 
@@ -213,267 +222,3 @@ são: ``FATHER``, ``MOTHER``, ``SON``, ``DAUGHTER``, ``SISTER``, ``BROTHER``,
 Para as requisições que retornam uma lista com todos os itens é possível parametrizar as propriedades ``limit`` (número
 de
 limite retornados na consulta) e ``offset`` (qual página de registros a serem retornados) nos parâmetros da requisição.
-
-### User:
-
-Create User
-
-```bash
-
-curl --request POST \
-  --url http://localhost:8080/api/watchwatt/user \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"cpf": "99954627022",
-	"name": "Vlad da Silva",
-	"birthday": "2023-01-01",
-	"gender": "MALE",
-	"email": "teste@fiap.com",
-	"password": "123456",
-	"kinship": [
-		{
-			"name": "Igor Junior",
-			"degree_kinship": "BROTHER"
-		}
-	]
-}'
-
-```
-
-Get user by CPF number
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user?cpf=83055117077' \
-  --header 'X-API-Version: 1'
-```
-
-Get all users
-
-```bash
-curl --request GET \
-  --url http://localhost:8080/api/watchwatt/user/all \
-  --header 'X-API-Version: 1'
-```
-
-Update User by id
-
-```bash
-curl --request PUT \
-  --url 'http://localhost:8080/api/watchwatt/user?id=1' \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"cpf": "46714251220",
-	"name": "João da Silva",
-	"birthday": "2023-01-01",
-	"gender": "MALE",
-	"email": "fulano@fiap.com",
-	"password": "123456"
-}'
-
-```
-
-Validate CPF and password
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/user/validate_user?cpf=83055117077&password=123456' \
-  --header 'X-API-Version: 1'
-```
-
-Delete User by id
-
-```bash
-curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/user?id=1' \
-  --header 'X-API-Version: 1'
-
-```
-
-Kinship
-Get kinship by CPF number
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
-  --header 'X-API-Version: 1'
-```
-
-Add kinship by CPF number
-
-```bash
-curl --request POST \
-  --url 'http://localhost:8080/api/watchwatt/kinship?cpf=83055117077' \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '[
-	{
-		"name": "Renato",
-		"degree_kinship": "SON"
-	}
-]'
-
-```
-
-Update kinship by CPF number and kinship id
-
-```bash 
-curl --request PUT \
-  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=2' \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"name": "João",
-	"degree_kinship": "BROTHER"
-}'
-```
-
-Delete kinship by users id and kinship id
-
-```bash 
-curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/kinship?userId=1&kinshipId=1' \
-  --header 'X-API-Version: 1'
-
-```
-
-***
-
-### Address
-
-Create Address by "ViaCEP" API
-
-```bash
-curl --request POST \
-  --url http://localhost:8080/api/watchwatt/address/via_cep \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"zip_code": "06535-045",
-	"number": 10,
-	"reference": "Next to UBS"
-}'
-```
-
-Create Address manually
-
-```bash
-curl --request POST \
-  --url http://localhost:8080/api/watchwatt/address \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"zip_code": "06535-055",
-	"street": "Alecrins street",
-	"number": 10,
-	"neighborhood": "santana de parnaiba",
-	"city": "sp",
-	"state": "sp",
-	"reference": "unidade de saude de são paulo"
-}'  
-
-
-```
-
-Get all Address
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/address/all?=' \
-  --header 'X-API-Version: 1'
-```
-
-Get Address by id
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
-  --header 'X-API-Version: 1'
-```
-
-Update Address by id
-
-```bash
-curl --request PUT \
-  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-    "id": 1,
-    "zip_code": "70150-900",
-    "street": "Praça dos Três Poderes",
-    "number": 10,
-    "neighborhood": "Zona Cívico-Administrativa",
-    "city": "Brasília",
-    "state": "DF",
-    "reference": "Next to UBS"
-}'
-
-```
-
-Delete Address by id
-
-```bash
-curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/address?id=1' \
-  --header 'X-API-Version: 1'
-
-```
-
-***
-
-### Appliance
-
-Create Appliance
-
-```bash
-curl --request POST \
-  --url http://localhost:8080/api/watchwatt/appliances \
-  --header 'Content-Type: application/json' \
-  --header 'X-API-Version: 1' \
-  --data '{
-	"name": "freeze",
-	"model": "Nimbus 2000",
-	"power": 1500
-}' 
-```
-
-Get all Appliance
-
-```bash
-curl --request GET \
-  --url http://localhost:8080/api/watchwatt/appliances/all \
-  --header 'X-API-Version: 1'
-```
-
-Get Appliance by id
-
-```bash
-curl --request GET \
-  --url 'http://localhost:8080/api/watchwatt/appliances?id=1' \
-  --header 'X-API-Version: 1'
-```
-
-Update Appliance by id
-
-```bash
-curl --request PUT 'http://localhost:8080/api/watchwatt/appliances?id=1' \
---header 'X-API-Version: 1' \
---header 'Content-Type: application/json' \
---data '{
-	"name": "freezer updated",
-	"model": "Nimbus 2000",
-	"power": 2500
-}'
-```
-
-Delete Appliance by id
-
-```bash
-curl --request DELETE \
-  --url 'http://localhost:8080/api/watchwatt/appliances?id=1' \
-  --header 'X-API-Version: 1'
-```
-
